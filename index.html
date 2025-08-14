@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historinhas para Dormir</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1b2b4b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .header-img {
+            width: 100%;
+            display: block;
+        }
+        .select-container {
+            margin: 20px auto;
+            width: 90%;
+        }
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+        .buy-btn {
+            background-color: #00a3d9;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 90%;
+            margin-bottom: 20px;
+        }
+        .buy-btn:hover {
+            background-color: #008bb8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="LandpageHistorinha.jpg" alt="Historinhas para Dormir" class="header-img">
+
+        <div class="select-container">
+            <select id="versao">
+                <option value="" disabled selected>Selecionar vers&atilde;o</option>
+                <option value="tradicional">Tradicional - 49,99</option>
+                <option value="premium">Premium - 59,99</option>
+            </select>
+        </div>
+
+        <button class="buy-btn" onclick="comprar()">COMPRAR</button>
+    </div>
+
+    <script>
+        function comprar() {
+            const versao = document.getElementById('versao').value;
+            if (!versao) {
+                alert("Por favor, selecione uma versão antes de comprar.");
+                return;
+            }
+            if (versao === "tradicional") {
+                window.location.href = "https://loja.uiclap.com/titulo/ua111036";
+            } else {
+                window.location.href = "https://link-de-compra-premium.com";
+            }
+        }
+    </script>
+
+</body>
+</html>
