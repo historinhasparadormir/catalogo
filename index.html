@@ -3,8 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historinhas para Dormir</title>
-    <style>
+    <title>Historinhas para Dormir</title>    <style>
+#music-player-container {
+    position: fixed;
+    
+top: 20px;
+    
+right: 20px;
+    
+background-color: rgba(255, 255, 255, 0.9);
+    
+/* TAMANHO GERAL REDUZIDO (padding menor) */
+   
+ padding: 5px 12px;
+   
+ border-radius: 50px;
+    
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    
+display: flex;
+    
+align-items: center;
+    
+z-index: 1000;
+    
+transition: all 0.3s ease;
+}
+
+#play-pause-button {
+
+background: #7a9cff;
+    
+border: none;
+    
+border-radius: 50%;
+   
+ cursor: pointer;
+   
+ /* TAMANHO DO BOTÃO REDUZIDO (padding menor) */
+    
+padding: 7px;
+   
+ display: flex;
+    
+align-items: center;
+    
+justify-content: center;
+    
+outline: none;
+    
+margin-right: 8px; 
+/* Margem reduzida */
+}
+
+
+#play-pause-button svg {
+    fill: white;
+    /* TAMANHO DOS ÍCONES REDUZIDO */
+    width: 20px;
+    height: 20px;
+}
+
+/* 
+Esconde o ícone de pause por padrão 
+*/
+.pause-icon {
+    display: none;
+}
+
+/* 
+Nova regra para o ícone de música (quando pausado) 
+*/
+#music-player-container.playing .music-icon {
+    
+display: none;
+}
+
+/* Quando estiver tocando, mostra o ícone de pause 
+*/
+#music-player-container.playing .pause-icon {
+    
+display: block;
+}
+
+#music-title {
+    
+/* FONTE REDUZIDA */
+    
+font-size: 0.8em;
+    
+color: #333;
+    
+font-weight: 500;
+
+}
+        </style>
+
+<style>
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -86,8 +181,32 @@
 
 <p align="center">
 
+<div id="music-player-container">
+ 
+<audio id="background-music" src="cancaoninar.mp3" loop>
+</audio>
+    
+
+<button id="play-pause-button" title="Tocar música">
+    
+<svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
+<path d="M0 0h24v24H0V0z" fill="none"/>
+<path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+</svg>
+ 
+<svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+</svg>
+
+</button>
+<span id="music-title">Clique e Viva a Magia</span>
+
+</div>
+
+
 
 <table id="Table_01" width="100%" height="*" bgcolor="002f5b" border="0" cellpadding="0" cellspacing="0">
+
 
 		<tr align="center">
 		<td>
@@ -134,8 +253,23 @@
         }
     </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const musicPlayerContainer = document.getElementById('music-player-container');
+    const playPauseButton = document.getElementById('play-pause-button');
+    const backgroundMusic = document.getElementById('background-music');
 
-
+    playPauseButton.addEventListener('click', function() {
+        if (backgroundMusic.paused) {
+            backgroundMusic.play();
+            musicPlayerContainer.classList.add('playing');
+        } else {
+            backgroundMusic.pause();
+            musicPlayerContainer.classList.remove('playing');
+        }
+    });
+});
+</script>
 </body>
 
 
