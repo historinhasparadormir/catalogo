@@ -3,7 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historinhas para Dormir</title>
+    <title>Contos Infantis Para Dormir</title>
+    
+    Â  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
+Â  Â  <script>
+Â  Â  Â  Â  window.dataLayer = window.dataLayer || [];
+Â  Â  Â  Â  function gtag(){dataLayer.push(arguments);}
+Â  Â  Â  Â  gtag('js', new Date());
+
+Â  Â  Â  Â  gtag('config', 'G-6L0EHGEC85');
+Â  Â  </script>
+
     <style>
         /* Estilos gerais */
         body {
@@ -31,7 +41,7 @@
             display: block;
         }
 
-        /* Estilos do player de música */
+        /* Estilos do player de mï¿½sica */
         #music-player-container {
             position: fixed;
             top: 15px;
@@ -99,7 +109,7 @@
             outline: none;
         }
 
-        /* Estilos do botão COMPRAR */
+        /* Estilos do botï¿½o COMPRAR */
         .buy-btn {
             background-color: #FF7F50;
             color: white;
@@ -152,7 +162,7 @@
             display: none;
         }
 
-        /* Navegação do slider */
+        /* Navegaï¿½ï¿½o do slider */
         .navigation {
             position: absolute;
             top: 50%;
@@ -190,7 +200,7 @@
             background-color: rgba(119, 157, 119, 1);
         }
 
-        /* Lógica do slider */
+        /* Lï¿½gica do slider */
         #slide1:checked ~ .slides { transform: translateX(0%); }
         #slide2:checked ~ .slides { transform: translateX(-20%); }
         #slide3:checked ~ .slides { transform: translateX(-40%); }
@@ -233,19 +243,19 @@
 
             <div class="slides">
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir1.jpg" alt="Página do livro 1">
+                    <img src="livrohistorinhasparadormir1.jpg" alt="Pï¿½gina do livro 1">
                 </div>
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir2.jpg" alt="Página do livro 2">
+                    <img src="livrohistorinhasparadormir2.jpg" alt="Pï¿½gina do livro 2">
                 </div>
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir3.jpg" alt="Página do livro 3">
+                    <img src="livrohistorinhasparadormir3.jpg" alt="Pï¿½gina do livro 3">
                 </div>
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir4.jpg" alt="Página do livro 4">
+                    <img src="livrohistorinhasparadormir4.jpg" alt="Pï¿½gina do livro 4">
                 </div>
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir5.jpg" alt="Página do livro 5">
+                    <img src="livrohistorinhasparadormir5.jpg" alt="Pï¿½gina do livro 5">
                 </div>
             </div>
 
@@ -279,7 +289,7 @@
 
         <div id="music-player-container">
             <audio id="background-music" src="cancaocontoinfantil.mp3" loop></audio>
-            <button id="play-pause-button" title="Tocar música">
+            <button id="play-pause-button" title="Tocar mï¿½sica">
                 <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
                 <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
                     <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
@@ -302,7 +312,7 @@
     </div>
 
     <script>
-        // Lógica do slider automático
+        // Lï¿½gica do slider automï¿½tico
         document.addEventListener('DOMContentLoaded', function() {
             const slideInterval = 3000;
             let autoSlideTimer;
@@ -327,21 +337,28 @@
             startAutoSlider();
         });
 
-        // Lógica do botão COMPRAR
-        function comprar() {
-            const versao = document.getElementById('versao').value;
-            if (!versao) {
-                alert("Por favor, selecione uma versão antes de comprar.");
-                return;
-            }
-            if (versao === "tradicional") {
-                window.location.href = "https://loja.uiclap.com/titulo/ua113287";
-            } else {
-                window.location.href = "https://wa.me/5519991950005";
-            }
-        }
+        // Lï¿½gica do botï¿½o COMPRAR
+   function comprar() {
+    const versao = document.getElementById('versao').value;
+    if (!versao) {
+        alert("Por favor, selecione uma versÃ£o antes de comprar.");
+        return;
+    }
 
-        // Lógica do player de música
+    // Rastreia o clique no Google Analytics
+    gtag('event', 'clique', {
+        'event_category': 'compra',
+        'event_label': 'compra_historinhas_para_dormir_' + versao
+    });
+
+    if (versao === "tradicional") {
+        window.location.href = "https://loja.uiclap.com/titulo/ua113287";
+    } else {
+        window.location.href = "https://wa.me/5519991950005";
+    }
+}
+
+        // Lï¿½gica do player de mï¿½sica
         document.addEventListener('DOMContentLoaded', function() {
             const musicPlayerContainer = document.getElementById('music-player-container');
             const playPauseButton = document.getElementById('play-pause-button');
