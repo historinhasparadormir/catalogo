@@ -473,7 +473,18 @@ font-weight: 500;
         if (versao === "tradicional") {
             window.location.href = "https://loja.uiclap.com/titulo/ua111036";
         } else {
-            window.location.href = "https://wa.me/5519991950005";
+            // Define o número de telefone e a mensagem do pedido
+            const numeroTelefone = "5519991950005";
+            const mensagem = "Olá, gostaria de fazer um pedido da Versão Premium do livro Historinhas para Dormir valor 59,99. Qual o próximo passo para finalizar a compra?";
+
+            // Codifica a mensagem para o formato de URL
+            const urlMensagem = encodeURIComponent(mensagem);
+
+            // Constrói o link completo do WhatsApp
+            const whatsappLink = `https://wa.me/${numeroTelefone}?text=${urlMensagem}`;
+
+            // Redireciona o usuário para o WhatsApp com a mensagem pré-preenchida
+            window.location.href = whatsappLink;
         }
     }
 </script>
