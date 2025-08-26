@@ -1,0 +1,15 @@
+﻿# Versão Universal - Compatível com Google, Bing, Yahoo, DuckDuckGo, Yandex, Baidu, etc.
+
+# A diretiva 'User-agent: *' aplica as regras a seguir para QUALQUER robô de busca.
+# O asterisco (*) é um caractere curinga que significa "todos".
+User-agent: *
+
+# A diretiva 'Disallow' com o valor VAZIO informa aos robôs que não há NENHUMA 
+# página que eles estão proibidos de acessar. Esta é a forma mais clara e 
+# universal de permitir o rastreamento completo do site.
+Disallow: 
+
+# A diretiva 'Sitemap' informa a localização do seu mapa do site para todos os
+# mecanismos de busca que a suportam (todos os principais suportam).
+# É fundamental para a descoberta rápida do seu conteúdo.
+Sitemap: https://historinhasparadormir.github.io/catalogo/sitemap.xml
