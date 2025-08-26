@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historinhas para Dormir</title>    <style>
+    <title>Historinhas para Dormir</title>   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-6L0EHGEC85');
+</script>
+    
+    
+     <style>
 #music-player-container {
     position: fixed;
     
@@ -40,7 +51,7 @@ border-radius: 50%;
    
  cursor: pointer;
    
- /* TAMANHO DO BOTÃO REDUZIDO (padding menor) */
+ /* TAMANHO DO BOTï¿½O REDUZIDO (padding menor) */
     
 padding: 7px;
    
@@ -59,27 +70,27 @@ margin-right: 8px;
 
 #play-pause-button svg {
     fill: white;
-    /* TAMANHO DOS ÍCONES REDUZIDO */
+    /* TAMANHO DOS ï¿½CONES REDUZIDO */
     width: 15px;
     height: 15px;
 }
 
 /* 
-Esconde o ícone de pause por padrão 
+Esconde o ï¿½cone de pause por padrï¿½o 
 */
 .pause-icon {
     display: none;
 }
 
 /* 
-Nova regra para o ícone de música (quando pausado) 
+Nova regra para o ï¿½cone de mï¿½sica (quando pausado) 
 */
 #music-player-container.playing .music-icon {
     
 display: none;
 }
 
-/* Quando estiver tocando, mostra o ícone de pause 
+/* Quando estiver tocando, mostra o ï¿½cone de pause 
 */
 #music-player-container.playing .pause-icon {
     
@@ -155,13 +166,13 @@ font-weight: 500;
     /* --- ESTILOS DO SLIDER --- */
     .slideshow-container {
         width: 100%;
-        max-width: 420px; /* LARGURA MÁXIMA DEFINIDA */
+        max-width: 420px; /* LARGURA Mï¿½XIMA DEFINIDA */
         position: relative;
         margin: auto;
         overflow: hidden;
         border-radius: 15px;
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-        /* Força uma proporção de 4:3 para a altura se ajustar */
+        /* Forï¿½a uma proporï¿½ï¿½o de 4:3 para a altura se ajustar */
         aspect-ratio: 4 / 3;
     }
     .slides {
@@ -177,14 +188,14 @@ font-weight: 500;
     .slide img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+        object-fit: cover; /* Garante que a imagem preencha o espaï¿½o sem distorcer */
         display: block;
     }
     .slideshow-container input {
         display: none;
     }
 
-    /* --- NAVEGAÇÃO --- */
+    /* --- NAVEGAï¿½ï¿½O --- */
     .navigation {
         position: absolute;
         top: 50%;
@@ -193,7 +204,7 @@ font-weight: 500;
         pointer-events: none;
     }
     .navigation label {
-        display: none; /* Esconde todos por padrão */
+        display: none; /* Esconde todos por padrï¿½o */
         cursor: pointer;
         position: absolute;
         top: 0;
@@ -218,7 +229,7 @@ font-weight: 500;
         background-color: rgba(90, 125, 255, 1);
     }
 
-    /* --- LÓGICA DE CONTROLE DO SLIDER (CSS) --- */
+    /* --- Lï¿½GICA DE CONTROLE DO SLIDER (CSS) --- */
     /* Move o conjunto de slides */
     #slide1:checked ~ .slides { transform: translateX(0%); }
     #slide2:checked ~ .slides { transform: translateX(-20%); }
@@ -226,7 +237,7 @@ font-weight: 500;
     #slide4:checked ~ .slides { transform: translateX(-60%); }
     #slide5:checked ~ .slides { transform: translateX(-80%); }
 
-    /* Mostra os botões corretos para cada slide */
+    /* Mostra os botï¿½es corretos para cada slide */
     #slide1:checked ~ .navigation label.next[for="slide2"],
     #slide1:checked ~ .navigation label.prev[for="slide5"] { display: block; }
 
@@ -276,31 +287,31 @@ font-weight: 500;
 <div class="slides">
         <div class="slide">
             
-<img src="livrohistorinhasparadormir1.jpg" alt="Página do livro 1">
+<img src="livrohistorinhasparadormir1.jpg" alt="Pï¿½gina do livro 1">
         
 </div>
         
 <div class="slide">
             
-<img src="livrohistorinhasparadormir2.jpg" alt="Página do livro 2">
+<img src="livrohistorinhasparadormir2.jpg" alt="Pï¿½gina do livro 2">
         
 </div>
         
 <div class="slide">
             
-<img src="livrohistorinhasparadormir3.jpg" alt="Página do livro 3">
+<img src="livrohistorinhasparadormir3.jpg" alt="Pï¿½gina do livro 3">
         
 </div>
         
 <div class="slide">
             
-<img src="livrohistorinhasparadormir4.jpg" alt="Página do livro 4">
+<img src="livrohistorinhasparadormir4.jpg" alt="Pï¿½gina do livro 4">
         
 </div>
         
 <div class="slide">
             
-<img src="livrohistorinhasparadormir5.jpg" alt="Página do livro 5">
+<img src="livrohistorinhasparadormir5.jpg" alt="Pï¿½gina do livro 5">
         
 </div>
     
@@ -346,7 +357,7 @@ font-weight: 500;
 </audio>
     
 
-<button id="play-pause-button" title="Tocar música">
+<button id="play-pause-button" title="Tocar mï¿½sica">
     
 <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
 <path d="M0 0h24v24H0V0z" fill="none"/>
@@ -395,37 +406,37 @@ font-weight: 500;
 
 
 <script>
-    // Aguarda o conteúdo da página carregar completamente
+    // Aguarda o conteï¿½do da pï¿½gina carregar completamente
     document.addEventListener('DOMContentLoaded', function() {
 
-        // --- LÓGICA DO SLIDER AUTOMÁTICO ---
+        // --- Lï¿½GICA DO SLIDER AUTOMï¿½TICO ---
 
         const slideInterval = 3000; // Define o intervalo em milissegundos (2000 = 2 segundos)
-        let autoSlideTimer; // Variável para controlar o tempo
+        let autoSlideTimer; // Variï¿½vel para controlar o tempo
 
-        // Função que inicia ou reinicia o slideshow automático
+        // Funï¿½ï¿½o que inicia ou reinicia o slideshow automï¿½tico
         function startAutoSlider() {
-            // Primeiro, limpa qualquer timer que já exista para não criar vários ao mesmo tempo
+            // Primeiro, limpa qualquer timer que jï¿½ exista para nï¿½o criar vï¿½rios ao mesmo tempo
             clearInterval(autoSlideTimer);
 
-            // Cria um novo timer que executará a função de trocar de slide a cada 2 segundos
+            // Cria um novo timer que executarï¿½ a funï¿½ï¿½o de trocar de slide a cada 2 segundos
             autoSlideTimer = setInterval(() => {
-                // Encontra qual é o slide que está selecionado no momento
+                // Encontra qual ï¿½ o slide que estï¿½ selecionado no momento
                 const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
                 
-                // Encontra o próximo "irmão" do slide atual que seja um input (o próximo slide)
+                // Encontra o prï¿½ximo "irmï¿½o" do slide atual que seja um input (o prï¿½ximo slide)
                 let nextRadio = currentRadio.nextElementSibling;
                 while(nextRadio && nextRadio.nodeName !== 'INPUT') {
                     nextRadio = nextRadio.nextElementSibling;
                 }
 
-                // Se não houver um próximo (ou seja, se já estiver no último slide)
+                // Se nï¿½o houver um prï¿½ximo (ou seja, se jï¿½ estiver no ï¿½ltimo slide)
                 if (!nextRadio) {
                     // Volta para o primeiro slide, criando o efeito de loop
                     nextRadio = document.querySelector('.slideshow-container input[type="radio"]');
                 }
 
-                // Marca o próximo slide como selecionado, o que faz a imagem trocar
+                // Marca o prï¿½ximo slide como selecionado, o que faz a imagem trocar
                 nextRadio.checked = true;
 
             }, slideInterval);
@@ -434,31 +445,38 @@ font-weight: 500;
         // Pega o container do slider
         const sliderContainer = document.querySelector('.slideshow-container');
 
-        // Adiciona um "ouvinte" que reinicia o timer sempre que houver um clique nos botões
-        // Isso garante que, se a pessoa trocar a foto manualmente, a contagem de 2 segundos recomeça.
+        // Adiciona um "ouvinte" que reinicia o timer sempre que houver um clique nos botï¿½es
+        // Isso garante que, se a pessoa trocar a foto manualmente, a contagem de 2 segundos recomeï¿½a.
         sliderContainer.addEventListener('click', startAutoSlider);
 
-        // Inicia o slideshow automático pela primeira vez quando a página carrega
+        // Inicia o slideshow automï¿½tico pela primeira vez quando a pï¿½gina carrega
         startAutoSlider();
     });
 </script>
 
 
 
-    <script>
-        function comprar() {
-            const versao = document.getElementById('versao').value;
-            if (!versao) {
-                alert("Por favor, selecione uma versão antes de comprar.");
-                return;
-            }
-            if (versao === "tradicional") {
-                window.location.href = "https://loja.uiclap.com/titulo/ua111036";
-            } else {
-                window.location.href = "https://wa.me/5519991950005";
-            }
+   <script>
+    function comprar() {
+        const versao = document.getElementById('versao').value;
+        if (!versao) {
+            alert("Por favor, selecione uma vers&atilde;o antes de comprar.");
+            return;
         }
-    </script>
+
+        // Rastreia o clique no Google Analytics
+        gtag('event', 'clique', {
+            'event_category': 'compra',
+            'event_label': 'compra_historinhas_para_dormir_' + versao
+        });
+
+        if (versao === "tradicional") {
+            window.location.href = "https://loja.uiclap.com/titulo/ua111036";
+        } else {
+            window.location.href = "https://wa.me/5519991950005";
+        }
+    }
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
