@@ -338,25 +338,37 @@
         });
 
         // L�gica do bot�o COMPRAR
-   function comprar() {
-    const versao = document.getElementById('versao').value;
-    if (!versao) {
-        alert("Por favor, selecione uma versão antes de comprar.");
-        return;
-    }
+   
+    function comprar() {
+        const versao = document.getElementById('versao').value;
+        if (!versao) {
+            alert("Por favor, selecione uma vers&atilde;o antes de comprar.");
+            return;
+        }
 
-    // Rastreia o clique no Google Analytics
-    gtag('event', 'clique', {
-        'event_category': 'compra',
-        'event_label': 'compra_historinhas_para_dormir_' + versao
-    });
+        // Rastreia o clique no Google Analytics
+        gtag('event', 'clique', {
+            'event_category': 'compra',
+            'event_label': 'compra_contos_infantis_' + versao
+        });
 
-    if (versao === "tradicional") {
-        window.location.href = "https://loja.uiclap.com/titulo/ua113287";
-    } else {
-        window.location.href = "https://wa.me/5519991950005";
+        if (versao === "tradicional") {
+            window.location.href = "https://loja.uiclap.com/titulo/ua113287";
+        } else {
+            // Define o nmero de telefone e a mensagem do pedido
+            const numeroTelefone = "5519991950005";
+            const mensagem = "Olá, gostaria de fazer um pedido da Versão Premium do livro Contos Infantis Para Dormir. Qual o próximo passo para finalizar a compra?";
+
+            // Codifica a mensagem para o formato de URL
+            const urlMensagem = encodeURIComponent(mensagem);
+
+            // Constrói o link completo do WhatsApp
+            const whatsappLink = `https://wa.me/${numeroTelefone}?text=${urlMensagem}`;
+
+            // Redireciona o usuário para o WhatsApp com a mensagem pré-preenchida
+            window.location.href = whatsappLink;
+        }
     }
-}
 
         // L�gica do player de m�sica
         document.addEventListener('DOMContentLoaded', function() {
