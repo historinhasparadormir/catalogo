@@ -1,23 +1,21 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
   <url>
     <loc>https://historinhasparadormir.github.io/catalogo/</loc>
-    <lastmod>2025-08-26</lastmod> <changefreq>weekly</changefreq>
-    <priority>1.0</priority> </url>
+    <lastmod>2025-08-27</lastmod> <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
   <url>
     <loc>https://historinhasparadormir.github.io/catalogo/historinhas-para-dormir/</loc>
-    <lastmod>2025-08-26</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-08-27</lastmod> <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://historinhasparadormir.github.io/catalogo/contos-infantis/</loc>
-    <lastmod>2025-08-26</lastmod>
+    <lastmod>2025-08-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-
   <url>
     <loc>https://historinhasparadormir.github.io/catalogo/historinhas-para-dormir/a-tartaruga-sonhadora</loc>
     <lastmod>2025-08-20</lastmod>
@@ -36,5 +34,4 @@
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
-  
-  </urlset>
+</urlset>
