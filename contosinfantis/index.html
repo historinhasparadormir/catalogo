@@ -5,16 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contos Infantis Para Dormir</title>
     
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-        gtag('config', 'G-6L0EHGEC85');
-    </script>
+        gtag('config', 'G-6L0EHGEC85');
+    </script>
 
-    
     <style>
         /* Estilos gerais */
         body {
@@ -250,32 +249,33 @@
 
             <div class="slides">
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir1.jpg" alt="P�gina do livro 1">
+                    <img src="livrohistorinhasparadormir1.jpg" alt="Pgina do livro 1">
                 </div>
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir2.jpg" alt="P�gina do livro 2">
+                    <img src="livrohistorinhasparadormir2.jpg" alt="Pgina do livro 2">
                 </div>
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir3.jpg" alt="P�gina do livro 3">
+                    <img src="livrohistorinhasparadormir3.jpg" alt="Pgina do livro 3">
                 </div>
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir4.jpg" alt="P�gina do livro 4">
+                    <img src="livrohistorinhasparadormir4.jpg" alt="Pgina do livro 4">
                 </div>
                 <div class="slide">
-                    <img src="livrohistorinhasparadormir5.jpg" alt="P�gina do livro 5">
+                    <img src="livrohistorinhasparadormir5.jpg" alt="Pgina do livro 5">
                 </div>
-                  <div class="slide">
-                    <img src="livrohistorinhasparadormir6.jpg" alt="P�gina do livro 6">
+                    <div class="slide">
+                    <img src="livrohistorinhasparadormir6.jpg" alt="Pgina do livro 6">
                 </div>
             </div>
 
             <div class="navigation">
                 <label for="slide6" class="prev">&#10094;</label>
                 <label for="slide5" class="prev">&#10094;</label>
-                <label for="slide1" class="prev">&#10094;</label>
-                <label for="slide2" class="prev">&#10094;</label>
-                <label for="slide3" class="prev">&#10094;</label>
                 <label for="slide4" class="prev">&#10094;</label>
+                <label for="slide3" class="prev">&#10094;</label>
+                <label for="slide2" class="prev">&#10094;</label>
+                <label for="slide1" class="prev">&#10094;</label>
+                
                 <label for="slide2" class="next">&#10095;</label>
                 <label for="slide3" class="next">&#10095;</label>
                 <label for="slide4" class="next">&#10095;</label>
@@ -301,7 +301,7 @@
 
         <div id="music-player-container">
             <audio id="background-music" src="cancaocontoinfantil.mp3" loop></audio>
-            <button id="play-pause-button" title="Tocar m�sica">
+            <button id="play-pause-button" title="Tocar msica">
                 <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
                 <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
                     <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
@@ -324,22 +324,27 @@
     </div>
 </center>
     <script>
-        // L�gica do slider autom�tico
+        // Lgica do slider automtico
         document.addEventListener('DOMContentLoaded', function() {
             const slideInterval = 3000;
             let autoSlideTimer;
             const sliderContainer = document.querySelector('.slideshow-container');
+            const totalSlides = 6; // Adicionado: Total de slides
 
             function startAutoSlider() {
                 clearInterval(autoSlideTimer);
                 autoSlideTimer = setInterval(() => {
                     const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
                     let nextRadio = currentRadio.nextElementSibling;
+
+                    // Encontra o prximo radio, ignorando outros elementos
                     while (nextRadio && nextRadio.nodeName !== 'INPUT') {
                         nextRadio = nextRadio.nextElementSibling;
                     }
-                    if (!nextRadio) {
-                        nextRadio = document.querySelector('.slideshow-container input[type="radio"]');
+                    
+                    // Se no houver prximo, volta para o primeiro
+                    if (!nextRadio || nextRadio.id === `slide${totalSlides + 1}`) {
+                        nextRadio = document.querySelector('#slide1');
                     }
                     nextRadio.checked = true;
                 }, slideInterval);
@@ -349,8 +354,8 @@
             startAutoSlider();
         });
 
-        // L�gica do bot�o COMPRAR
-   
+        // Lgica do boto COMPRAR
+    
     function comprar() {
         const versao = document.getElementById('versao').value;
         if (!versao) {
@@ -369,20 +374,20 @@
         } else {
             // Define o nmero de telefone e a mensagem do pedido
             const numeroTelefone = "5519991950005";
-            const mensagem = "Olá, gostaria de fazer um pedido da Versão Premium do livro Contos Infantis Para Dormir no valor de 35,99. Qual o próximo passo para finalizar a compra?";
+            const mensagem = "Ol, gostaria de fazer um pedido da Verso Premium do livro Contos Infantis Para Dormir no valor de 35,99. Qual o prximo passo para finalizar a compra?";
 
             // Codifica a mensagem para o formato de URL
             const urlMensagem = encodeURIComponent(mensagem);
 
-            // Constrói o link completo do WhatsApp
+            // Constri o link completo do WhatsApp
             const whatsappLink = `https://wa.me/${numeroTelefone}?text=${urlMensagem}`;
 
-            // Redireciona o usuário para o WhatsApp com a mensagem pré-preenchida
+            // Redireciona o usurio para o WhatsApp com a mensagem pr-preenchida
             window.location.href = whatsappLink;
         }
     }
 
-        // L�gica do player de m�sica
+        // Lgica do player de msica
         document.addEventListener('DOMContentLoaded', function() {
             const musicPlayerContainer = document.getElementById('music-player-container');
             const playPauseButton = document.getElementById('play-pause-button');
