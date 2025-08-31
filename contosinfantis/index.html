@@ -14,6 +14,7 @@
         gtag('config', 'G-6L0EHGEC85');
     </script>
 
+    
     <style>
         /* Estilos gerais */
         body {
@@ -41,7 +42,7 @@
             display: block;
         }
 
-        /* Estilos do player de m�sica */
+        /* Estilos do player de msica */
         #music-player-container {
             position: fixed;
             top: 15px;
@@ -109,7 +110,7 @@
             outline: none;
         }
 
-        /* Estilos do bot�o COMPRAR */
+        /* Estilos do boto COMPRAR */
         .buy-btn {
             background-color: #FF7F50;
             color: white;
@@ -141,13 +142,13 @@
 
         .slides {
             display: flex;
-            width: 500%;
+            width: 600%; /* Corrigido para 6 slides */
             height: 100%;
             transition: transform 0.5s ease-in-out;
         }
 
         .slide {
-            width: 20%;
+            width: 16.666%; /* Corrigido para 6 slides (100% / 6) */
             height: 100%;
         }
 
@@ -162,7 +163,7 @@
             display: none;
         }
 
-        /* Navega��o do slider */
+        /* Navegao do slider */
         .navigation {
             position: absolute;
             top: 50%;
@@ -200,27 +201,32 @@
             background-color: rgba(119, 157, 119, 1);
         }
 
-        /* L�gica do slider */
+        /* Lgica do slider */
         #slide1:checked ~ .slides { transform: translateX(0%); }
-        #slide2:checked ~ .slides { transform: translateX(-20%); }
-        #slide3:checked ~ .slides { transform: translateX(-40%); }
-        #slide4:checked ~ .slides { transform: translateX(-60%); }
-        #slide5:checked ~ .slides { transform: translateX(-80%); }
+        #slide2:checked ~ .slides { transform: translateX(-16.666%); } /* Corrigido */
+        #slide3:checked ~ .slides { transform: translateX(-33.333%); } /* Corrigido */
+        #slide4:checked ~ .slides { transform: translateX(-50%); } /* Corrigido */
+        #slide5:checked ~ .slides { transform: translateX(-66.666%); } /* Corrigido */
+        #slide6:checked ~ .slides { transform: translateX(-83.333%); } /* Adicionado */
 
-        #slide1:checked ~ .navigation label.next[for="slide2"],
-        #slide1:checked ~ .navigation label.prev[for="slide5"] { display: block; }
+        #slide1:checked ~ .navigation .next[for="slide2"],
+        #slide1:checked ~ .navigation .prev[for="slide6"] { display: block; }
+        
+        #slide2:checked ~ .navigation .next[for="slide3"],
+        #slide2:checked ~ .navigation .prev[for="slide1"] { display: block; }
 
-        #slide2:checked ~ .navigation label.next[for="slide3"],
-        #slide2:checked ~ .navigation label.prev[for="slide1"] { display: block; }
+        #slide3:checked ~ .navigation .next[for="slide4"],
+        #slide3:checked ~ .navigation .prev[for="slide2"] { display: block; }
 
-        #slide3:checked ~ .navigation label.next[for="slide4"],
-        #slide3:checked ~ .navigation label.prev[for="slide2"] { display: block; }
+        #slide4:checked ~ .navigation .next[for="slide5"],
+        #slide4:checked ~ .navigation .prev[for="slide3"] { display: block; }
 
-        #slide4:checked ~ .navigation label.next[for="slide5"],
-        #slide4:checked ~ .navigation label.prev[for="slide3"] { display: block; }
+        #slide5:checked ~ .navigation .next[for="slide6"],
+        #slide5:checked ~ .navigation .prev[for="slide4"] { display: block; }
+        
+        #slide6:checked ~ .navigation .next[for="slide1"],
+        #slide6:checked ~ .navigation .prev[for="slide5"] { display: block; }
 
-        #slide5:checked ~ .navigation label.next[for="slide1"],
-        #slide5:checked ~ .navigation label.prev[for="slide4"] { display: block; }
     </style>
 </head>
 <body>
@@ -240,6 +246,7 @@
             <input type="radio" name="slider" id="slide3">
             <input type="radio" name="slider" id="slide4">
             <input type="radio" name="slider" id="slide5">
+            <input type="radio" name="slider" id="slide6">
 
             <div class="slides">
                 <div class="slide">
@@ -257,9 +264,13 @@
                 <div class="slide">
                     <img src="livrohistorinhasparadormir5.jpg" alt="P�gina do livro 5">
                 </div>
+                  <div class="slide">
+                    <img src="livrohistorinhasparadormir6.jpg" alt="P�gina do livro 6">
+                </div>
             </div>
 
             <div class="navigation">
+                <label for="slide6" class="prev">&#10094;</label>
                 <label for="slide5" class="prev">&#10094;</label>
                 <label for="slide1" class="prev">&#10094;</label>
                 <label for="slide2" class="prev">&#10094;</label>
@@ -269,6 +280,7 @@
                 <label for="slide3" class="next">&#10095;</label>
                 <label for="slide4" class="next">&#10095;</label>
                 <label for="slide5" class="next">&#10095;</label>
+                <label for="slide6" class="next">&#10095;</label>
                 <label for="slide1" class="next">&#10095;</label>
             </div>
         </div>
