@@ -1,391 +1,161 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contos Infantis Para Dormir</title>
-    
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+<html><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-        gtag('config', 'G-6L0EHGEC85');
-    </script>
-
-    <style>
-        /* Estilos gerais */
-        body {
+  gtag('config', 'G-6L0EHGEC85');
+</script>
+<title>Contos Infantis e Historinhas Para Dormir</title> <style>
+     
+        
+        /* Regra para o v�deo ter tamanho fixo */
+        #video-cell video {
+            width: 100%;
+            height: *;
+            display: block;
+        }
+        
+        #video-cell video {
+            width: 100%;
+            height: *;
+            display: block;
+        }
+        
+        a img {
+            border: 0;
+        }
+		 body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #C8E6C9;
+            background-color: #E0F4FF;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
         }
-
         .container {
             background-color: #ffffff;
             border-radius: 20px;
             overflow: hidden;
             max-width: 420px;
             width: 100%;
-            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
             text-align: center;
         }
-
         .header-img {
             width: 100%;
             display: block;
-        }
-
-        /* Estilos do player de m�sica */
-        #music-player-container {
-            position: fixed;
-            top: 15px;
-            left: 50px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 5px 12px;
-            border-radius: 50px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        #play-pause-button {
-            background-color: #4f8058;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            padding: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            outline: none;
-            margin-right: 8px;
-        }
-
-        #play-pause-button svg {
-            fill: white;
-            width: 15px;
-            height: 15px;
-        }
-
-        .pause-icon {
-            display: none;
-        }
-
-        #music-player-container.playing .music-icon {
-            display: none;
-        }
-
-        #music-player-container.playing .pause-icon {
-            display: block;
-        }
-
-        #music-title {
-            font-size: 0.8em;
-            color: #333;
-            font-weight: 500;
-        }
-
-        /* Estilos do seletor */
-        .select-container {
-            margin: 20px auto;
-            width: 90%;
-        }
-
-        select {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #B0D0B0;
-            background-color: #C8E6C9;
-            outline: none;
-        }
-
-        /* Estilos do bot�o COMPRAR */
-        .buy-btn {
-            background-color: #FF7F50;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 90%;
-            margin-bottom: 20px;
-        }
-
-        .buy-btn:hover {
-            background-color: #E66E45;
-        }
-        
-        /* Estilos do slider */
-        .slideshow-container {
-            width: 100%;
-            max-width: 420px;
-            position: relative;
-            margin: auto;
-            overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            aspect-ratio: 4 / 3;
-        }
-
-        .slides {
-            display: flex;
-            width: 500%;
-            height: 100%;
-            transition: transform 0.5s ease-in-out;
-        }
-
-        .slide {
-            width: 20%;
-            height: 100%;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .slideshow-container input {
-            display: none;
-        }
-
-        /* Navega��o do slider */
-        .navigation {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            transform: translateY(-50%);
-            pointer-events: none;
-        }
-
-        .navigation label {
-            display: none;
-            cursor: pointer;
-            position: absolute;
-            top: 0;
-            padding: 15px;
-            background-color: rgba(143, 188, 143, 0.7);
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            user-select: none;
-            transition: background-color 0.3s ease;
-            pointer-events: auto;
-        }
-
-        .navigation label.prev {
-            left: 0;
-            border-radius: 0 50px 50px 0;
-        }
-
-        .navigation label.next {
-            right: 0;
-            border-radius: 50px 0 0 50px;
-        }
-
-        .navigation label:hover {
-            background-color: rgba(119, 157, 119, 1);
-        }
-
-        /* L�gica do slider */
-        #slide1:checked ~ .slides { transform: translateX(0%); }
-        #slide2:checked ~ .slides { transform: translateX(-20%); }
-        #slide3:checked ~ .slides { transform: translateX(-40%); }
-        #slide4:checked ~ .slides { transform: translateX(-60%); }
-        #slide5:checked ~ .slides { transform: translateX(-80%); }
-
-        #slide1:checked ~ .navigation label.next[for="slide2"],
-        #slide1:checked ~ .navigation label.prev[for="slide5"] { display: block; }
-
-        #slide2:checked ~ .navigation label.next[for="slide3"],
-        #slide2:checked ~ .navigation label.prev[for="slide1"] { display: block; }
-
-        #slide3:checked ~ .navigation label.next[for="slide4"],
-        #slide3:checked ~ .navigation label.prev[for="slide2"] { display: block; }
-
-        #slide4:checked ~ .navigation label.next[for="slide5"],
-        #slide4:checked ~ .navigation label.prev[for="slide3"] { display: block; }
-
-        #slide5:checked ~ .navigation label.next[for="slide1"],
-        #slide5:checked ~ .navigation label.prev[for="slide4"] { display: block; }
+		}
     </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Um mundo de magia e aprendizado com Contos Infantis Clássicos e Historinhas para Dormir. Perfeito para a rotina noturna e o desenvolvimento das crianças.">
+
+    <meta name="keywords" content="livro infantil, literatura infantil, historinhas para dormir, contos infantis, livrinhos, leitura infantil, livro para crianças, contos clássicos, historias classicas, contos de fadas, historia para dormir, leitura compartilhada, rotina noturna, educação infantil, mães, pais, crianças">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="pt-br">
+
+    <meta property="og:title" content="Contos Infantis e Historinhas para Dormir"/>
+    <meta property="og:site_name" content="Contos Infantis e Historinhas para Dormir"/>
+    <meta property="og:url" content="https://historinhasparadormir.github.io/catalogo/" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:description" content="Descubra um mundo de magia com nossos Contos Infantis Clássicos e Historinhas para Dormir. Ideal para o momento de leitura em família."/>
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://historinhasparadormir.github.io/catalogo/historinhasparadormirecontosinfantis.jpg" />
+
+    <meta name="revisit-after" content="1 days">
+    <meta name="distribution" content="Global">
+    <meta name="author" content="Ádamo F Costa">
+    <meta name=format-detection content="telephone=no">
+    <meta http-equiv=Cache-Control content=no-cache>
+    <meta http-equiv=Pragma content=no-cache>
+    <link rel="canonical" href="https://historinhasparadormir.github.io/catalogo/" />
+    <link rel="shortcut icon" href="https://historinhasparadormir.github.io/catalogo/avicon-48x48.png.png" type="image/x-icon" />
+    <link rel="image_src" href="https://historinhasparadormir.github.io/catalogo/historinhasparadormirecontosinfantis.jpg" />
+<link rel="icon" type="image/png" href="https://historinhasparadormir.github.io/catalogo/favicon-48x48.png" sizes="48x48">
+    
+    <link rel="icon" type="image/png" href="https://historinhasparadormir.github.io/catalogo/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="https://historinhasparadormir.github.io/catalogo/favicon-16x16.png" sizes="16x16" />
+<link rel="apple-touch-icon" href="https://historinhasparadormir.github.io/catalogo/apple-touch-icon-180x180.png" sizes="180x180" />
+<link rel="apple-touch-icon" href="https://historinhasparadormir.github.io/catalogo/apple-touch-icon-152x152.png" sizes="152x152" />
+<link rel="apple-touch-icon" href="https://historinhasparadormir.github.io/catalogo/apple-touch-icon-120x120.png" sizes="120x120" />
+<link rel="apple-touch-icon" href="https://historinhasparadormir.github.io/catalogo/apple-touch-icon-76x76.png" sizes="76x76" />
+<link rel="icon" type="image/png" href="https://historinhasparadormir.github.io/catalogo/android-chrome-192x192.png" sizes="192x192" />
+    
 </head>
-<body>
-
-    <div class="container">
-        <img src="LandpageHistorinha.jpg" alt="Historinhas para Dormir" class="header-img">
-
-        <video controls width="100%" height="*" poster="postervideo.jpg">
-            <source src="historinhas.mp4" type="video/mp4">
-        </video>
-
-        <br>
-
-        <div class="slideshow-container">
-            <input type="radio" name="slider" id="slide1" checked>
-            <input type="radio" name="slider" id="slide2">
-            <input type="radio" name="slider" id="slide3">
-            <input type="radio" name="slider" id="slide4">
-            <input type="radio" name="slider" id="slide5">
-
-            <div class="slides">
-                <div class="slide">
-                    <img src="livrohistorinhasparadormir1.jpg" alt="P�gina do livro 1">
-                </div>
-                <div class="slide">
-                    <img src="livrohistorinhasparadormir2.jpg" alt="P�gina do livro 2">
-                </div>
-                <div class="slide">
-                    <img src="livrohistorinhasparadormir3.jpg" alt="P�gina do livro 3">
-                </div>
-                <div class="slide">
-                    <img src="livrohistorinhasparadormir4.jpg" alt="P�gina do livro 4">
-                </div>
-                <div class="slide">
-                    <img src="livrohistorinhasparadormir5.jpg" alt="P�gina do livro 5">
-                </div>
-            </div>
-
-            <div class="navigation">
-                <label for="slide5" class="prev">&#10094;</label>
-                <label for="slide1" class="prev">&#10094;</label>
-                <label for="slide2" class="prev">&#10094;</label>
-                <label for="slide3" class="prev">&#10094;</label>
-                <label for="slide4" class="prev">&#10094;</label>
-                <label for="slide2" class="next">&#10095;</label>
-                <label for="slide3" class="next">&#10095;</label>
-                <label for="slide4" class="next">&#10095;</label>
-                <label for="slide5" class="next">&#10095;</label>
-                <label for="slide1" class="next">&#10095;</label>
-            </div>
-        </div>
-
-        <br>
-
-        <div class="select-container">
-            <select id="versao">
-                <option value="" disabled selected>Selecionar vers&atilde;o</option>
-                <option value="tradicional">Tradicional (66 páginas) - 73,29</option>
-                <option value="premium">Premium (66 paginas) - 49,99</option>
-            </select>
-        </div>
-
-        <button class="buy-btn" onclick="comprar()">COMPRAR</button>
-
-        <br><br>
-
-        <div id="music-player-container">
-            <audio id="background-music" src="cancaocontoinfantil.mp3" loop></audio>
-            <button id="play-pause-button" title="Tocar m�sica">
-                <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
-                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                </svg>
-            </button>
-            <span id="music-title">Clique p/ Ouvir</span>
-        </div>
-<br>
-        <table id="Table_01" width="100%" height="*" bgcolor="438346" border="0" cellpadding="0" cellspacing="0">
-            <tr><td >&nbsp;</td></tr>
-            <tr align="center"><td colspan="4"><img src="pagamentos.jpg" width="100%" height="*" alt=""></td></tr>
-            <tr>
-                <td><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="*" alt="Instagram"></a></td>
-                <td><a href="https://wa.me/5519991950005" target="blank"><img src="livrinhoparacolorir_05.jpg" width="50" height="*" alt="Whatsapp"></a></td>
-                <td><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="livrinhoparacolorir_09.jpg" width="50" height="*" alt="Kwai"></a></td>
-                <td><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="livrinhoparacolorir_07.jpg" width="50" height="*" alt="TikTok"></td>
-            </tr>
-            <tr align="center"><td colspan="4"><img src="direitos.jpg" width="70%" height="*" alt=""></td></tr>
-        </table>
-    </div>
-
-    <script>
-        // L�gica do slider autom�tico
-        document.addEventListener('DOMContentLoaded', function() {
-            const slideInterval = 3000;
-            let autoSlideTimer;
-            const sliderContainer = document.querySelector('.slideshow-container');
-
-            function startAutoSlider() {
-                clearInterval(autoSlideTimer);
-                autoSlideTimer = setInterval(() => {
-                    const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
-                    let nextRadio = currentRadio.nextElementSibling;
-                    while (nextRadio && nextRadio.nodeName !== 'INPUT') {
-                        nextRadio = nextRadio.nextElementSibling;
-                    }
-                    if (!nextRadio) {
-                        nextRadio = document.querySelector('.slideshow-container input[type="radio"]');
-                    }
-                    nextRadio.checked = true;
-                }, slideInterval);
-            }
-
-            sliderContainer.addEventListener('click', startAutoSlider);
-            startAutoSlider();
-        });
-
-        // L�gica do bot�o COMPRAR
-   
-    function comprar() {
-        const versao = document.getElementById('versao').value;
-        if (!versao) {
-            alert("Por favor, selecione uma vers&atilde;o antes de comprar.");
-            return;
-        }
-
-        // Rastreia o clique no Google Analytics
-        gtag('event', 'clique', {
-            'event_category': 'compra',
-            'event_label': 'compra_contos_infantis_' + versao
-        });
-
-        if (versao === "tradicional") {
-            window.location.href = "https://loja.uiclap.com/titulo/ua113287";
-        } else {
-            // Define o nmero de telefone e a mensagem do pedido
-            const numeroTelefone = "5519991950005";
-            const mensagem = "Olá, gostaria de fazer um pedido da Versão Premium do livro Contos Infantis Para Dormir no valor de 35,99. Qual o próximo passo para finalizar a compra?";
-
-            // Codifica a mensagem para o formato de URL
-            const urlMensagem = encodeURIComponent(mensagem);
-
-            // Constrói o link completo do WhatsApp
-            const whatsappLink = `https://wa.me/${numeroTelefone}?text=${urlMensagem}`;
-
-            // Redireciona o usuário para o WhatsApp com a mensagem pré-preenchida
-            window.location.href = whatsappLink;
-        }
-    }
-
-        // L�gica do player de m�sica
-        document.addEventListener('DOMContentLoaded', function() {
-            const musicPlayerContainer = document.getElementById('music-player-container');
-            const playPauseButton = document.getElementById('play-pause-button');
-            const backgroundMusic = document.getElementById('background-music');
-
-            playPauseButton.addEventListener('click', function() {
-                if (backgroundMusic.paused) {
-                    backgroundMusic.play();
-                    musicPlayerContainer.classList.add('playing');
-                } else {
-                    backgroundMusic.pause();
-                    musicPlayerContainer.classList.remove('playing');
-                }
-            });
-        });
-    </script>
+<body > <div class="container">
+<!-- Save for Web Slices (Gemini_Generated_Image_o1plq7o1plq7o1pl.png) -->
+ <table id="Table_01" align="center" width="420" height="*" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td colspan="7">
+			<img src="images/index_01.jpg" width="420" height="280" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td colspan="2" rowspan="2">
+			<img src="images/index_02.jpg" width="80" height="87" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td colspan="3">
+			<a href="historinhasparadormir/index.html" onclick="gtag('event', 'clique', {'event_category': 'menu', 'event_label': 'historinhas_para_dormir'});"><img src="images/index_03.jpg" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia" border= "0"></a>
+        </td>
+		<td colspan="2" rowspan="2">
+			<img src="images/index_04.jpg" width="84" height="87" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			<img src="images/index_05.jpg" width="256" height="46" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td rowspan="4">
+			<img src="images/index_06.jpg" width="16" height="718" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+			<td colspan="5" id="video-cell">
+			  <video controls autoplay loop poster="images/videoplay.jpg">
+                <source src="aberturinha.mp4" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+        </td>
+		<td rowspan="4">
+			<img src="images/index_08.jpg" width="15" height="718" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td colspan="5">
+			<img src="images/index_09.jpg" width="389" height="211" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td colspan="2" rowspan="2">
+			<img src="images/index_10.jpg" width="79" height="218" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<a href="contosinfantis/index.html" onclick="gtag('event', 'clique', {'event_category': 'menu', 'event_label': 'contos_infantis'});">
+    <img src="images/index_11.jpg" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia" border="0">
+</a>
+        </td>
+		<td colspan="2" rowspan="2">
+			<img src="images/index_12.jpg" width="79" height="218" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td>
+			<img src="images/index_13.jpg" width="231" height="180" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td>
+			<img src="images/spacer.gif" width="16" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="64" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="15" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="231" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="10" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="69" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="15" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+</table></div>
+<!-- End Save for Web Slices -->
 </body>
 </html>
+
