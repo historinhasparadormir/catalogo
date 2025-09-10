@@ -385,7 +385,7 @@
         }
 
         #play-pause-button {
-            background: #7a9cff;
+            background: #4CAF50;
             border: none;
             border-radius: 50%;
             cursor: pointer;
@@ -426,18 +426,26 @@
             color: #333;
             font-weight: 500;
         }
-
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24;
+  /* Adicione esta linha para garantir que a cor seja herdada do botão */
+  color: inherit; 
+}
     </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
 <div id="music-player-container">
     <audio id="background-music" src="cancaocontoinfantil.mp3" loop></audio>
 
     <button id="play-pause-button" title="Tocar música">
-        <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
-            <path d="M0 0h24v24H0V0z" fill="none"/>
-            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-        </svg>
+        <span class="material-symbols-outlined music-icon">
+            headset_mic
+        </span>
         <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
             <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
         </svg>
