@@ -375,9 +375,10 @@
     <div class="container">
         <img src="LandpageHistorinha.jpg" alt="Historinhas para Dormir" class="header-img">
 
-        <video controls width="100%" height="*" poster="postervideo.jpg" id="main-video-player">
-            <source src="contosinfantis.mp4" type="video/mp4">
-        </video>
+        <audio controls width="100%" height="*" id="original-top-audio-player">
+            <source src="Adamo.mp3" type="audio/mp3">
+            Seu navegador não suporta o elemento de áudio.
+        </audio>
 
         <br>
 
@@ -524,7 +525,7 @@
                     clearInterval(autoSlideTimer); // Para o auto-slide imediatamente
                     // Pequeno delay para permitir que o usuário veja a transição manual
                     // e depois reinicia o auto-slide após um curto período
-                    setTimeout(startAutoSlider, slideInterval * 2); 
+                    setTimeout(startAutoSlider, slideInterval * 2);
                 });
             });
 
@@ -593,6 +594,8 @@
 
             // Adicionado: Referência ao player de vídeo principal
             const mainVideoPlayer = document.getElementById('main-video-player');
+            // NOVO: Referência ao player de áudio original do topo
+            const originalTopAudioPlayer = document.getElementById('original-top-audio-player');
 
 
             // 🚨🚨🚨 IMPORTANTE: LISTE AQUI OS NOMES DOS SEUS ARQUIVOS DE ÁUDIO 🚨🚨🚨
@@ -630,6 +633,11 @@
                 if (!mainVideoPlayer.paused) {
                     mainVideoPlayer.pause();
                 }
+                // NOVO: Pausa o player de áudio original do topo se estiver tocando
+                if (!originalTopAudioPlayer.paused) {
+                    originalTopAudioPlayer.pause();
+                }
+
                 audioPlayer.play();
                 playIcon.style.display = 'none';
                 pauseIcon.style.display = 'block';
