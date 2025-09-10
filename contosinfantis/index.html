@@ -368,17 +368,85 @@
         #slide6:checked ~ .navigation .next[for="slide1"],
         #slide6:checked ~ .navigation .prev[for="slide5"] { display: block; }
 
+        /* ----- ESTILOS DO PLAYER DE MÚSICA DE FUNDO ORIGINAL ----- */
+        #music-player-container {
+            position: fixed;
+            top: 15px;
+            left: 50px;
+            background-color: rgba(255, 255, 255, 0.9);
+            /* TAMANHO GERAL REDUZIDO (padding menor) */
+            padding: 5px 12px;
+            border-radius: 50px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        #play-pause-button {
+            background: #7a9cff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            /* TAMANHO DO BOTÃO REDUZIDO (padding menor) */
+            padding: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            margin-right: 8px; /* Margem reduzida */
+        }
+
+        #play-pause-button svg {
+            fill: white;
+            /* TAMANHO DOS ÍCONES REDUZIDO */
+            width: 15px;
+            height: 15px;
+        }
+
+        /* Esconde o ícone de pause por padrão */
+        .pause-icon {
+            display: none;
+        }
+
+        /* Nova regra para o ícone de música (quando pausado) */
+        #music-player-container.playing .music-icon {
+            display: none;
+        }
+
+        /* Quando estiver tocando, mostra o ícone de pause */
+        #music-player-container.playing .pause-icon {
+            display: block;
+        }
+
+        #music-title {
+            /* FONTE REDUZIDA */
+            font-size: 0.8em;
+            color: #333;
+            font-weight: 500;
+        }
+
     </style>
 </head>
 <body>
+<div id="music-player-container">
+    <audio id="background-music" src="cancaoninar.mp3" loop></audio>
+
+    <button id="play-pause-button" title="Tocar música">
+        <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF">
+            <path d="M0 0h24v24H0V0z" fill="none"/>
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+        <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </button>
+    <span id="music-title">Clique p/ Ouvir</span>
+</div>
 <center>
     <div class="container">
         <img src="LandpageHistorinha.jpg" alt="Historinhas para Dormir" class="header-img">
-
-        <audio controls width="100%" height="*" id="original-top-audio-player">
-            <source src="Adamo.mp3" type="audio/mp3">
-            Seu navegador não suporta o elemento de áudio.
-        </audio>
 
         <br>
 
@@ -557,10 +625,9 @@
 
             if (versao === "tradicional") {
                 window.location.href = "https://loja.uiclap.com/titulo/ua113287";
-            } else {
-				 if (versao === "assinatura") {
+            } else if (versao === "assinatura") {
                 window.location.href = "acesso_ao_player/acesso_ao_player.html";
-            } else {
+            } else if (versao === "premium") {
                 // Define o número de telefone e a mensagem do pedido
                 const numeroTelefone = "5519991950005";
                 const mensagem = "Ol\u00e1, gostaria de fazer um pedido da Vers\u00e3o Premium do livro Contos Infantis Para Dormir no valor de 49,99. Qual o pr\u00f3ximo passo para finalizar a compra?";
@@ -574,7 +641,7 @@
                 // Redireciona o usuário para o WhatsApp com a mensagem pré-preenchida
                 window.location.href = whatsappLink;
             }
-        }}
+        }
 
         // NOVO PLAYER DE ÁUDIO - LÓGICA JAVASCRIPT
         document.addEventListener('DOMContentLoaded', function() {
@@ -596,12 +663,11 @@
             const repeatAllIcon = repeatBtn.querySelector('.repeat-all-icon');
             const repeatOneIcon = repeatBtn.querySelector('.repeat-one-icon');
 
-            // Adicionado: Referência ao player de vídeo principal
-            const mainVideoPlayer = document.getElementById('main-video-player');
-            // NOVO: Referência ao player de áudio original do topo
-            const originalTopAudioPlayer = document.getElementById('original-top-audio-player');
-
-
+            // Player de música de fundo
+            const backgroundMusic = document.getElementById('background-music');
+            const bgMusicPlayerContainer = document.getElementById('music-player-container');
+            const bgPlayPauseButton = document.getElementById('play-pause-button'); // Este já está lá em cima
+            
             // 🚨🚨🚨 IMPORTANTE: LISTE AQUI OS NOMES DOS SEUS ARQUIVOS DE ÁUDIO 🚨🚨🚨
             // Certifique-se de que os nomes correspondem exatamente aos arquivos na pasta 'amostra_historinha'
             const audioFiles = [
@@ -633,13 +699,10 @@
             }
 
             function playTrack() {
-                // Pausa o player de vídeo principal se estiver tocando
-                if (!mainVideoPlayer.paused) {
-                    mainVideoPlayer.pause();
-                }
-                // NOVO: Pausa o player de áudio original do topo se estiver tocando
-                if (!originalTopAudioPlayer.paused) {
-                    originalTopAudioPlayer.pause();
+                // Pausa o player de música de fundo se estiver tocando
+                if (!backgroundMusic.paused) {
+                    backgroundMusic.pause();
+                    bgMusicPlayerContainer.classList.remove('playing');
                 }
 
                 audioPlayer.play();
@@ -788,7 +851,7 @@
             }
 
 
-            // Event Listeners
+            // Event Listeners para o player de historinhas
             playPauseBtn.addEventListener('click', togglePlayPause);
             prevBtn.addEventListener('click', prevTrack);
             nextBtn.addEventListener('click', nextTrack);
@@ -803,10 +866,26 @@
             });
             audioPlayer.addEventListener('ended', handleTrackEnd);
 
-            // Inicialização
+            // Inicialização do player de historinhas
             populatePlaylist();
             loadTrack(currentTrackIndex);
             updateRepeatButton(); // Configura o ícone inicial do botão de repetição
+
+
+            // Lógica do PLAYER DE MÚSICA DE FUNDO ORIGINAL (O SEU PLAYER PADRÃO)
+            bgPlayPauseButton.addEventListener('click', function() {
+                if (backgroundMusic.paused) {
+                    // Pausa o player de historinhas se estiver tocando
+                    if (!audioPlayer.paused) {
+                        pauseTrack();
+                    }
+                    backgroundMusic.play();
+                    bgMusicPlayerContainer.classList.add('playing');
+                } else {
+                    backgroundMusic.pause();
+                    bgMusicPlayerContainer.classList.remove('playing');
+                }
+            });
         });
     </script>
 </body>
