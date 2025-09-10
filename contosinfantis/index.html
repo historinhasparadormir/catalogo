@@ -480,6 +480,7 @@
                 <option value="" disabled selected>Selecionar vers&atilde;o</option>
                 <option value="tradicional">Tradicional (66 páginas) - 73,29</option>
                 <option value="premium">Premium (66 paginas) - 49,99</option>
+                <option value="assinatura">Assinatura Mensal Audio Historinhas - 4,99</option>
             </select>
         </div>
 
@@ -556,6 +557,9 @@
 
             if (versao === "tradicional") {
                 window.location.href = "https://loja.uiclap.com/titulo/ua113287";
+            } else {
+				 if (versao === "assinatura") {
+                window.location.href = "acesso_ao_player/acesso_ao_player.html";
             } else {
                 // Define o número de telefone e a mensagem do pedido
                 const numeroTelefone = "5519991950005";
