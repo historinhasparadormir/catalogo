@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contos Infantis Para Dormir</title>
-    
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -41,57 +41,199 @@
             display: block;
         }
 
-        /* Estilos do player de msica */
-        #music-player-container {
-            position: fixed;
-            top: 15px;
-            left: 50px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 5px 12px;
-            border-radius: 50px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            z-index: 1000;
-            transition: all 0.3s ease;
+        /* ----- ESTILOS DO NOVO PLAYER DE ÁUDIO ----- */
+        .audio-player-wrapper {
+            background-color: #f7f7f7; /* Fundo leve para o player */
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px auto; /* Adicionado margin-top e margin-bottom */
+            max-width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #333;
+            text-align: left;
         }
 
-        #play-pause-button {
+        .audio-player-wrapper h3 {
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #4f8058;
+            text-align: center;
+        }
+
+        .current-song-info {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #4f8058;
+            border-radius: 5px;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75em;
+            color: #777;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        .playback-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .playback-buttons button, .volume-controls button, .repeat-button {
             background-color: #4f8058;
             border: none;
             border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
-            padding: 7px;
+            outline: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .playback-buttons button:hover, .volume-controls button:hover, .repeat-button:hover {
+            background-color: #6a9f73;
+        }
+
+        .playback-buttons button svg, .volume-controls button svg, .repeat-button svg {
+            fill: white;
+            width: 18px;
+            height: 18px;
+        }
+
+        .playback-buttons .main-play-pause {
+            width: 45px;
+            height: 45px;
+        }
+        .playback-buttons .main-play-pause svg {
+             width: 22px;
+            height: 22px;
+        }
+
+        .repeat-button {
+            background-color: #a0a0a0;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px; /* Estilo para botão de repetição */
+        }
+        .repeat-button.active {
+            background-color: #4f8058; /* Cor quando ativo */
+        }
+        .repeat-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .volume-controls {
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .volume-controls input[type="range"] {
+            -webkit-appearance: none;
+            width: 120px;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 5px;
             outline: none;
-            margin-right: 8px;
+            transition: opacity .2s;
         }
 
-        #play-pause-button svg {
-            fill: white;
-            width: 15px;
-            height: 15px;
+        .volume-controls input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #4f8058;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
         }
 
-        .pause-icon {
-            display: none;
+        .volume-controls input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #4f8058;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
         }
 
-        #music-player-container.playing .music-icon {
-            display: none;
+        .playlist-container {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            text-align: left;
         }
 
-        #music-player-container.playing .pause-icon {
-            display: block;
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
         }
 
-        #music-title {
-            font-size: 0.8em;
-            color: #333;
-            font-weight: 500;
+        .playlist-item:hover {
+            background-color: #e6f3e6;
         }
+
+        .playlist-item.active-song {
+            background-color: #d1ead1;
+            font-weight: bold;
+            color: #4f8058;
+        }
+
+        .playlist-item-index {
+            margin-right: 10px;
+            font-size: 0.85em;
+            color: #777;
+        }
+        .playlist-item.active-song .playlist-item-index {
+            color: #4f8058;
+        }
+
+        .playlist-item-title {
+            font-size: 0.9em;
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        /* ----- FIM DOS ESTILOS DO NOVO PLAYER DE ÁUDIO ----- */
 
         /* Estilos do seletor */
         .select-container {
@@ -126,7 +268,7 @@
         .buy-btn:hover {
             background-color: #E66E45;
         }
-        
+
         /* Estilos do slider */
         .slideshow-container {
             width: 100%;
@@ -210,7 +352,7 @@
 
         #slide1:checked ~ .navigation .next[for="slide2"],
         #slide1:checked ~ .navigation .prev[for="slide6"] { display: block; }
-        
+
         #slide2:checked ~ .navigation .next[for="slide3"],
         #slide2:checked ~ .navigation .prev[for="slide1"] { display: block; }
 
@@ -222,7 +364,7 @@
 
         #slide5:checked ~ .navigation .next[for="slide6"],
         #slide5:checked ~ .navigation .prev[for="slide4"] { display: block; }
-        
+
         #slide6:checked ~ .navigation .next[for="slide1"],
         #slide6:checked ~ .navigation .prev[for="slide5"] { display: block; }
 
@@ -233,12 +375,57 @@
     <div class="container">
         <img src="LandpageHistorinha.jpg" alt="Historinhas para Dormir" class="header-img">
 
-        <video controls width="100%" height="*" poster="postervideo.jpg">
+        <video controls width="100%" height="*" poster="postervideo.jpg" id="main-video-player">
             <source src="contosinfantis.mp4" type="video/mp4">
         </video>
 
         <br>
 
+        <div class="audio-player-wrapper">
+            <h3>Ouça Nossas Historinhas Gratuitas!</h3>
+            <audio id="free-audio-player" src="" type="audio/mp3"></audio>
+
+            <div class="current-song-info" id="current-song-title">Selecione uma historinha para começar</div>
+
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="time-info">
+                <span id="current-time">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+
+            <div class="playback-buttons">
+                <button id="prev-btn" title="Anterior">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                </button>
+                <button id="play-pause-btn" class="main-play-pause" title="Reproduzir/Pausar">
+                    <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    <svg class="pause-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+                <button id="next-btn" title="Próxima">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm9-12v12h2V6h-2z"/></svg>
+                </button>
+                <button id="repeat-btn" class="repeat-button" title="Repetir">
+                     <svg class="repeat-all-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                     <svg class="repeat-one-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/></svg>
+                </button>
+            </div>
+
+            <div class="volume-controls">
+                <button id="mute-btn" title="Mudo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                </button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
+            </div>
+
+            <h4>Playlist de Amostras:</h4>
+            <div class="playlist-container" id="playlist-container">
+                </div>
+             <p style="font-size: 0.8em; margin-top: 15px; text-align: center; color: #777;">
+                Gostou? Adquira acesso completo a mais historinhas!
+            </p>
+        </div>
         <div class="slideshow-container">
             <input type="radio" name="slider" id="slide1" checked>
             <input type="radio" name="slider" id="slide2">
@@ -275,7 +462,7 @@
                 <label for="slide3" class="prev">&#10094;</label>
                 <label for="slide2" class="prev">&#10094;</label>
                 <label for="slide1" class="prev">&#10094;</label>
-                
+
                 <label for="slide2" class="next">&#10095;</label>
                 <label for="slide3" class="next">&#10095;</label>
                 <label for="slide4" class="next">&#10095;</label>
@@ -299,19 +486,8 @@
 
         <br><br>
 
-        <div id="music-player-container">
-            <audio id="background-music" src="cancaocontoinfantil.mp3" loop></audio>
-            <button id="play-pause-button" title="Tocar msica">
-                <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-                <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px">
-                    <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-                </svg>
-            </button>
-            <span id="music-title">Clique p/ Ouvir</span>
-        </div>
-<br>
         <table id="Table_01" width="100%" height="*" bgcolor="438346" border="0" cellpadding="0" cellspacing="0">
-            <tr><td >&nbsp;</td></tr>
+            <tr><td>&nbsp;</td></tr>
             <tr align="center"><td colspan="4"><img src="pagamentos.jpg" width="100%" height="*" alt=""></td></tr>
             <tr>
                 <td><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="*" alt="Instagram"></a></td>
@@ -324,84 +500,301 @@
     </div>
 </center>
     <script>
-        // Lgica do slider automtico
+        // Lógica do slider automático
         document.addEventListener('DOMContentLoaded', function() {
             const slideInterval = 3000;
             let autoSlideTimer;
             const sliderContainer = document.querySelector('.slideshow-container');
-            const totalSlides = 6; // Adicionado: Total de slides
+            const totalSlides = 6;
+            const radioButtons = document.querySelectorAll('.slideshow-container input[type="radio"][name="slider"]');
 
             function startAutoSlider() {
-                clearInterval(autoSlideTimer);
+                clearInterval(autoSlideTimer); // Limpa qualquer timer anterior
                 autoSlideTimer = setInterval(() => {
                     const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
-                    let nextRadio = currentRadio.nextElementSibling;
-
-                    // Encontra o prximo radio, ignorando outros elementos
-                    while (nextRadio && nextRadio.nodeName !== 'INPUT') {
-                        nextRadio = nextRadio.nextElementSibling;
-                    }
-                    
-                    // Se no houver prximo, volta para o primeiro
-                    if (!nextRadio || nextRadio.id === `slide${totalSlides + 1}`) {
-                        nextRadio = document.querySelector('#slide1');
-                    }
-                    nextRadio.checked = true;
+                    let currentIndex = parseInt(currentRadio.id.replace('slide', '')) - 1;
+                    let nextIndex = (currentIndex + 1) % totalSlides;
+                    radioButtons[nextIndex].checked = true;
                 }, slideInterval);
             }
 
-            sliderContainer.addEventListener('click', startAutoSlider);
-            startAutoSlider();
-        });
-
-        // Lgica do boto COMPRAR
-    
-    function comprar() {
-        const versao = document.getElementById('versao').value;
-        if (!versao) {
-            alert("Por favor, selecione uma vers&atilde;o antes de comprar.");
-            return;
-        }
-
-        // Rastreia o clique no Google Analytics
-        gtag('event', 'clique', {
-            'event_category': 'compra',
-            'event_label': 'compra_contos_infantis_' + versao
-        });
-
-        if (versao === "tradicional") {
-            window.location.href = "https://loja.uiclap.com/titulo/ua113287";
-        } else {
-            // Define o nmero de telefone e a mensagem do pedido
-            const numeroTelefone = "5519991950005";
-            const mensagem = "Ol, gostaria de fazer um pedido da Verso Premium do livro Contos Infantis Para Dormir no valor de 35,99. Qual o prximo passo para finalizar a compra?";
-
-            // Codifica a mensagem para o formato de URL
-            const urlMensagem = encodeURIComponent(mensagem);
-
-            // Constri o link completo do WhatsApp
-            const whatsappLink = `https://wa.me/${numeroTelefone}?text=${urlMensagem}`;
-
-            // Redireciona o usurio para o WhatsApp com a mensagem pr-preenchida
-            window.location.href = whatsappLink;
-        }
-    }
-
-        // Lgica do player de msica
-        document.addEventListener('DOMContentLoaded', function() {
-            const musicPlayerContainer = document.getElementById('music-player-container');
-            const playPauseButton = document.getElementById('play-pause-button');
-            const backgroundMusic = document.getElementById('background-music');
-
-            playPauseButton.addEventListener('click', function() {
-                if (backgroundMusic.paused) {
-                    backgroundMusic.play();
-                    musicPlayerContainer.classList.add('playing');
-                } else {
-                    backgroundMusic.pause();
-                    musicPlayerContainer.classList.remove('playing');
-                }
+            // Reinicia o slider quando um botão de navegação é clicado
+            document.querySelectorAll('.navigation label').forEach(label => {
+                label.addEventListener('click', () => {
+                    clearInterval(autoSlideTimer); // Para o auto-slide imediatamente
+                    // Pequeno delay para permitir que o usuário veja a transição manual
+                    // e depois reinicia o auto-slide após um curto período
+                    setTimeout(startAutoSlider, slideInterval * 2); 
+                });
             });
+
+            // Reinicia o slider ao clicar em qualquer input de rádio diretamente
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    clearInterval(autoSlideTimer); // Para o auto-slide imediatamente
+                    setTimeout(startAutoSlider, slideInterval * 2);
+                });
+            });
+
+            startAutoSlider(); // Inicia o slider automaticamente na carga da página
+        });
+
+        // Lógica do botão COMPRAR
+        function comprar() {
+            const versao = document.getElementById('versao').value;
+            if (!versao) {
+                alert("Por favor, selecione uma vers&atilde;o antes de comprar.");
+                return;
+            }
+
+            // Rastreia o clique no Google Analytics
+            gtag('event', 'clique', {
+                'event_category': 'compra',
+                'event_label': 'compra_contos_infantis_' + versao
+            });
+
+            if (versao === "tradicional") {
+                window.location.href = "https://loja.uiclap.com/titulo/ua113287";
+            } else {
+                // Define o número de telefone e a mensagem do pedido
+                const numeroTelefone = "5519991950005";
+                const mensagem = "Ol\u00e1, gostaria de fazer um pedido da Vers\u00e3o Premium do livro Contos Infantis Para Dormir no valor de 49,99. Qual o pr\u00f3ximo passo para finalizar a compra?";
+
+                // Codifica a mensagem para o formato de URL
+                const urlMensagem = encodeURIComponent(mensagem);
+
+                // Constrói o link completo do WhatsApp
+                const whatsappLink = `https://wa.me/${numeroTelefone}?text=${urlMensagem}`;
+
+                // Redireciona o usuário para o WhatsApp com a mensagem pré-preenchida
+                window.location.href = whatsappLink;
+            }
+        }
+
+        // NOVO PLAYER DE ÁUDIO - LÓGICA JAVASCRIPT
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('free-audio-player');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const repeatBtn = document.getElementById('repeat-btn');
+            const muteBtn = document.getElementById('mute-btn');
+            const volumeSlider = document.getElementById('volume-slider');
+            const progressBarContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const currentTimeSpan = document.getElementById('current-time');
+            const durationSpan = document.getElementById('duration');
+            const currentSongTitle = document.getElementById('current-song-title');
+            const playlistContainer = document.getElementById('playlist-container');
+            const playIcon = playPauseBtn.querySelector('.play-icon');
+            const pauseIcon = playPauseBtn.querySelector('.pause-icon');
+            const repeatAllIcon = repeatBtn.querySelector('.repeat-all-icon');
+            const repeatOneIcon = repeatBtn.querySelector('.repeat-one-icon');
+
+            // Adicionado: Referência ao player de vídeo principal
+            const mainVideoPlayer = document.getElementById('main-video-player');
+
+
+            // 🚨🚨🚨 IMPORTANTE: LISTE AQUI OS NOMES DOS SEUS ARQUIVOS DE ÁUDIO 🚨🚨🚨
+            // Certifique-se de que os nomes correspondem exatamente aos arquivos na pasta 'amostra_historinha'
+            const audioFiles = [
+                "disquinho - A Cigarra e a Formiga.mp3",
+                "disquinho - A Lebre e a Tartaruga.mp3",
+            ];
+            const audioPath = "amostra_historinha/"; // Caminho para sua pasta de áudios
+
+            let currentTrackIndex = 0;
+            const REPEAT_NONE = 0;
+            const REPEAT_ALL = 1;
+            const REPEAT_ONE = 2;
+            let repeatMode = REPEAT_ALL; // Inicia com repetição de todos
+
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }
+
+            function loadTrack(index) {
+                if (index >= 0 && index < audioFiles.length) {
+                    currentTrackIndex = index;
+                    audioPlayer.src = audioPath + audioFiles[currentTrackIndex];
+                    currentSongTitle.textContent = audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", ""); // Remove prefixo e extensão
+                    audioPlayer.load(); // Carrega o áudio
+                    updatePlaylistHighlight();
+                }
+            }
+
+            function playTrack() {
+                // Pausa o player de vídeo principal se estiver tocando
+                if (!mainVideoPlayer.paused) {
+                    mainVideoPlayer.pause();
+                }
+                audioPlayer.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                // Rastreamento do Google Analytics para play
+                gtag('event', 'play_audio', {
+                    'event_category': 'player_amostras',
+                    'event_label': audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "")
+                });
+            }
+
+            function pauseTrack() {
+                audioPlayer.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+
+            function togglePlayPause() {
+                if (audioPlayer.paused) {
+                    playTrack();
+                } else {
+                    pauseTrack();
+                }
+            }
+
+            function nextTrack() {
+                let nextIndex = currentTrackIndex + 1;
+                if (nextIndex >= audioFiles.length) {
+                    nextIndex = 0; // Volta para o início se for a última
+                }
+                loadTrack(nextIndex);
+                playTrack();
+            }
+
+            function prevTrack() {
+                let prevIndex = currentTrackIndex - 1;
+                if (prevIndex < 0) {
+                    prevIndex = audioFiles.length - 1; // Volta para o final se for a primeira
+                }
+                loadTrack(prevIndex);
+                playTrack();
+            }
+
+            function updateProgressBar() {
+                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressBar.style.width = progress + '%';
+                currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
+            }
+
+            function setProgressBar(e) {
+                const width = progressBarContainer.clientWidth;
+                const clickX = e.offsetX;
+                audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
+            }
+
+            function updateVolume() {
+                audioPlayer.volume = volumeSlider.value;
+            }
+
+            function toggleMute() {
+                audioPlayer.muted = !audioPlayer.muted;
+                muteBtn.title = audioPlayer.muted ? "Desmutar" : "Mudo";
+                // Você pode adicionar um ícone de mudo/desmudo aqui se quiser
+            }
+
+            function toggleRepeatMode() {
+                repeatMode = (repeatMode + 1) % 3; // 0 -> 1 -> 2 -> 0 (NONE -> ALL -> ONE)
+                updateRepeatButton();
+            }
+
+            function updateRepeatButton() {
+                repeatBtn.classList.remove('active');
+                repeatAllIcon.style.display = 'none';
+                repeatOneIcon.style.display = 'none';
+
+                if (repeatMode === REPEAT_ALL) {
+                    repeatAllIcon.style.display = 'block';
+                    repeatBtn.title = "Repetir Playlist (todas)";
+                    repeatBtn.classList.add('active');
+                } else if (repeatMode === REPEAT_ONE) {
+                    repeatOneIcon.style.display = 'block';
+                    repeatBtn.title = "Repetir Uma Faixa";
+                    repeatBtn.classList.add('active');
+                } else { // REPEAT_NONE
+                    repeatAllIcon.style.display = 'block'; // Mostra o ícone de 'repetir todas' mas sem o estado 'ativo'
+                    repeatBtn.title = "Não Repetir (parar ao final)";
+                }
+            }
+
+
+            function handleTrackEnd() {
+                // Rastreamento do Google Analytics para fim de audio
+                gtag('event', 'audio_ended', {
+                    'event_category': 'player_amostras',
+                    'event_label': audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "")
+                });
+
+                if (repeatMode === REPEAT_ONE) {
+                    playTrack(); // Repete a mesma faixa
+                } else if (repeatMode === REPEAT_ALL) {
+                    nextTrack(); // Vai para a próxima
+                } else { // REPEAT_NONE
+                    if (currentTrackIndex < audioFiles.length - 1) {
+                        nextTrack(); // Vai para a próxima, se não for a última
+                    } else {
+                        // Última música, parar
+                        pauseTrack();
+                        audioPlayer.currentTime = 0;
+                        progressBar.style.width = '0%';
+                        currentTimeSpan.textContent = formatTime(0);
+                    }
+                }
+            }
+
+
+            function populatePlaylist() {
+                playlistContainer.innerHTML = ''; // Limpa a playlist existente
+                audioFiles.forEach((file, index) => {
+                    const div = document.createElement('div');
+                    div.classList.add('playlist-item');
+                    div.dataset.index = index;
+                    div.innerHTML = `
+                        <span class="playlist-item-index">${index + 1}.</span>
+                        <span class="playlist-item-title">${file.replace("disquinho - ", "").replace(".mp3", "")}</span>
+                    `;
+                    div.addEventListener('click', () => {
+                        loadTrack(index);
+                        playTrack();
+                    });
+                    playlistContainer.appendChild(div);
+                });
+                updatePlaylistHighlight();
+            }
+
+            function updatePlaylistHighlight() {
+                document.querySelectorAll('.playlist-item').forEach(item => {
+                    item.classList.remove('active-song');
+                });
+                const activeItem = document.querySelector(`.playlist-item[data-index="${currentTrackIndex}"]`);
+                if (activeItem) {
+                    activeItem.classList.add('active-song');
+                    // Rola para a música ativa, se necessário
+                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+
+
+            // Event Listeners
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            prevBtn.addEventListener('click', prevTrack);
+            nextBtn.addEventListener('click', nextTrack);
+            repeatBtn.addEventListener('click', toggleRepeatMode);
+            muteBtn.addEventListener('click', toggleMute);
+            volumeSlider.addEventListener('input', updateVolume);
+            progressBarContainer.addEventListener('click', setProgressBar);
+            audioPlayer.addEventListener('timeupdate', updateProgressBar);
+            audioPlayer.addEventListener('loadedmetadata', () => {
+                durationSpan.textContent = formatTime(audioPlayer.duration);
+                updateProgressBar(); // Garante que a barra de progresso e o tempo inicial sejam atualizados
+            });
+            audioPlayer.addEventListener('ended', handleTrackEnd);
+
+            // Inicialização
+            populatePlaylist();
+            loadTrack(currentTrackIndex);
+            updateRepeatButton(); // Configura o ícone inicial do botão de repetição
         });
     </script>
 </body>
