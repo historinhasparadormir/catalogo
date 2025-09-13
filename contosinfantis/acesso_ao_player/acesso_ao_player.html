@@ -10,12 +10,12 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #C8E6C9; /* Mantém a cor de fundo do site original */
+            background-color: #C8E6C9;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px 0; /* Adiciona um respiro para telas menores */
+            padding: 20px 0;
         }
 
         .container {
@@ -33,6 +33,13 @@
             display: block;
         }
 
+        /* Estilos para a seção de boas-vindas */
+        .welcome-section {
+            padding: 15px;
+            color: #4f8058;
+            text-align: center;
+        }
+
         /* ----- ESTILOS DO PLAYER DE ÁUDIO ----- */
         .audio-player-wrapper {
             background-color: #f7f7f7;
@@ -46,7 +53,7 @@
         }
 
         .audio-player-wrapper h3 {
-            font-size: 1.2em; /* Título um pouco maior */
+            font-size: 1.2em;
             margin-top: 0;
             margin-bottom: 10px;
             color: #4f8058;
@@ -69,7 +76,7 @@
             height: 8px;
             background-color: #e0e0e0;
             border-radius: 5px;
-            margin-bottom: 5px; /* Diminuído para juntar com o tempo */
+            margin-bottom: 5px;
             cursor: pointer;
             position: relative;
         }
@@ -122,12 +129,13 @@
         }
 
         .playback-buttons .main-play-pause {
-            width: 50px; /* Botão principal maior */
+            width: 50px;
             height: 50px;
         }
+
         .playback-buttons .main-play-pause svg {
-             width: 24px;
-             height: 24px;
+            width: 24px;
+            height: 24px;
         }
 
         .repeat-button {
@@ -136,9 +144,11 @@
             height: 30px;
             border-radius: 8px;
         }
+
         .repeat-button.active {
             background-color: #4f8058;
         }
+
         .repeat-button svg {
             width: 16px;
             height: 16px;
@@ -170,6 +180,7 @@
             background: #4f8058;
             cursor: pointer;
         }
+
         .volume-controls input[type="range"]::-moz-range-thumb {
             width: 16px;
             height: 16px;
@@ -189,7 +200,7 @@
         .playlist-container {
             border-top: 1px solid #eee;
             padding-top: 10px;
-            max-height: 250px; /* Mais espaço para a lista de músicas */
+            max-height: 250px;
             overflow-y: auto;
             text-align: left;
         }
@@ -217,8 +228,9 @@
             margin-right: 12px;
             font-size: 0.85em;
             color: #777;
-            min-width: 20px; /* Alinhamento dos números */
+            min-width: 20px;
         }
+
         .playlist-item.active-song .playlist-item-index {
             color: #4f8058;
         }
@@ -230,98 +242,139 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
-		/* Estilos para a seção de boas-vindas */
-.welcome-section {
-    padding: 15px;
-    color: #4f8058;
-    text-align: center;
-}
 
-/* Estilos para o pop-up modal */
-.modal {
-    display: none; /* Inicia oculto */
-    position: fixed;
-    z-index: 1;
-    left: 0;
+        /* Estilos para o pop-up modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #close-modal-btn {
+            background-color: #4f8058;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        #close-modal-btn:hover {
+            background-color: #6a9f73;
+        }
+		/* --- Estilos para o Preloader de Carregamento --- */
+.preloader-overlay {
+    position: absolute; /* Posição dentro do wrapper */
     top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4); /* Fundo semi-transparente */
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 10; /* Garante que fique acima dos outros elementos */
+    border-radius: 15px;
 }
 
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
-    border-radius: 10px;
-    text-align: center;
+.preloader-content {
     position: relative;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    width: 80px;
+    height: 80px;
 }
 
-.close-btn {
-    color: #aaa;
+.preloader-spinner {
+    width: 100%;
+    height: 100%;
+    border: 5px solid #e0e0e0;
+    border-top-color: #4f8058;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.preloader-percentage {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 28px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 0.9em;
     font-weight: bold;
-    cursor: pointer;
+    color: #4f8058;
 }
 
-.close-btn:hover,
-.close-btn:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+/* Animação para o spinner */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
-#close-modal-btn {
-    background-color: #4f8058;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 15px;
-}
-
-#close-modal-btn:hover {
-    background-color: #6a9f73;
-}
     </style>
 </head>
+
 <body>
     <div class="container">
         <img src="ContosParaOuvir.jpg" alt="Contos Infantis" class="header-img">
-   
-    <div class="welcome-section">
-        <h2 id="welcome-message"></h2>
-        <p id="subscription-info"></p>
-    </div>
-    
-    <div class="audio-player-wrapper">
+        
+        <div class="welcome-section">
+            <h2 id="welcome-message"></h2>
+            <p id="subscription-info"></p>
         </div>
-    
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <p id="modal-text"></p>
-            <button id="close-modal-btn">Estou Ciente</button>
-        </div>
-    </div>
-
+        
         <div class="audio-player-wrapper">
-          <h3>Player de Músicas</h3>
-            <audio id="audio-player" src="" type="audio/mp3"></audio>
+                       <audio id="audio-player" src="" type="audio/mp3"></audio>
+<div class="audio-player-wrapper">
+    <h3>Player de Músicas</h3>
+    <audio id="audio-player" src="" type="audio/mp3"></audio>
 
-            <div class="current-song-info" id="current-song-title">Selecione uma música para começar</div>
+    <div id="preloader" class="preloader-overlay" style="display: none;">
+        <div class="preloader-content">
+            <div class="preloader-spinner"></div>
+            <div id="loading-percentage" class="preloader-percentage">0%</div>
+        </div>
+    </div>
+    <div class="current-song-info" id="current-song-title">Selecione uma música para começar</div>
+    
+    ...
+</div>
 
             <div class="progress-container" id="progress-container">
                 <div class="progress-bar" id="progress-bar"></div>
@@ -330,8 +383,6 @@
                 <span id="current-time">0:00</span>
                 <span id="duration">0:00</span>
             </div>
-
- 
 
             <div class="playback-buttons">
                 <button id="prev-btn" title="Anterior">
@@ -345,8 +396,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zm9-12v12h2V6h-2z"/></svg>
                 </button>
                 <button id="repeat-btn" class="repeat-button" title="Repetir">
-                      <svg class="repeat-all-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
-                      <svg class="repeat-one-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/></svg>
+                    <svg class="repeat-all-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                    <svg class="repeat-one-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/></svg>
                 </button>
             </div>
 
@@ -360,278 +411,287 @@
             
             <h4 class="playlist-title">Lista de Reprodução</h4>
             <div class="playlist-container" id="playlist-container">
-          </div>
-      </div>
-</div>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const audioPlayer = document.getElementById('audio-player');
-            const playPauseBtn = document.getElementById('play-pause-btn');
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const repeatBtn = document.getElementById('repeat-btn');
-            const muteBtn = document.getElementById('mute-btn');
-            const volumeSlider = document.getElementById('volume-slider');
-            const progressBarContainer = document.getElementById('progress-container');
-            const progressBar = document.getElementById('progress-bar');
-            const currentTimeSpan = document.getElementById('current-time');
-            const durationSpan = document.getElementById('duration');
-            const currentSongTitle = document.getElementById('current-song-title');
-            const playlistContainer = document.getElementById('playlist-container');
-            
-            const playIcon = playPauseBtn.querySelector('.play-icon');
-            const pauseIcon = playPauseBtn.querySelector('.pause-icon');
-            const repeatAllIcon = repeatBtn.querySelector('.repeat-all-icon');
-            const repeatOneIcon = repeatBtn.querySelector('.repeat-one-icon');
-            const volumeIcon = muteBtn.querySelector('.volume-icon');
-            const muteIcon = muteBtn.querySelector('.mute-icon');
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <p id="modal-text"></p>
+            <button id="close-modal-btn">Estou Ciente</button>
+        </div>
+    </div>
 
-            const audioFiles = [
-                "disquinho - A Bela Adormecida.mp3",
-                "disquinho - A Bela e a Fera.mp3",
-                "disquinho - A Cigarra e a Formiga.mp3",
-                "disquinho - A Festa no Céu.mp3",
-                "disquinho - A Flautinha Encantada.mp3",
-                "disquinho - A Formiguinha e a Neve.mp3",
-                "disquinho - A Formiguinha e a Pomba.mp3",
-                "disquinho - A Gata Borralheira.mp3",
-                "disquinho - A Lebre e a Tartaruga.mp3",
-                "disquinho - Aladim e a Lâmpada Maravilhosa.mp3",
-                "disquinho - Branca de Neve e os Sete Anoes.mp3",
-                "disquinho - Briga no Galinheiro.mp3",
-                "disquinho - Dona Baratinha.mp3",
-                "disquinho - Dona Galinha e seus Pintinhos.mp3",
-                "disquinho - O Bonequinho de Neve.mp3",
-                "disquinho - O Burrinho e o Sal.mp3",
-                "disquinho - O Burrinho Tró-ló-ló.mp3",
-                "disquinho - O Burro e o Grilo.mp3",
-                "disquinho - O Cabra Cabrez.mp3",
-                "disquinho - O Carvalho e o Junco.mp3",
-                "disquinho - O Chapeuzinho Vermelho.mp3",
-                "disquinho - O Cisne Vaidoso.mp3",
-                "disquinho - O Gato de Botas.mp3",
-                "disquinho - O Golfinho e o Leão.mp3",
-                "disquinho - O Leão e o Ratinho.mp3",
-                "disquinho - O Lobo e os 3 Cabritinhos.mp3",
-                "disquinho - O macaco e a velha.mp3",
-                "disquinho - O Patinho Feio.mp3",
-                "disquinho - O Pequeno Polegar.mp3",
-                "disquinho - O Soldadinho De Chumbo.mp3",
-                "disquinho - Os 3 Porquinhos.mp3",
-                "disquinho - Os 4 Heróis.mp3",
-                "disquinho - Os Dois Sapos.mp3",
-                "disquinho - Pedro e o Lobo.mp3",
-                "disquinho - Pinóquio.mp3",
-                "disquinho - Rapunzel.mp3",
-                "disquinho - Saci Pererê.mp3",
-                "disquinho - A Goela do Inferno 1.mp3",
-                "disquinho - História Da Baratinha.mp3",
-                "disquinho - João Maria.mp3"
-            ];
-            const audioPath = ""; // Vazio, pois os arquivos estão na mesma pasta
+   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // LÓGICA DO PLAYER
+        const audioPlayer = document.getElementById('audio-player');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const repeatBtn = document.getElementById('repeat-btn');
+        const muteBtn = document.getElementById('mute-btn');
+        const volumeSlider = document.getElementById('volume-slider');
+        const progressBarContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const currentTimeSpan = document.getElementById('current-time');
+        const durationSpan = document.getElementById('duration');
+        const currentSongTitle = document.getElementById('current-song-title');
+        const playlistContainer = document.getElementById('playlist-container');
 
-            let currentTrackIndex = 0;
-            const REPEAT_NONE = 0;
-            const REPEAT_ALL = 1;
-            const REPEAT_ONE = 2;
-            let repeatMode = REPEAT_ALL;
+        const playIcon = playPauseBtn.querySelector('.play-icon');
+        const pauseIcon = playPauseBtn.querySelector('.pause-icon');
+        const repeatAllIcon = repeatBtn.querySelector('.repeat-all-icon');
+        const repeatOneIcon = repeatBtn.querySelector('.repeat-one-icon');
+        const volumeIcon = muteBtn.querySelector('.volume-icon');
+        const muteIcon = muteBtn.querySelector('.mute-icon');
 
-            function formatTime(seconds) {
-                const min = Math.floor(seconds / 60);
-                const sec = Math.floor(seconds % 60);
-                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        const audioFiles = [
+            "disquinho - A Bela Adormecida.mp3",
+            "disquinho - A Bela e a Fera.mp3",
+            "disquinho - A Cigarra e a Formiga.mp3",
+            "disquinho - A Festa no Céu.mp3",
+            "disquinho - A Flautinha Encantada.mp3",
+            "disquinho - A Formiguinha e a Neve.mp3",
+            "disquinho - A Formiguinha e a Pomba.mp3",
+            "disquinho - A Gata Borralheira.mp3",
+            "disquinho - A Lebre e a Tartaruga.mp3",
+            "disquinho - Aladim e a Lâmpada Maravilhosa.mp3",
+            "disquinho - Branca de Neve e os Sete Anoes.mp3",
+            "disquinho - Briga no Galinheiro.mp3",
+            "disquinho - Dona Baratinha.mp3",
+            "disquinho - Dona Galinha e seus Pintinhos.mp3",
+            "disquinho - O Bonequinho de Neve.mp3",
+            "disquinho - O Burrinho e o Sal.mp3",
+            "disquinho - O Burrinho Tró-ló-ló.mp3",
+            "disquinho - O Burro e o Grilo.mp3",
+            "disquinho - O Cabra Cabrez.mp3",
+            "disquinho - O Carvalho e o Junco.mp3",
+            "disquinho - O Chapeuzinho Vermelho.mp3",
+            "disquinho - O Cisne Vaidoso.mp3",
+            "disquinho - O Gato de Botas.mp3",
+            "disquinho - O Golfinho e o Leão.mp3",
+            "disquinho - O Leão e o Ratinho.mp3",
+            "disquinho - O Lobo e os 3 Cabritinhos.mp3",
+            "disquinho - O macaco e a velha.mp3",
+            "disquinho - O Patinho Feio.mp3",
+            "disquinho - O Pequeno Polegar.mp3",
+            "disquinho - O Soldadinho De Chumbo.mp3",
+            "disquinho - Os 3 Porquinhos.mp3",
+            "disquinho - Os 4 Heróis.mp3",
+            "disquinho - Os Dois Sapos.mp3",
+            "disquinho - Pedro e o Lobo.mp3",
+            "disquinho - Pinóquio.mp3",
+            "disquinho - Rapunzel.mp3",
+            "disquinho - Saci Pererê.mp3",
+            "disquinho - A Goela do Inferno 1.mp3",
+            "disquinho - História Da Baratinha.mp3",
+            "disquinho - João Maria.mp3"
+        ];
+        const audioPath = "";
+
+        let currentTrackIndex = 0;
+        const REPEAT_NONE = 0;
+        const REPEAT_ALL = 1;
+        const REPEAT_ONE = 2;
+        let repeatMode = REPEAT_ALL;
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        }
+
+        function loadTrack(index) {
+            if (index >= 0 && index < audioFiles.length) {
+                currentTrackIndex = index;
+                audioPlayer.src = audioPath + audioFiles[currentTrackIndex];
+                currentSongTitle.textContent = audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "");
+                audioPlayer.load();
+                updatePlaylistHighlight();
             }
+        }
 
-            function loadTrack(index) {
-                if (index >= 0 && index < audioFiles.length) {
-                    currentTrackIndex = index;
-                    audioPlayer.src = audioPath + audioFiles[currentTrackIndex];
-                    currentSongTitle.textContent = audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "");
-                    audioPlayer.load();
-                    updatePlaylistHighlight();
-                }
+        function playTrack() {
+            audioPlayer.play();
+            playIcon.style.display = 'none';
+            pauseIcon.style.display = 'block';
+        }
+
+        function pauseTrack() {
+            audioPlayer.pause();
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+        }
+
+        function togglePlayPause() {
+            if (audioPlayer.paused) {
+                playTrack();
+            } else {
+                pauseTrack();
             }
+        }
 
-            function playTrack() {
-                audioPlayer.play();
-                playIcon.style.display = 'none';
-                pauseIcon.style.display = 'block';
+        function nextTrack() {
+            let nextIndex = (currentTrackIndex + 1) % audioFiles.length;
+            loadTrack(nextIndex);
+            playTrack();
+        }
+
+        function prevTrack() {
+            let prevIndex = (currentTrackIndex - 1 + audioFiles.length) % audioFiles.length;
+            loadTrack(prevIndex);
+            playTrack();
+        }
+
+        function updateProgressBar() {
+            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+            progressBar.style.width = progress + '%';
+            currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
+        }
+
+        function setProgressBar(e) {
+            const width = progressBarContainer.clientWidth;
+            const clickX = e.offsetX;
+            if (audioPlayer.duration) {
+                audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
             }
+        }
 
-            function pauseTrack() {
-                audioPlayer.pause();
-                playIcon.style.display = 'block';
-                pauseIcon.style.display = 'none';
+        function updateVolume() {
+            audioPlayer.volume = volumeSlider.value;
+            audioPlayer.muted = volumeSlider.value == 0;
+            updateMuteIcon();
+        }
+        
+        function updateMuteIcon() {
+            if (audioPlayer.muted || audioPlayer.volume === 0) {
+                volumeIcon.style.display = 'none';
+                muteIcon.style.display = 'block';
+                muteBtn.title = "Ativar som";
+            } else {
+                volumeIcon.style.display = 'block';
+                muteIcon.style.display = 'none';
+                muteBtn.title = "Mudo";
             }
+        }
 
-            function togglePlayPause() {
-                if (audioPlayer.paused) {
-                    playTrack();
+        function toggleMute() {
+            audioPlayer.muted = !audioPlayer.muted;
+            if (audioPlayer.muted) {
+                volumeSlider.value = 0;
+            } else if (volumeSlider.value == 0) {
+                volumeSlider.value = 1;
+            }
+            audioPlayer.volume = volumeSlider.value;
+            updateMuteIcon();
+        }
+
+        function toggleRepeatMode() {
+            repeatMode = (repeatMode + 1) % 3;
+            updateRepeatButton();
+        }
+
+        function updateRepeatButton() {
+            repeatBtn.classList.remove('active');
+            repeatAllIcon.style.display = 'none';
+            repeatOneIcon.style.display = 'none';
+
+            if (repeatMode === REPEAT_ALL) {
+                repeatAllIcon.style.display = 'block';
+                repeatBtn.title = "Repetir Playlist";
+                repeatBtn.classList.add('active');
+            } else if (repeatMode === REPEAT_ONE) {
+                repeatOneIcon.style.display = 'block';
+                repeatBtn.title = "Repetir Música Atual";
+                repeatBtn.classList.add('active');
+            } else {
+                repeatAllIcon.style.display = 'block';
+                repeatBtn.title = "Não Repetir";
+            }
+        }
+
+        function handleTrackEnd() {
+            if (repeatMode === REPEAT_ONE) {
+                playTrack();
+            } else if (repeatMode === REPEAT_ALL) {
+                nextTrack();
+            } else {
+                if (currentTrackIndex < audioFiles.length - 1) {
+                    nextTrack();
                 } else {
                     pauseTrack();
                 }
             }
+        }
 
-            function nextTrack() {
-                let nextIndex = (currentTrackIndex + 1) % audioFiles.length;
-                loadTrack(nextIndex);
-                playTrack();
-            }
-
-            function prevTrack() {
-                let prevIndex = (currentTrackIndex - 1 + audioFiles.length) % audioFiles.length;
-                loadTrack(prevIndex);
-                playTrack();
-            }
-
-            function updateProgressBar() {
-                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                progressBar.style.width = progress + '%';
-                currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
-            }
-
-            function setProgressBar(e) {
-                const width = progressBarContainer.clientWidth;
-                const clickX = e.offsetX;
-                if(audioPlayer.duration) {
-                    audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
-                }
-            }
-
-            function updateVolume() {
-                audioPlayer.volume = volumeSlider.value;
-                audioPlayer.muted = volumeSlider.value == 0;
-                updateMuteIcon();
-            }
-            
-            function updateMuteIcon() {
-                if (audioPlayer.muted || audioPlayer.volume === 0) {
-                    volumeIcon.style.display = 'none';
-                    muteIcon.style.display = 'block';
-                    muteBtn.title = "Ativar som";
-                } else {
-                    volumeIcon.style.display = 'block';
-                    muteIcon.style.display = 'none';
-                    muteBtn.title = "Mudo";
-                }
-            }
-
-            function toggleMute() {
-                audioPlayer.muted = !audioPlayer.muted;
-                if(audioPlayer.muted) {
-                    volumeSlider.value = 0;
-                } else if (volumeSlider.value == 0) {
-                    volumeSlider.value = 1; // Volta ao volume máximo se estava em 0
-                }
-                audioPlayer.volume = volumeSlider.value;
-                updateMuteIcon();
-            }
-
-            function toggleRepeatMode() {
-                repeatMode = (repeatMode + 1) % 3;
-                updateRepeatButton();
-            }
-
-            function updateRepeatButton() {
-                repeatBtn.classList.remove('active');
-                repeatAllIcon.style.display = 'none';
-                repeatOneIcon.style.display = 'none';
-
-                if (repeatMode === REPEAT_ALL) {
-                    repeatAllIcon.style.display = 'block';
-                    repeatBtn.title = "Repetir Playlist";
-                    repeatBtn.classList.add('active');
-                } else if (repeatMode === REPEAT_ONE) {
-                    repeatOneIcon.style.display = 'block';
-                    repeatBtn.title = "Repetir Música Atual";
-                    repeatBtn.classList.add('active');
-                } else {
-                    repeatAllIcon.style.display = 'block';
-                    repeatBtn.title = "Não Repetir";
-                }
-            }
-
-            function handleTrackEnd() {
-                if (repeatMode === REPEAT_ONE) {
+        function populatePlaylist() {
+            playlistContainer.innerHTML = '';
+            audioFiles.forEach((file, index) => {
+                const div = document.createElement('div');
+                div.classList.add('playlist-item');
+                div.dataset.index = index;
+                div.innerHTML = `
+                    <span class="playlist-item-index">${index + 1}.</span>
+                    <span class="playlist-item-title">${file.replace("disquinho - ", "").replace(".mp3", "")}</span>
+                `;
+                div.addEventListener('click', () => {
+                    loadTrack(index);
                     playTrack();
-                } else if (repeatMode === REPEAT_ALL) {
-                    nextTrack();
-                } else {
-                     if (currentTrackIndex < audioFiles.length - 1) {
-                         nextTrack();
-                     } else {
-                         pauseTrack();
-                     }
-                }
-            }
-
-            function populatePlaylist() {
-                playlistContainer.innerHTML = '';
-                audioFiles.forEach((file, index) => {
-                    const div = document.createElement('div');
-                    div.classList.add('playlist-item');
-                    div.dataset.index = index;
-                    div.innerHTML = `
-                        <span class="playlist-item-index">${index + 1}.</span>
-                        <span class="playlist-item-title">${file.replace("disquinho - ", "").replace(".mp3", "")}</span>
-                    `;
-                    div.addEventListener('click', () => {
-                        loadTrack(index);
-                        playTrack();
-                    });
-                    playlistContainer.appendChild(div);
                 });
-                updatePlaylistHighlight();
-            }
-
-            function updatePlaylistHighlight() {
-                document.querySelectorAll('.playlist-item').forEach(item => {
-                    item.classList.remove('active-song');
-                });
-                const activeItem = document.querySelector(`.playlist-item[data-index="${currentTrackIndex}"]`);
-                if (activeItem) {
-                    activeItem.classList.add('active-song');
-                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-            }
-
-            // Event Listeners
-            playPauseBtn.addEventListener('click', togglePlayPause);
-            prevBtn.addEventListener('click', prevTrack);
-            nextBtn.addEventListener('click', nextTrack);
-            repeatBtn.addEventListener('click', toggleRepeatMode);
-            muteBtn.addEventListener('click', toggleMute);
-            volumeSlider.addEventListener('input', updateVolume);
-            progressBarContainer.addEventListener('click', setProgressBar);
-            audioPlayer.addEventListener('timeupdate', updateProgressBar);
-            audioPlayer.addEventListener('loadedmetadata', () => {
-                durationSpan.textContent = formatTime(audioPlayer.duration);
-                updateProgressBar();
+                playlistContainer.appendChild(div);
             });
-            audioPlayer.addEventListener('ended', handleTrackEnd);
-            audioPlayer.addEventListener('volumechange', updateMuteIcon);
+            updatePlaylistHighlight();
+        }
 
-            // Inicialização
-            populatePlaylist();
-            loadTrack(currentTrackIndex);
-            updateRepeatButton();
-            updateMuteIcon();
+        function updatePlaylistHighlight() {
+            document.querySelectorAll('.playlist-item').forEach(item => {
+                item.classList.remove('active-song');
+            });
+            const activeItem = document.querySelector(`.playlist-item[data-index="${currentTrackIndex}"]`);
+            if (activeItem) {
+                activeItem.classList.add('active-song');
+                activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+
+        // Event Listeners
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        prevBtn.addEventListener('click', prevTrack);
+        nextBtn.addEventListener('click', nextTrack);
+        repeatBtn.addEventListener('click', toggleRepeatMode);
+        muteBtn.addEventListener('click', toggleMute);
+        volumeSlider.addEventListener('input', updateVolume);
+        progressBarContainer.addEventListener('click', setProgressBar);
+        audioPlayer.addEventListener('timeupdate', updateProgressBar);
+        audioPlayer.addEventListener('loadedmetadata', () => {
+            durationSpan.textContent = formatTime(audioPlayer.duration);
+            updateProgressBar();
         });
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ... (Your existing player logic) ...
+        audioPlayer.addEventListener('ended', handleTrackEnd);
+        audioPlayer.addEventListener('volumechange', updateMuteIcon);
+
+        // Inicialização
+        populatePlaylist();
+        loadTrack(currentTrackIndex);
+        updateRepeatButton();
+        updateMuteIcon();
         
-        // --- Corrigindo as informações de usuário ---
-        
-        // Use as informações de usuário fornecidas.
-        const user = {
-            username: "livroeuexistoporvoce",
-            password: "102030102030",
-            name: "Ádamo",
-            expirationDate: "2025-10-20"
-        };
+        // --- LÓGICA DA ASSINATURA ---
+        const userName = localStorage.getItem('loggedInUserName');
+        const expirationDateString = localStorage.getItem('loggedInUserExpiration');
+
+        if (!userName || !expirationDateString) {
+            // Se não houver dados de login, redireciona de volta
+            window.location.href = 'login.html'; // Substitua por sua página de login
+            return; // Impede que o restante do script seja executado
+        }
+
+        const expirationDate = new Date(expirationDateString + "T00:00:00");
+        const today = new Date();
+        const oneDay = 1000 * 60 * 60 * 24;
+        const daysRemaining = Math.ceil((expirationDate.getTime() - today.getTime()) / oneDay);
 
         const welcomeMessageElement = document.getElementById('welcome-message');
         const subscriptionInfoElement = document.getElementById('subscription-info');
@@ -640,50 +700,72 @@
         const closeSpan = document.querySelector('.close-btn');
         const modalText = document.getElementById('modal-text');
 
-        // Calcula a data de expiração e os dias restantes
-        const expirationDate = new Date(user.expirationDate);
-        const today = new Date();
-        const oneDay = 1000 * 60 * 60 * 24;
-        const daysRemaining = Math.ceil((expirationDate.getTime() - today.getTime()) / oneDay);
+        welcomeMessageElement.textContent = `Bem-vindo, ${userName}!`;
         
-        // Exibe as mensagens corrigidas na tela
-        welcomeMessageElement.textContent = `Bem-vindo, ${user.name}!`;
-        
-        // Formata a data para o formato DD-MM-AAAA
         const formattedExpirationDate = `${String(expirationDate.getDate()).padStart(2, '0')}-${String(expirationDate.getMonth() + 1).padStart(2, '0')}-${expirationDate.getFullYear()}`;
         subscriptionInfoElement.textContent = `Assinatura expira em: ${formattedExpirationDate} (${daysRemaining} dias)`;
 
-        // ... (O resto da sua lógica para o pop-up) ...
-        
         function showModal(message) {
             modalText.textContent = message;
             modal.style.display = 'flex';
         }
 
-        if (daysRemaining <= 5 && daysRemaining > 2) {
+
+        // --- LÓGICA DO REDIRECIONAMENTO E POP-UPS ---
+        if (daysRemaining <= 0) {
+            showModal("Sua assinatura expirou. Você será redirecionado para a página de login.");
+            setTimeout(() => {
+                window.location.href = 'index.html'; // Redireciona após 3 segundos
+            }, 3000);
+        } else if (daysRemaining <= 5 && daysRemaining > 2) {
             showModal("Sua assinatura expira em menos de 5 dias!");
         } else if (daysRemaining === 2) {
             showModal("Atenção! Sua assinatura expira em 2 dias.");
         } else if (daysRemaining === 1) {
             showModal("Sua assinatura expira amanhã! Renove a assinatura para não perder o acesso.");
         }
+        // --- FIM DA LÓGICA DE REDIRECIONAMENTO ---
 
-        // Event listeners para fechar o pop-up
         closeModalBtn.addEventListener('click', () => {
             modal.style.display = 'none';
         });
-
         closeSpan.addEventListener('click', () => {
             modal.style.display = 'none';
         });
-        
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
             }
         });
-        
-        // ... (O resto do seu código existente) ...
+    });
+</script>
+<script>
+// No início do seu script, adicione a referência aos novos elementos
+    const preloader = document.getElementById('preloader');
+    const loadingPercentage = document.getElementById('loading-percentage');
+
+    // Dentro da sua função loadTrack(index), adicione a linha para mostrar o preloader
+    function loadTrack(index) {
+        if (index >= 0 && index < audioFiles.length) {
+            // ... (seu código existente) ...
+            preloader.style.display = 'flex'; // Mostra o preloader ao carregar
+            // ...
+        }
+    }
+
+    // Adicione um Event Listener para o evento "progress" do áudio
+    audioPlayer.addEventListener('progress', () => {
+        if (audioPlayer.duration > 0) {
+            let buffered = audioPlayer.buffered.end(audioPlayer.buffered.length - 1);
+            let percentage = (buffered / audioPlayer.duration) * 100;
+            loadingPercentage.textContent = `${Math.round(percentage)}%`;
+        }
+    });
+
+    // Adicione um Event Listener para o evento "canplaythrough"
+    audioPlayer.addEventListener('canplaythrough', () => {
+        // Esconde o preloader quando o áudio puder ser reproduzido sem interrupções
+        preloader.style.display = 'none';
     });
 </script>
 </body>

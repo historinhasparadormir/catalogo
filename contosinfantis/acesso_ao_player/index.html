@@ -111,20 +111,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const captchaInput = document.getElementById('captcha');
     const errorMessage = document.getElementById('error-message');
 
-    // --- DADOS DE LOGIN (apenas demonstrativos) ---
     const users = [
-        { username: "joao_silva", password: "Senha123!", name: "João Silva" },
-        { username: "maria_contos", password: "OutraSenhaForte!", name: "Maria Contos" },
-        { username: "admin_test", password: "adminPass1", name: "Administrador Teste" },
-        { username: "livroeuexistoporvoce", password: "102030102030", name: "Ádamo" }
+        { username: "cristiane", password: "adamosempretemrazao", name: "Cris & Noah", expirationDate: "2025-09-20" },
+        { username: "maria_contos", password: "OutraSenhaForte!", name: "Maria Contos", expirationDate: "2025-09-25" },
+        { username: "admin_test", password: "adminPass1", name: "Administrador Teste", expirationDate: "2025-09-14" },
+        { username: "euexistoporvoce", password: "102030", name: "Ádamo", expirationDate: "2025-10-11" }
     ];
-    // --- FIM DOS DADOS ---
 
     let captchaCorrectAnswer;
 
     function generateCaptcha() {
-        const num1 = Math.floor(Math.random() * 10) + 1; // 1..10
-        const num2 = Math.floor(Math.random() * 10);     // 0..9
+        const num1 = Math.floor(Math.random() * 10) + 1;
+        const num2 = Math.floor(Math.random() * 10);
         captchaCorrectAnswer = num1 + num2;
         captchaQuestion.textContent = `${num1} + ${num2} = `;
         captchaInput.value = "";
@@ -161,30 +159,16 @@ document.addEventListener('DOMContentLoaded', function () {
             showError('Usuário ou senha inválidos. Tente novamente.');
             return;
         }
-
-        // Tudo certo: calcular data de cadastro (hoje) e expiração = +30 dias
-        const today = new Date();
-        const registrationDate = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())); // midnight UTC
-        const expirationDateObj = new Date(registrationDate.getTime() + 30 * 24 * 60 * 60 * 1000);
-
-        // Armazenar em localStorage em formato ISO (YYYY-MM-DD)
-        function toIsoDateString(d) {
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-
+        
+        // --- CORREÇÃO: Salvar as informações corretas no localStorage ---
         localStorage.setItem('loggedInUserName', authenticatedUser.name);
-        localStorage.setItem('loggedInUserRegistration', toIsoDateString(registrationDate));
-        localStorage.setItem('loggedInUserExpiration', toIsoDateString(expirationDateObj));
+        localStorage.setItem('loggedInUserExpiration', authenticatedUser.expirationDate);
+        // --- FIM DA CORREÇÃO ---
 
-        // Redirecionar para a página do player
         window.location.href = 'acesso_ao_player.html';
     });
 
     generateCaptcha();
 });
-</script>
-</body>
+</script></body>
 </html>
