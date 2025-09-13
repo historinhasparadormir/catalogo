@@ -1,10 +1,9 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Login - Acesso ao Player</title>
-
     <style>
         /* Estilos gerais (mesmo padrão do site) */
         body {
@@ -17,7 +16,6 @@
             min-height: 100vh;
             padding: 20px 0;
         }
-
         .container {
             background-color: #ffffff;
             border-radius: 20px;
@@ -27,24 +25,17 @@
             box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-
-        .header-img {
-            width: 100%;
-            display: block;
-        }
-
-        /* ----- ESTILOS DO FORMULÁRIO DE LOGIN ----- */
+        .header-img { width: 100%; display: block; }
         .login-wrapper {
             background-color: #f7f7f7;
             border-radius: 15px;
             padding: 25px;
             margin: 20px auto;
             max-width: 90%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             color: #333;
             text-align: left;
         }
-
         .login-wrapper h3 {
             font-size: 1.3em;
             margin-top: 0;
@@ -52,85 +43,31 @@
             color: #4f8058;
             text-align: center;
         }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
+        .input-group { margin-bottom: 15px; }
         .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
-            font-size: 0.9em;
+            display:block; margin-bottom:5px; font-weight:bold; color:#555; font-size:0.9em;
         }
-
         .input-group input {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            outline: none;
-            box-sizing: border-box; /* Garante que o padding não estoure a largura */
-            transition: border-color 0.2s ease;
+            width:100%; padding:12px; font-size:1rem; border-radius:8px; border:1px solid #ccc; outline:none; box-sizing:border-box;
+            transition:border-color .2s ease;
         }
-
-        .input-group input:focus {
-            border-color: #4f8058;
-        }
-        
+        .input-group input:focus { border-color:#4f8058; }
         #captcha-group {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #e9e9e9;
-            padding: 10px;
-            border-radius: 8px;
+            display:flex; align-items:center; justify-content:space-between; background:#e9e9e9; padding:10px; border-radius:8px;
         }
-
-        #captcha-question {
-            font-weight: bold;
-            font-size: 1.1em;
-            color: #333;
-            user-select: none; /* Impede que o texto seja selecionado */
-        }
-
-        #captcha-group input {
-            width: 80px; /* Largura menor para o campo de resultado */
-            text-align: center;
-            font-weight: bold;
-        }
-
+        #captcha-question { font-weight:bold; font-size:1.1em; color:#333; user-select:none; }
+        #captcha-group input { width:80px; text-align:center; font-weight:bold; }
         .login-btn {
-            background-color: #4f8058;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 20px;
-            transition: background-color 0.2s ease;
+            background-color:#4f8058; color:white; font-size:1.2rem; font-weight:bold; border:none; padding:15px; border-radius:8px; cursor:pointer;
+            width:100%; margin-top:20px; transition:background-color .2s ease;
         }
-        
-        .login-btn:hover {
-            background-color: #6a9f73;
-        }
-
+        .login-btn:hover { background-color:#6a9f73; }
         .error-message {
-            display: none; /* Começa escondido */
-            color: #D32F2F; /* Vermelho escuro */
-            background-color: #FFCDD2; /* Fundo vermelho claro */
-            border: 1px solid #EF9A9A;
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 20px;
-            font-size: 0.9em;
-            text-align: center;
+            display:none; color:#D32F2F; background:#FFCDD2; border:1px solid #EF9A9A; border-radius:8px; padding:10px; margin-top:20px;
+            font-size:0.9em; text-align:center;
         }
+        /* Pequena nota de rodapé */
+        .note { font-size:0.85rem; color:#666; text-align:center; padding:10px 20px 20px; }
     </style>
 </head>
 <body>
@@ -138,89 +75,116 @@
         <img src="ContosParaOuvir.jpg" alt="Contos Infantis" class="header-img">
 
         <div class="login-wrapper">
-          <h3>Acesso Restrito</h3>
-            <form id="login-form">
+            <h3>Acesso Restrito</h3>
+            <form id="login-form" novalidate>
                 <div class="input-group">
                     <label for="username">Usuário:</label>
-                    <input type="text" id="username" name="username" required>
+                    <input type="text" id="username" name="username" required autocomplete="username" />
                 </div>
                 <div class="input-group">
                     <label for="password">Senha:</label>
-                    <input type="password" id="password" name="password" required>
+                    <input type="password" id="password" name="password" required autocomplete="current-password" />
                 </div>
                 <div class="input-group">
                     <label for="captcha">Para continuar, resolva a soma:</label>
                     <div id="captcha-group">
                         <span id="captcha-question"></span>
-                        <input type="number" id="captcha" name="captcha" required>
+                        <input type="number" id="captcha" name="captcha" required />
                     </div>
                 </div>
-                
+
                 <p id="error-message" class="error-message"></p>
 
                 <button type="submit" class="login-btn">Entrar</button>
             </form>
-      </div>
-</div>
+        </div>
+
+   
+    </div>
 
 <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginForm = document.getElementById('login-form');
-            const usernameInput = document.getElementById('username');
-            const passwordInput = document.getElementById('password');
-            const captchaQuestion = document.getElementById('captcha-question');
-            const captchaInput = document.getElementById('captcha');
-            const errorMessage = document.getElementById('error-message');
+document.addEventListener('DOMContentLoaded', function () {
+    const loginForm = document.getElementById('login-form');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const captchaQuestion = document.getElementById('captcha-question');
+    const captchaInput = document.getElementById('captcha');
+    const errorMessage = document.getElementById('error-message');
 
-            // --- DADOS DE LOGIN ---
-            // IMPORTANTE: Em um site real, NUNCA armazene senhas no código JavaScript.
-            // Isso é apenas para fins de demonstração.
-            const CORRECT_USER = "contosinfantis";
-            const CORRECT_PASS = "AB15klrm5@#15";
+    // --- DADOS DE LOGIN (apenas demonstrativos) ---
+    const users = [
+        { username: "joao_silva", password: "Senha123!", name: "João Silva" },
+        { username: "maria_contos", password: "OutraSenhaForte!", name: "Maria Contos" },
+        { username: "admin_test", password: "adminPass1", name: "Administrador Teste" },
+        { username: "livroeuexistoporvoce", password: "102030102030", name: "Ádamo" }
+    ];
+    // --- FIM DOS DADOS ---
 
-            let captchaCorrectAnswer;
+    let captchaCorrectAnswer;
 
-            // Função para gerar um novo desafio de soma
-            function generateCaptcha() {
-                const num1 = Math.floor(Math.random() * 10) + 1; // Número aleatório de 1 a 10
-                const num2 = Math.floor(Math.random() * 9);      // Número aleatório de 0 a 9
-                captchaCorrectAnswer = num1 + num2;
-                captchaQuestion.textContent = `${num1} + ${num2} = `;
-                captchaInput.value = ""; // Limpa o campo de resposta
+    function generateCaptcha() {
+        const num1 = Math.floor(Math.random() * 10) + 1; // 1..10
+        const num2 = Math.floor(Math.random() * 10);     // 0..9
+        captchaCorrectAnswer = num1 + num2;
+        captchaQuestion.textContent = `${num1} + ${num2} = `;
+        captchaInput.value = "";
+    }
+
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+        setTimeout(() => { errorMessage.style.display = 'none'; }, 6000);
+        generateCaptcha();
+    }
+
+    loginForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const enteredUser = usernameInput.value.trim();
+        const enteredPass = passwordInput.value;
+        const enteredCaptcha = parseInt(captchaInput.value, 10);
+
+        if (isNaN(enteredCaptcha) || enteredCaptcha !== captchaCorrectAnswer) {
+            showError('O resultado da soma está incorreto.');
+            return;
+        }
+
+        let authenticatedUser = null;
+        for (const user of users) {
+            if (user.username === enteredUser && user.password === enteredPass) {
+                authenticatedUser = user;
+                break;
             }
+        }
 
-            // Manipulador do envio do formulário
-            loginForm.addEventListener('submit', function(event) {
-                event.preventDefault(); // Impede o recarregamento da página
+        if (!authenticatedUser) {
+            showError('Usuário ou senha inválidos. Tente novamente.');
+            return;
+        }
 
-                // Esconde a mensagem de erro anterior
-                errorMessage.style.display = 'none';
+        // Tudo certo: calcular data de cadastro (hoje) e expiração = +30 dias
+        const today = new Date();
+        const registrationDate = new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())); // midnight UTC
+        const expirationDateObj = new Date(registrationDate.getTime() + 30 * 24 * 60 * 60 * 1000);
 
-                // Pega os valores inseridos pelo usuário
-                const enteredUser = usernameInput.value.trim();
-                const enteredPass = passwordInput.value;
-                const enteredCaptcha = parseInt(captchaInput.value, 10);
+        // Armazenar em localStorage em formato ISO (YYYY-MM-DD)
+        function toIsoDateString(d) {
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
 
-                // Validação
-                if (enteredUser !== CORRECT_USER || enteredPass !== CORRECT_PASS) {
-                    errorMessage.textContent = 'Usuário ou senha inválidos. Tente novamente.';
-                    errorMessage.style.display = 'block';
-                    generateCaptcha(); // Gera novo desafio
-                } else if (enteredCaptcha !== captchaCorrectAnswer) {
-                    errorMessage.textContent = 'O resultado da soma está incorreto.';
-                    errorMessage.style.display = 'block';
-                    generateCaptcha(); // Gera novo desafio
-                } else {
-                    // Se tudo estiver correto
-                    alert('Login realizado com sucesso! Redirecionando...');
-                    // Redireciona para a página do player
-                    window.location.href = 'acesso_ao_player.html';
-                }
-            });
+        localStorage.setItem('loggedInUserName', authenticatedUser.name);
+        localStorage.setItem('loggedInUserRegistration', toIsoDateString(registrationDate));
+        localStorage.setItem('loggedInUserExpiration', toIsoDateString(expirationDateObj));
 
-            // Gera o primeiro desafio de soma quando a página carrega
-            generateCaptcha();
-        });
-    </script>
+        // Redirecionar para a página do player
+        window.location.href = 'acesso_ao_player.html';
+    });
+
+    generateCaptcha();
+});
+</script>
 </body>
 </html>
