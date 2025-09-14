@@ -1,20 +1,40 @@
-﻿<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <title>Login - Acesso ao Player</title>
-    <style>
-        /* Estilos gerais (mesmo padrão do site) */
-        body {
+<html><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6L0EHGEC85');
+</script>
+<title>Contos Infantis e Historinhas Para Dormir</title> <style>
+     
+        
+        /* Regra para o v�deo ter tamanho fixo */
+        #video-cell video {
+            width: 100%;
+            height: *;
+            display: block;
+        }
+        
+        #video-cell video {
+            width: 100%;
+            height: *;
+            display: block;
+        }
+        
+        a img {
+            border: 0;
+        }
+		 body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background-color: #C8E6C9;
+            background-color: #E0F4FF;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px 0;
         }
         .container {
             background-color: #ffffff;
@@ -22,153 +42,120 @@
             overflow: hidden;
             max-width: 420px;
             width: 100%;
-            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
             text-align: center;
         }
-        .header-img { width: 100%; display: block; }
-        .login-wrapper {
-            background-color: #f7f7f7;
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px auto;
-            max-width: 90%;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            color: #333;
-            text-align: left;
-        }
-        .login-wrapper h3 {
-            font-size: 1.3em;
-            margin-top: 0;
-            margin-bottom: 20px;
-            color: #4f8058;
-            text-align: center;
-        }
-        .input-group { margin-bottom: 15px; }
-        .input-group label {
-            display:block; margin-bottom:5px; font-weight:bold; color:#555; font-size:0.9em;
-        }
-        .input-group input {
-            width:100%; padding:12px; font-size:1rem; border-radius:8px; border:1px solid #ccc; outline:none; box-sizing:border-box;
-            transition:border-color .2s ease;
-        }
-        .input-group input:focus { border-color:#4f8058; }
-        #captcha-group {
-            display:flex; align-items:center; justify-content:space-between; background:#e9e9e9; padding:10px; border-radius:8px;
-        }
-        #captcha-question { font-weight:bold; font-size:1.1em; color:#333; user-select:none; }
-        #captcha-group input { width:80px; text-align:center; font-weight:bold; }
-        .login-btn {
-            background-color:#4f8058; color:white; font-size:1.2rem; font-weight:bold; border:none; padding:15px; border-radius:8px; cursor:pointer;
-            width:100%; margin-top:20px; transition:background-color .2s ease;
-        }
-        .login-btn:hover { background-color:#6a9f73; }
-        .error-message {
-            display:none; color:#D32F2F; background:#FFCDD2; border:1px solid #EF9A9A; border-radius:8px; padding:10px; margin-top:20px;
-            font-size:0.9em; text-align:center;
-        }
-        /* Pequena nota de rodapé */
-        .note { font-size:0.85rem; color:#666; text-align:center; padding:10px 20px 20px; }
+        .header-img {
+            width: 100%;
+            display: block;
+		}
     </style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Um mundo de magia e aprendizado com Contos Infantis Clássicos e Historinhas para Dormir. Perfeito para a rotina noturna e o desenvolvimento das crianças.">
+
+    <meta name="keywords" content="livro infantil, literatura infantil, historinhas para dormir, contos infantis, livrinhos, leitura infantil, livro para crianças, contos clássicos, historias classicas, contos de fadas, historia para dormir, leitura compartilhada, rotina noturna, educação infantil, mães, pais, crianças">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="Content-Language" content="pt-br">
+
+    <meta property="og:title" content="Contos Infantis e Historinhas para Dormir"/>
+    <meta property="og:site_name" content="Contos Infantis e Historinhas para Dormir"/>
+    <meta property="og:url" content="https://historinhasparadormir.github.io/catalogo/" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:description" content="Descubra um mundo de magia com nossos Contos Infantis Clássicos e Historinhas para Dormir. Ideal para o momento de leitura em família."/>
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://historinhasparadormir.github.io/catalogo/historinhasparadormirecontosinfantis.jpg" />
+
+    <meta name="revisit-after" content="1 days">
+    <meta name="distribution" content="Global">
+    <meta name="author" content="Ádamo F Costa">
+    <meta name=format-detection content="telephone=no">
+    <meta http-equiv=Cache-Control content=no-cache>
+    <meta http-equiv=Pragma content=no-cache>
+    <link rel="canonical" href="https://historinhasparadormir.github.io/catalogo/" />
+    <link rel="shortcut icon" href="https://historinhasparadormir.github.io/catalogo/avicon-48x48.png.png" type="image/x-icon" />
+    <link rel="image_src" href="https://historinhasparadormir.github.io/catalogo/historinhasparadormirecontosinfantis.jpg" />
+<link rel="icon" type="image/png" href="https://historinhasparadormir.github.io/catalogo/favicon-48x48.png" sizes="48x48">
+    
+    <link rel="icon" type="image/png" href="https://historinhasparadormir.github.io/catalogo/favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="https://historinhasparadormir.github.io/catalogo/favicon-16x16.png" sizes="16x16" />
+<link rel="apple-touch-icon" href="https://historinhasparadormir.github.io/catalogo/apple-touch-icon-180x180.png" sizes="180x180" />
+<link rel="apple-touch-icon" href="https://historinhasparadormir.github.io/catalogo/apple-touch-icon-152x152.png" sizes="152x152" />
+<link rel="apple-touch-icon" href="https://historinhasparadormir.github.io/catalogo/apple-touch-icon-120x120.png" sizes="120x120" />
+<link rel="apple-touch-icon" href="https://historinhasparadormir.github.io/catalogo/apple-touch-icon-76x76.png" sizes="76x76" />
+<link rel="icon" type="image/png" href="https://historinhasparadormir.github.io/catalogo/android-chrome-192x192.png" sizes="192x192" />
+    
 </head>
-<body>
-    <div class="container">
-        <img src="ContosParaOuvir.jpg" alt="Contos Infantis" class="header-img">
-
-        <div class="login-wrapper">
-            <h3>Acesso Restrito</h3>
-            <form id="login-form" novalidate>
-                <div class="input-group">
-                    <label for="username">Usuário:</label>
-                    <input type="text" id="username" name="username" required autocomplete="username" />
-                </div>
-                <div class="input-group">
-                    <label for="password">Senha:</label>
-                    <input type="password" id="password" name="password" required autocomplete="current-password" />
-                </div>
-                <div class="input-group">
-                    <label for="captcha">Para continuar, resolva a soma:</label>
-                    <div id="captcha-group">
-                        <span id="captcha-question"></span>
-                        <input type="number" id="captcha" name="captcha" required />
-                    </div>
-                </div>
-
-                <p id="error-message" class="error-message"></p>
-
-                <button type="submit" class="login-btn">Entrar</button>
-            </form>
-        </div>
-
-   
-    </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const loginForm = document.getElementById('login-form');
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-    const captchaQuestion = document.getElementById('captcha-question');
-    const captchaInput = document.getElementById('captcha');
-    const errorMessage = document.getElementById('error-message');
-
-    const users = [
-        { username: "cristiane", password: "adamomeuamor", name: "Cris & Noah", expirationDate: "2025-09-14" },
-        { username: "maria_contos", password: "OutraSenhaForte!", name: "Maria Contos", expirationDate: "2025-09-25" },
-        { username: "admin_test", password: "adminPass1", name: "Administrador Teste", expirationDate: "2025-09-14" },
-        { username: "euexistoporvoce", password: "102030", name: "Ádamo", expirationDate: "2025-10-11" }
-    ];
-
-    let captchaCorrectAnswer;
-
-    function generateCaptcha() {
-        const num1 = Math.floor(Math.random() * 10) + 1;
-        const num2 = Math.floor(Math.random() * 10);
-        captchaCorrectAnswer = num1 + num2;
-        captchaQuestion.textContent = `${num1} + ${num2} = `;
-        captchaInput.value = "";
-    }
-
-    function showError(message) {
-        errorMessage.textContent = message;
-        errorMessage.style.display = 'block';
-        setTimeout(() => { errorMessage.style.display = 'none'; }, 6000);
-        generateCaptcha();
-    }
-
-    loginForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const enteredUser = usernameInput.value.trim();
-        const enteredPass = passwordInput.value;
-        const enteredCaptcha = parseInt(captchaInput.value, 10);
-
-        if (isNaN(enteredCaptcha) || enteredCaptcha !== captchaCorrectAnswer) {
-            showError('O resultado da soma está incorreto.');
-            return;
-        }
-
-        let authenticatedUser = null;
-        for (const user of users) {
-            if (user.username === enteredUser && user.password === enteredPass) {
-                authenticatedUser = user;
-                break;
-            }
-        }
-
-        if (!authenticatedUser) {
-            showError('Usuário ou senha inválidos. Tente novamente.');
-            return;
-        }
-        
-        // --- CORREÇÃO: Salvar as informações corretas no localStorage ---
-        localStorage.setItem('loggedInUserName', authenticatedUser.name);
-        localStorage.setItem('loggedInUserExpiration', authenticatedUser.expirationDate);
-        // --- FIM DA CORREÇÃO ---
-
-        window.location.href = 'acesso_ao_player.html';
-    });
-
-    generateCaptcha();
-});
-</script></body>
+<body > <div class="container">
+<!-- Save for Web Slices (Gemini_Generated_Image_o1plq7o1plq7o1pl.png) -->
+ <table id="Table_01" align="center" width="420" height="*" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td colspan="7">
+			<img src="images/index_01.jpg" width="420" height="280" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td colspan="2" rowspan="2">
+			<img src="images/index_02.jpg" width="80" height="87" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td colspan="3">
+			<a href="historinhasparadormir/index.html" onclick="gtag('event', 'clique', {'event_category': 'menu', 'event_label': 'historinhas_para_dormir'});"><img src="images/index_03.jpg" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia" border= "0"></a>
+        </td>
+		<td colspan="2" rowspan="2">
+			<img src="images/index_04.jpg" width="84" height="87" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td colspan="3">
+			<img src="images/index_05.jpg" width="256" height="46" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td rowspan="4">
+			<img src="images/index_06.jpg" width="16" height="718" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+			<td colspan="5" id="video-cell">
+			  <video controls autoplay loop poster="images/videoplay.jpg">
+                <source src="aberturinha.mp4" type="video/mp4">
+                Seu navegador não suporta a tag de vídeo.
+            </video>
+        </td>
+		<td rowspan="4">
+			<img src="images/index_08.jpg" width="15" height="718" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td colspan="5">
+			<img src="images/index_09.jpg" width="389" height="211" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td colspan="2" rowspan="2">
+			<img src="images/index_10.jpg" width="79" height="218" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<a href="contosinfantis/index.html" onclick="gtag('event', 'clique', {'event_category': 'menu', 'event_label': 'contos_infantis'});">
+    <img src="images/index_11.jpg" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia" border="0">
+</a>
+        </td>
+		<td colspan="2" rowspan="2">
+			<img src="images/index_12.jpg" width="79" height="218" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td>
+			<img src="images/index_13.jpg" width="231" height="180" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+	<tr>
+		<td>
+			<img src="images/spacer.gif" width="16" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="64" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="15" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="231" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="10" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="69" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+		<td>
+			<img src="images/spacer.gif" width="15" height="1" alt="como fazer a criança dormir rápido rotina noturna para bebês atividades para acalmar a criança benefícios de ler para as crianças melhores contos para crianças pequenas dificuldade para o filho dormir como criar um momento de leitura livroinfantil literaturainfantil historiasparadormir contosinfantis livrinhos leiturainfantil livroparacrianças contosclassicos historiasclassicas contosdefadas hora da história históriaparadormir leituracompartilhada maternidadereal paiscorujas criacaoconsciente família educacaoinfantil infanciafeliz lendoeaprendendo maedemenina maedemenino (ou específicos como maededois) momentofamilia"></td>
+	</tr>
+</table></div>
+<!-- End Save for Web Slices -->
+</body>
 </html>
+
