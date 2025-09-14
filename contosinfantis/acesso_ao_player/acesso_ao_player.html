@@ -50,6 +50,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             color: #333;
             text-align: left;
+            position: relative; /* Essencial para o preloader */
         }
 
         .audio-player-wrapper h3 {
@@ -301,52 +302,52 @@
         #close-modal-btn:hover {
             background-color: #6a9f73;
         }
-		/* --- Estilos para o Preloader de Carregamento --- */
-.preloader-overlay {
-    position: absolute; /* Posição dentro do wrapper */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10; /* Garante que fique acima dos outros elementos */
-    border-radius: 15px;
-}
 
-.preloader-content {
-    position: relative;
-    width: 80px;
-    height: 80px;
-}
+        /* --- Estilos para o Preloader de Carregamento --- */
+        .preloader-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            display: none; /* Inicia oculto */
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-radius: 15px;
+        }
 
-.preloader-spinner {
-    width: 100%;
-    height: 100%;
-    border: 5px solid #e0e0e0;
-    border-top-color: #4f8058;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
+        .preloader-content {
+            position: relative;
+            width: 60px;
+            height: 60px;
+        }
 
-.preloader-percentage {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 0.9em;
-    font-weight: bold;
-    color: #4f8058;
-}
+        .preloader-spinner {
+            width: 100%;
+            height: 100%;
+            border: 5px solid #e0e0e0;
+            border-top-color: #4f8058;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
 
-/* Animação para o spinner */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+        .preloader-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.9em;
+            font-weight: bold;
+            color: #4f8058;
+        }
 
+        /* Animação para o spinner */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 
@@ -360,22 +361,16 @@
         </div>
         
         <div class="audio-player-wrapper">
-                       <audio id="audio-player" src="" type="audio/mp3"></audio>
-<div class="audio-player-wrapper">
-    <h3>Player de Músicas</h3>
-    <audio id="audio-player" src="" type="audio/mp3"></audio>
+            <h3>Player de Músicas</h3>
+            <audio id="audio-player" src="" type="audio/mp3"></audio>
 
-    <div id="preloader" class="preloader-overlay" style="display: none;">
-        <div class="preloader-content">
-            <div class="preloader-spinner"></div>
-            <div id="loading-percentage" class="preloader-percentage">0%</div>
-        </div>
-    </div>
-    <div class="current-song-info" id="current-song-title">Selecione uma música para começar</div>
-    
-    ...
-</div>
-
+            <div id="preloader" class="preloader-overlay">
+                <div class="preloader-content">
+                    <div class="preloader-spinner"></div>
+                    <div id="loading-percentage" class="preloader-percentage">0%</div>
+                </div>
+            </div>
+            <div class="current-song-info" id="current-song-title">Selecione uma música para começar</div>
             <div class="progress-container" id="progress-container">
                 <div class="progress-bar" id="progress-bar"></div>
             </div>
@@ -423,350 +418,346 @@
         </div>
     </div>
 
-   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // LÓGICA DO PLAYER
-        const audioPlayer = document.getElementById('audio-player');
-        const playPauseBtn = document.getElementById('play-pause-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const repeatBtn = document.getElementById('repeat-btn');
-        const muteBtn = document.getElementById('mute-btn');
-        const volumeSlider = document.getElementById('volume-slider');
-        const progressBarContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
-        const currentTimeSpan = document.getElementById('current-time');
-        const durationSpan = document.getElementById('duration');
-        const currentSongTitle = document.getElementById('current-song-title');
-        const playlistContainer = document.getElementById('playlist-container');
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // LÓGICA DO PLAYER
+            const audioPlayer = document.getElementById('audio-player');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const repeatBtn = document.getElementById('repeat-btn');
+            const muteBtn = document.getElementById('mute-btn');
+            const volumeSlider = document.getElementById('volume-slider');
+            const progressBarContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const currentTimeSpan = document.getElementById('current-time');
+            const durationSpan = document.getElementById('duration');
+            const currentSongTitle = document.getElementById('current-song-title');
+            const playlistContainer = document.getElementById('playlist-container');
+            
+            const playIcon = playPauseBtn.querySelector('.play-icon');
+            const pauseIcon = playPauseBtn.querySelector('.pause-icon');
+            const repeatAllIcon = repeatBtn.querySelector('.repeat-all-icon');
+            const repeatOneIcon = repeatBtn.querySelector('.repeat-one-icon');
+            const volumeIcon = muteBtn.querySelector('.volume-icon');
+            const muteIcon = muteBtn.querySelector('.mute-icon');
 
-        const playIcon = playPauseBtn.querySelector('.play-icon');
-        const pauseIcon = playPauseBtn.querySelector('.pause-icon');
-        const repeatAllIcon = repeatBtn.querySelector('.repeat-all-icon');
-        const repeatOneIcon = repeatBtn.querySelector('.repeat-one-icon');
-        const volumeIcon = muteBtn.querySelector('.volume-icon');
-        const muteIcon = muteBtn.querySelector('.mute-icon');
+            // --- NOVO: Referências para os elementos do preloader ---
+            const preloader = document.getElementById('preloader');
+            const loadingPercentage = document.getElementById('loading-percentage');
+            // --- FIM NOVO ---
 
-        const audioFiles = [
-            "disquinho - A Bela Adormecida.mp3",
-            "disquinho - A Bela e a Fera.mp3",
-            "disquinho - A Cigarra e a Formiga.mp3",
-            "disquinho - A Festa no Céu.mp3",
-            "disquinho - A Flautinha Encantada.mp3",
-            "disquinho - A Formiguinha e a Neve.mp3",
-            "disquinho - A Formiguinha e a Pomba.mp3",
-            "disquinho - A Gata Borralheira.mp3",
-            "disquinho - A Lebre e a Tartaruga.mp3",
-            "disquinho - Aladim e a Lâmpada Maravilhosa.mp3",
-            "disquinho - Branca de Neve e os Sete Anoes.mp3",
-            "disquinho - Briga no Galinheiro.mp3",
-            "disquinho - Dona Baratinha.mp3",
-            "disquinho - Dona Galinha e seus Pintinhos.mp3",
-            "disquinho - O Bonequinho de Neve.mp3",
-            "disquinho - O Burrinho e o Sal.mp3",
-            "disquinho - O Burrinho Tró-ló-ló.mp3",
-            "disquinho - O Burro e o Grilo.mp3",
-            "disquinho - O Cabra Cabrez.mp3",
-            "disquinho - O Carvalho e o Junco.mp3",
-            "disquinho - O Chapeuzinho Vermelho.mp3",
-            "disquinho - O Cisne Vaidoso.mp3",
-            "disquinho - O Gato de Botas.mp3",
-            "disquinho - O Golfinho e o Leão.mp3",
-            "disquinho - O Leão e o Ratinho.mp3",
-            "disquinho - O Lobo e os 3 Cabritinhos.mp3",
-            "disquinho - O macaco e a velha.mp3",
-            "disquinho - O Patinho Feio.mp3",
-            "disquinho - O Pequeno Polegar.mp3",
-            "disquinho - O Soldadinho De Chumbo.mp3",
-            "disquinho - Os 3 Porquinhos.mp3",
-            "disquinho - Os 4 Heróis.mp3",
-            "disquinho - Os Dois Sapos.mp3",
-            "disquinho - Pedro e o Lobo.mp3",
-            "disquinho - Pinóquio.mp3",
-            "disquinho - Rapunzel.mp3",
-            "disquinho - Saci Pererê.mp3",
-            "disquinho - A Goela do Inferno 1.mp3",
-            "disquinho - História Da Baratinha.mp3",
-            "disquinho - João Maria.mp3"
-        ];
-        const audioPath = "";
 
-        let currentTrackIndex = 0;
-        const REPEAT_NONE = 0;
-        const REPEAT_ALL = 1;
-        const REPEAT_ONE = 2;
-        let repeatMode = REPEAT_ALL;
+            const audioFiles = [
+                "disquinho - A Bela Adormecida.mp3",
+                "disquinho - A Bela e a Fera.mp3",
+                "disquinho - A Cigarra e a Formiga.mp3",
+                "disquinho - A Festa no Céu.mp3",
+                "disquinho - A Flautinha Encantada.mp3",
+                "disquinho - A Formiguinha e a Neve.mp3",
+                "disquinho - A Formiguinha e a Pomba.mp3",
+                "disquinho - A Gata Borralheira.mp3",
+                "disquinho - A Lebre e a Tartaruga.mp3",
+                "disquinho - Aladim e a Lâmpada Maravilhosa.mp3",
+                "disquinho - Branca de Neve e os Sete Anoes.mp3",
+                "disquinho - Briga no Galinheiro.mp3",
+                "disquinho - Dona Baratinha.mp3",
+                "disquinho - Dona Galinha e seus Pintinhos.mp3",
+                "disquinho - O Bonequinho de Neve.mp3",
+                "disquinho - O Burrinho e o Sal.mp3",
+                "disquinho - O Burrinho Tró-ló-ló.mp3",
+                "disquinho - O Burro e o Grilo.mp3",
+                "disquinho - O Cabra Cabrez.mp3",
+                "disquinho - O Carvalho e o Junco.mp3",
+                "disquinho - O Chapeuzinho Vermelho.mp3",
+                "disquinho - O Cisne Vaidoso.mp3",
+                "disquinho - O Gato de Botas.mp3",
+                "disquinho - O Golfinho e o Leão.mp3",
+                "disquinho - O Leão e o Ratinho.mp3",
+                "disquinho - O Lobo e os 3 Cabritinhos.mp3",
+                "disquinho - O macaco e a velha.mp3",
+                "disquinho - O Patinho Feio.mp3",
+                "disquinho - O Pequeno Polegar.mp3",
+                "disquinho - O Soldadinho De Chumbo.mp3",
+                "disquinho - Os 3 Porquinhos.mp3",
+                "disquinho - Os 4 Heróis.mp3",
+                "disquinho - Os Dois Sapos.mp3",
+                "disquinho - Pedro e o Lobo.mp3",
+                "disquinho - Pinóquio.mp3",
+                "disquinho - Rapunzel.mp3",
+                "disquinho - Saci Pererê.mp3",
+                "disquinho - A Goela do Inferno 1.mp3",
+                "disquinho - História Da Baratinha.mp3",
+                "disquinho - João Maria.mp3"
+            ];
+            const audioPath = "";
 
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-        }
+            let currentTrackIndex = 0;
+            const REPEAT_NONE = 0;
+            const REPEAT_ALL = 1;
+            const REPEAT_ONE = 2;
+            let repeatMode = REPEAT_ALL;
 
-        function loadTrack(index) {
-            if (index >= 0 && index < audioFiles.length) {
-                currentTrackIndex = index;
-                audioPlayer.src = audioPath + audioFiles[currentTrackIndex];
-                currentSongTitle.textContent = audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "");
-                audioPlayer.load();
-                updatePlaylistHighlight();
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
             }
-        }
 
-        function playTrack() {
-            audioPlayer.play();
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-        }
-
-        function pauseTrack() {
-            audioPlayer.pause();
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-        }
-
-        function togglePlayPause() {
-            if (audioPlayer.paused) {
-                playTrack();
-            } else {
-                pauseTrack();
+            function loadTrack(index) {
+                if (index >= 0 && index < audioFiles.length) {
+                    currentTrackIndex = index;
+                    audioPlayer.src = audioPath + audioFiles[currentTrackIndex];
+                    currentSongTitle.textContent = audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "");
+                    audioPlayer.load();
+                    updatePlaylistHighlight();
+                    
+                    // --- NOVO: Mostra o preloader ao carregar a faixa ---
+                    preloader.style.display = 'flex';
+                    // --- FIM NOVO ---
+                }
             }
-        }
 
-        function nextTrack() {
-            let nextIndex = (currentTrackIndex + 1) % audioFiles.length;
-            loadTrack(nextIndex);
-            playTrack();
-        }
-
-        function prevTrack() {
-            let prevIndex = (currentTrackIndex - 1 + audioFiles.length) % audioFiles.length;
-            loadTrack(prevIndex);
-            playTrack();
-        }
-
-        function updateProgressBar() {
-            const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-            progressBar.style.width = progress + '%';
-            currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
-        }
-
-        function setProgressBar(e) {
-            const width = progressBarContainer.clientWidth;
-            const clickX = e.offsetX;
-            if (audioPlayer.duration) {
-                audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
+            function playTrack() {
+                audioPlayer.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
             }
-        }
 
-        function updateVolume() {
-            audioPlayer.volume = volumeSlider.value;
-            audioPlayer.muted = volumeSlider.value == 0;
-            updateMuteIcon();
-        }
-        
-        function updateMuteIcon() {
-            if (audioPlayer.muted || audioPlayer.volume === 0) {
-                volumeIcon.style.display = 'none';
-                muteIcon.style.display = 'block';
-                muteBtn.title = "Ativar som";
-            } else {
-                volumeIcon.style.display = 'block';
-                muteIcon.style.display = 'none';
-                muteBtn.title = "Mudo";
+            function pauseTrack() {
+                audioPlayer.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
             }
-        }
 
-        function toggleMute() {
-            audioPlayer.muted = !audioPlayer.muted;
-            if (audioPlayer.muted) {
-                volumeSlider.value = 0;
-            } else if (volumeSlider.value == 0) {
-                volumeSlider.value = 1;
-            }
-            audioPlayer.volume = volumeSlider.value;
-            updateMuteIcon();
-        }
-
-        function toggleRepeatMode() {
-            repeatMode = (repeatMode + 1) % 3;
-            updateRepeatButton();
-        }
-
-        function updateRepeatButton() {
-            repeatBtn.classList.remove('active');
-            repeatAllIcon.style.display = 'none';
-            repeatOneIcon.style.display = 'none';
-
-            if (repeatMode === REPEAT_ALL) {
-                repeatAllIcon.style.display = 'block';
-                repeatBtn.title = "Repetir Playlist";
-                repeatBtn.classList.add('active');
-            } else if (repeatMode === REPEAT_ONE) {
-                repeatOneIcon.style.display = 'block';
-                repeatBtn.title = "Repetir Música Atual";
-                repeatBtn.classList.add('active');
-            } else {
-                repeatAllIcon.style.display = 'block';
-                repeatBtn.title = "Não Repetir";
-            }
-        }
-
-        function handleTrackEnd() {
-            if (repeatMode === REPEAT_ONE) {
-                playTrack();
-            } else if (repeatMode === REPEAT_ALL) {
-                nextTrack();
-            } else {
-                if (currentTrackIndex < audioFiles.length - 1) {
-                    nextTrack();
+            function togglePlayPause() {
+                if (audioPlayer.paused) {
+                    playTrack();
                 } else {
                     pauseTrack();
                 }
             }
-        }
 
-        function populatePlaylist() {
-            playlistContainer.innerHTML = '';
-            audioFiles.forEach((file, index) => {
-                const div = document.createElement('div');
-                div.classList.add('playlist-item');
-                div.dataset.index = index;
-                div.innerHTML = `
-                    <span class="playlist-item-index">${index + 1}.</span>
-                    <span class="playlist-item-title">${file.replace("disquinho - ", "").replace(".mp3", "")}</span>
-                `;
-                div.addEventListener('click', () => {
-                    loadTrack(index);
+            function nextTrack() {
+                let nextIndex = (currentTrackIndex + 1) % audioFiles.length;
+                loadTrack(nextIndex);
+                playTrack();
+            }
+
+            function prevTrack() {
+                let prevIndex = (currentTrackIndex - 1 + audioFiles.length) % audioFiles.length;
+                loadTrack(prevIndex);
+                playTrack();
+            }
+
+            function updateProgressBar() {
+                const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+                progressBar.style.width = progress + '%';
+                currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
+            }
+
+            function setProgressBar(e) {
+                const width = progressBarContainer.clientWidth;
+                const clickX = e.offsetX;
+                if (audioPlayer.duration) {
+                    audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
+                }
+            }
+
+            function updateVolume() {
+                audioPlayer.volume = volumeSlider.value;
+                audioPlayer.muted = volumeSlider.value == 0;
+                updateMuteIcon();
+            }
+            
+            function updateMuteIcon() {
+                if (audioPlayer.muted || audioPlayer.volume === 0) {
+                    volumeIcon.style.display = 'none';
+                    muteIcon.style.display = 'block';
+                    muteBtn.title = "Ativar som";
+                } else {
+                    volumeIcon.style.display = 'block';
+                    muteIcon.style.display = 'none';
+                    muteBtn.title = "Mudo";
+                }
+            }
+
+            function toggleMute() {
+                audioPlayer.muted = !audioPlayer.muted;
+                if (audioPlayer.muted) {
+                    volumeSlider.value = 0;
+                } else if (volumeSlider.value == 0) {
+                    volumeSlider.value = 1;
+                }
+                audioPlayer.volume = volumeSlider.value;
+                updateMuteIcon();
+            }
+
+            function toggleRepeatMode() {
+                repeatMode = (repeatMode + 1) % 3;
+                updateRepeatButton();
+            }
+
+            function updateRepeatButton() {
+                repeatBtn.classList.remove('active');
+                repeatAllIcon.style.display = 'none';
+                repeatOneIcon.style.display = 'none';
+
+                if (repeatMode === REPEAT_ALL) {
+                    repeatAllIcon.style.display = 'block';
+                    repeatBtn.title = "Repetir Playlist";
+                    repeatBtn.classList.add('active');
+                } else if (repeatMode === REPEAT_ONE) {
+                    repeatOneIcon.style.display = 'block';
+                    repeatBtn.title = "Repetir Música Atual";
+                    repeatBtn.classList.add('active');
+                } else {
+                    repeatAllIcon.style.display = 'block';
+                    repeatBtn.title = "Não Repetir";
+                }
+            }
+
+            function handleTrackEnd() {
+                if (repeatMode === REPEAT_ONE) {
                     playTrack();
+                } else if (repeatMode === REPEAT_ALL) {
+                    nextTrack();
+                } else {
+                    if (currentTrackIndex < audioFiles.length - 1) {
+                        nextTrack();
+                    } else {
+                        pauseTrack();
+                    }
+                }
+            }
+
+            function populatePlaylist() {
+                playlistContainer.innerHTML = '';
+                audioFiles.forEach((file, index) => {
+                    const div = document.createElement('div');
+                    div.classList.add('playlist-item');
+                    div.dataset.index = index;
+                    div.innerHTML = `
+                        <span class="playlist-item-index">${index + 1}.</span>
+                        <span class="playlist-item-title">${file.replace("disquinho - ", "").replace(".mp3", "")}</span>
+                    `;
+                    div.addEventListener('click', () => {
+                        loadTrack(index);
+                        playTrack();
+                    });
+                    playlistContainer.appendChild(div);
                 });
-                playlistContainer.appendChild(div);
-            });
-            updatePlaylistHighlight();
-        }
-
-        function updatePlaylistHighlight() {
-            document.querySelectorAll('.playlist-item').forEach(item => {
-                item.classList.remove('active-song');
-            });
-            const activeItem = document.querySelector(`.playlist-item[data-index="${currentTrackIndex}"]`);
-            if (activeItem) {
-                activeItem.classList.add('active-song');
-                activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                updatePlaylistHighlight();
             }
-        }
 
-        // Event Listeners
-        playPauseBtn.addEventListener('click', togglePlayPause);
-        prevBtn.addEventListener('click', prevTrack);
-        nextBtn.addEventListener('click', nextTrack);
-        repeatBtn.addEventListener('click', toggleRepeatMode);
-        muteBtn.addEventListener('click', toggleMute);
-        volumeSlider.addEventListener('input', updateVolume);
-        progressBarContainer.addEventListener('click', setProgressBar);
-        audioPlayer.addEventListener('timeupdate', updateProgressBar);
-        audioPlayer.addEventListener('loadedmetadata', () => {
-            durationSpan.textContent = formatTime(audioPlayer.duration);
-            updateProgressBar();
-        });
-        audioPlayer.addEventListener('ended', handleTrackEnd);
-        audioPlayer.addEventListener('volumechange', updateMuteIcon);
+            function updatePlaylistHighlight() {
+                document.querySelectorAll('.playlist-item').forEach(item => {
+                    item.classList.remove('active-song');
+                });
+                const activeItem = document.querySelector(`.playlist-item[data-index="${currentTrackIndex}"]`);
+                if (activeItem) {
+                    activeItem.classList.add('active-song');
+                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
 
-        // Inicialização
-        populatePlaylist();
-        loadTrack(currentTrackIndex);
-        updateRepeatButton();
-        updateMuteIcon();
-        
-        // --- LÓGICA DA ASSINATURA ---
-        const userName = localStorage.getItem('loggedInUserName');
-        const expirationDateString = localStorage.getItem('loggedInUserExpiration');
+            // Event Listeners
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            prevBtn.addEventListener('click', prevTrack);
+            nextBtn.addEventListener('click', nextTrack);
+            repeatBtn.addEventListener('click', toggleRepeatMode);
+            muteBtn.addEventListener('click', toggleMute);
+            volumeSlider.addEventListener('input', updateVolume);
+            progressBarContainer.addEventListener('click', setProgressBar);
+            audioPlayer.addEventListener('timeupdate', updateProgressBar);
+            audioPlayer.addEventListener('loadedmetadata', () => {
+                durationSpan.textContent = formatTime(audioPlayer.duration);
+                updateProgressBar();
+            });
+            audioPlayer.addEventListener('ended', handleTrackEnd);
+            audioPlayer.addEventListener('volumechange', updateMuteIcon);
 
-        if (!userName || !expirationDateString) {
-            // Se não houver dados de login, redireciona de volta
-            window.location.href = 'login.html'; // Substitua por sua página de login
-            return; // Impede que o restante do script seja executado
-        }
+            // --- NOVO: Event Listeners do Preloader ---
+            audioPlayer.addEventListener('progress', () => {
+                if (audioPlayer.duration > 0) {
+                    let buffered = audioPlayer.buffered.end(audioPlayer.buffered.length - 1);
+                    let percentage = (buffered / audioPlayer.duration) * 100;
+                    loadingPercentage.textContent = `${Math.round(percentage)}%`;
+                }
+            });
 
-        const expirationDate = new Date(expirationDateString + "T00:00:00");
-        const today = new Date();
-        const oneDay = 1000 * 60 * 60 * 24;
-        const daysRemaining = Math.ceil((expirationDate.getTime() - today.getTime()) / oneDay);
-
-        const welcomeMessageElement = document.getElementById('welcome-message');
-        const subscriptionInfoElement = document.getElementById('subscription-info');
-        const modal = document.getElementById('modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        const closeSpan = document.querySelector('.close-btn');
-        const modalText = document.getElementById('modal-text');
-
-        welcomeMessageElement.textContent = `Bem-vindo, ${userName}!`;
-        
-        const formattedExpirationDate = `${String(expirationDate.getDate()).padStart(2, '0')}-${String(expirationDate.getMonth() + 1).padStart(2, '0')}-${expirationDate.getFullYear()}`;
-        subscriptionInfoElement.textContent = `Assinatura expira em: ${formattedExpirationDate} (${daysRemaining} dias)`;
-
-        function showModal(message) {
-            modalText.textContent = message;
-            modal.style.display = 'flex';
-        }
+            audioPlayer.addEventListener('canplaythrough', () => {
+                preloader.style.display = 'none';
+            });
+            // --- FIM NOVO ---
 
 
-        // --- LÓGICA DO REDIRECIONAMENTO E POP-UPS ---
-        if (daysRemaining <= 0) {
-            showModal("Sua assinatura expirou. Você será redirecionado para a página de login.");
-            setTimeout(() => {
-                window.location.href = 'index.html'; // Redireciona após 3 segundos
-            }, 3000);
-        } else if (daysRemaining <= 5 && daysRemaining > 2) {
-            showModal("Sua assinatura expira em menos de 5 dias!");
-        } else if (daysRemaining === 2) {
-            showModal("Atenção! Sua assinatura expira em 2 dias.");
-        } else if (daysRemaining === 1) {
-            showModal("Sua assinatura expira amanhã! Renove a assinatura para não perder o acesso.");
-        }
-        // --- FIM DA LÓGICA DE REDIRECIONAMENTO ---
+            // Inicialização
+            populatePlaylist();
+            loadTrack(currentTrackIndex);
+            updateRepeatButton();
+            updateMuteIcon();
+            
+            // --- LÓGICA DA ASSINATURA ---
+            const userName = localStorage.getItem('loggedInUserName');
+            const expirationDateString = localStorage.getItem('loggedInUserExpiration');
 
-        closeModalBtn.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-        closeSpan.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
+            if (!userName || !expirationDateString) {
+                // Se não houver dados de login, redireciona de volta
+                window.location.href = 'login.html'; // Substitua por sua página de login
+                return; // Impede que o restante do script seja executado
+            }
+
+            const expirationDate = new Date(expirationDateString + "T00:00:00");
+            const today = new Date();
+            const oneDay = 1000 * 60 * 60 * 24;
+            const daysRemaining = Math.ceil((expirationDate.getTime() - today.getTime()) / oneDay);
+
+            const welcomeMessageElement = document.getElementById('welcome-message');
+            const subscriptionInfoElement = document.getElementById('subscription-info');
+            const modal = document.getElementById('modal');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            const closeSpan = document.querySelector('.close-btn');
+            const modalText = document.getElementById('modal-text');
+
+            welcomeMessageElement.textContent = `Bem-vindo, ${userName}!`;
+            
+            const formattedExpirationDate = `${String(expirationDate.getDate()).padStart(2, '0')}-${String(expirationDate.getMonth() + 1).padStart(2, '0')}-${expirationDate.getFullYear()}`;
+            subscriptionInfoElement.textContent = `Assinatura expira em: ${formattedExpirationDate} (${daysRemaining} dias)`;
+
+            function showModal(message) {
+                modalText.textContent = message;
+                modal.style.display = 'flex';
+            }
+
+
+            // --- LÓGICA DO REDIRECIONAMENTO E POP-UPS ---
+            if (daysRemaining <= 0) {
+                showModal("Sua assinatura expirou. Você será redirecionado para a página de login.");
+                setTimeout(() => {
+                    window.location.href = 'index.html'; // Redireciona após 3 segundos
+                }, 3000);
+            } else if (daysRemaining <= 5 && daysRemaining > 2) {
+                showModal("Sua assinatura expira em menos de 5 dias!");
+            } else if (daysRemaining === 2) {
+                showModal("Atenção! Sua assinatura expira em 2 dias.");
+            } else if (daysRemaining === 1) {
+                showModal("Sua assinatura expira amanhã! Renove a assinatura para não perder o acesso.");
+            }
+            // --- FIM DA LÓGICA DE REDIRECIONAMENTO ---
+
+            closeModalBtn.addEventListener('click', () => {
                 modal.style.display = 'none';
-            }
+            });
+            closeSpan.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
         });
-    });
-</script>
-<script>
-// No início do seu script, adicione a referência aos novos elementos
-    const preloader = document.getElementById('preloader');
-    const loadingPercentage = document.getElementById('loading-percentage');
-
-    // Dentro da sua função loadTrack(index), adicione a linha para mostrar o preloader
-    function loadTrack(index) {
-        if (index >= 0 && index < audioFiles.length) {
-            // ... (seu código existente) ...
-            preloader.style.display = 'flex'; // Mostra o preloader ao carregar
-            // ...
-        }
-    }
-
-    // Adicione um Event Listener para o evento "progress" do áudio
-    audioPlayer.addEventListener('progress', () => {
-        if (audioPlayer.duration > 0) {
-            let buffered = audioPlayer.buffered.end(audioPlayer.buffered.length - 1);
-            let percentage = (buffered / audioPlayer.duration) * 100;
-            loadingPercentage.textContent = `${Math.round(percentage)}%`;
-        }
-    });
-
-    // Adicione um Event Listener para o evento "canplaythrough"
-    audioPlayer.addEventListener('canplaythrough', () => {
-        // Esconde o preloader quando o áudio puder ser reproduzido sem interrupções
-        preloader.style.display = 'none';
-    });
-</script>
+    </script>
 </body>
 </html>
