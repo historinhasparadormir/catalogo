@@ -1,711 +1,710 @@
 <html>
 <head>
- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contos Infantis Para Dormir</title>
+ <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contos Infantis Para Dormir</title>
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-        gtag('config', 'G-6L0EHGEC85');
-    </script>
+        gtag('config', 'G-6L0EHGEC85');
+    </script>
 
-    <style>
-        /* Estilos gerais */
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #C8D9E6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    <style>
+        /* Estilos gerais */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #C8D9E6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-        .container {
-            background-color: #ffffff;
-            border-radius: 20px;
-            overflow: hidden;
-            max-width: 420px;
-            width: 100%;
-            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            overflow: hidden;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
 
-        .header-img {
-            width: 100%;
-            display: block;
-        }
+        .header-img {
+            width: 100%;
+            display: block;
+        }
 
-        /* ----- ESTILOS DO NOVO PLAYER DE ÁUDIO ----- */
-        .audio-player-wrapper {
-            background-color: #f7f7f7; /* Fundo leve para o player */
-            border-radius: 15px;
-            padding: 15px;
-            margin: 20px auto; /* Adicionado margin-top e margin-bottom */
-            max-width: 90%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            color: #333;
-            text-align: left;
-        }
+        /* ----- ESTILOS DO NOVO PLAYER DE ÁUDIO ----- */
+        .audio-player-wrapper {
+            background-color: #f7f7f7; /* Fundo leve para o player */
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px auto; /* Adicionado margin-top e margin-bottom */
+            max-width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #333;
+            text-align: left;
+        }
 
-        .audio-player-wrapper h3 {
-            font-size: 1.1em;
-            margin-top: 0;
-            margin-bottom: 10px;
-            color:#4C9AAF;
-            text-align: center;
-        }
+        .audio-player-wrapper h3 {
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color:#4C9AAF;
+            text-align: center;
+        }
 
-        .current-song-info {
-            font-size: 0.9em;
-            color: #555;
-            margin-bottom: 10px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-align: center;
-        }
+        .current-song-info {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
 
-        .progress-container {
-            width: 100%;
-            height: 8px;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            margin-bottom: 15px;
-            cursor: pointer;
-            position: relative;
-        }
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            position: relative;
+        }
 
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #4f8058;
-            border-radius: 5px;
-        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #4f8058;
+            border-radius: 5px;
+        }
 
-        .time-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.75em;
-            color: #777;
-            margin-top: 5px;
-            margin-bottom: 15px;
-        }
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75em;
+            color: #777;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
 
-        .playback-buttons {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
+        .playback-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
 
-        .playback-buttons button, .volume-controls button, .repeat-button {
-            background-color: #4f8058;
-            border: none;
-            border-radius: 50%;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            outline: none;
-            transition: background-color 0.2s ease;
-        }
+        .playback-buttons button, .volume-controls button, .repeat-button {
+            background-color: #4f8058;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.2s ease;
+        }
 
-        .playback-buttons button:hover, .volume-controls button:hover, .repeat-button:hover {
-            background-color: #6a9f73;
-        }
+        .playback-buttons button:hover, .volume-controls button:hover, .repeat-button:hover {
+            background-color: #6a9f73;
+        }
 
-        .playback-buttons button svg, .volume-controls button svg, .repeat-button svg {
-            fill: white;
-            width: 18px;
-            height: 18px;
-        }
+        .playback-buttons button svg, .volume-controls button svg, .repeat-button svg {
+            fill: white;
+            width: 18px;
+            height: 18px;
+        }
 
-        .playback-buttons .main-play-pause {
-            width: 45px;
-            height: 45px;
-        }
-        .playback-buttons .main-play-pause svg {
-              width: 22px;
-            height: 22px;
-        }
+        .playback-buttons .main-play-pause {
+            width: 45px;
+            height: 45px;
+        }
+        .playback-buttons .main-play-pause svg {
+              width: 22px;
+            height: 22px;
+        }
 
-        .repeat-button {
-            background-color: #a0a0a0;
-            width: 30px;
-            height: 30px;
-            border-radius: 5px; /* Estilo para botão de repetição */
-        }
-        .repeat-button.active {
-            background-color: #4f8058; /* Cor quando ativo */
-        }
-        .repeat-button svg {
-            width: 16px;
-            height: 16px;
-        }
+        .repeat-button {
+            background-color: #a0a0a0;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px; /* Estilo para botão de repetição */
+        }
+        .repeat-button.active {
+            background-color: #4f8058; /* Cor quando ativo */
+        }
+        .repeat-button svg {
+            width: 16px;
+            height: 16px;
+        }
 
-        .volume-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            gap: 10px;
-        }
+        .volume-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
 
-        .volume-controls input[type="range"] {
-            -webkit-appearance: none;
-            width: 120px;
-            height: 6px;
-            background: #e0e0e0;
-            border-radius: 5px;
-            outline: none;
-            transition: opacity .2s;
-        }
+        .volume-controls input[type="range"] {
+            -webkit-appearance: none;
+            width: 120px;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            outline: none;
+            transition: opacity .2s;
+        }
 
-        .volume-controls input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #4f8058;
-            cursor: pointer;
-            box-shadow: 0 0 2px rgba(0,0,0,0.3);
-        }
+        .volume-controls input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #4f8058;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
 
-        .volume-controls input[type="range"]::-moz-range-thumb {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #4f8058;
-            cursor: pointer;
-            box-shadow: 0 0 2px rgba(0,0,0,0.3);
-        }
+        .volume-controls input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #4f8058;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
 
-        .playlist-container {
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-            max-height: 150px;
-            overflow-y: auto;
-            text-align: left;
-        }
+        .playlist-container {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            text-align: left;
+        }
 
-        .playlist-item {
-            display: flex;
-            align-items: center;
-            padding: 8px 10px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.2s ease;
-        }
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
 
-        .playlist-item:hover {
-            background-color: #e6f3e6;
-        }
+        .playlist-item:hover {
+            background-color: #e6f3e6;
+        }
 
-        .playlist-item.active-song {
-            background-color: #d1ead1;
-            font-weight: bold;
-            color: #4f8058;
-        }
+        .playlist-item.active-song {
+            background-color: #d1ead1;
+            font-weight: bold;
+            color: #4f8058;
+        }
 
-        .playlist-item-index {
-            margin-right: 10px;
-            font-size: 0.85em;
-            color: #777;
-        }
-        .playlist-item.active-song .playlist-item-index {
-            color: #4f8058;
-        }
+        .playlist-item-index {
+            margin-right: 10px;
+            font-size: 0.85em;
+            color: #777;
+        }
+        .playlist-item.active-song .playlist-item-index {
+            color: #4f8058;
+        }
 
-        .playlist-item-title {
-            font-size: 0.9em;
-            flex-grow: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        /* ----- FIM DOS ESTILOS DO NOVO PLAYER DE ÁUDIO ----- */
+        .playlist-item-title {
+            font-size: 0.9em;
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        /* ----- FIM DOS ESTILOS DO NOVO PLAYER DE ÁUDIO ----- */
 
-        /* ----- ESTILOS DA NOVA LISTA DE HISTÓRIAS PREMIUM ----- */
-        .premium-stories-list {
-            background-color: #f0f8f0; /* Um fundo suave para diferenciar */
-            border-radius: 15px;
-            padding: 15px;
-            margin: 20px auto;
-            max-width: 90%;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            text-align: left;
-            max-height: 250px; /* Altura máxima para o scrolling */
-            overflow-y: auto; /* Adiciona a barra de rolagem vertical */
-            border: 1px solid #d1ead1;
-        }
+        /* ----- ESTILOS DA NOVA LISTA DE HISTÓRIAS PREMIUM ----- */
+        .premium-stories-list {
+            background-color: #f0f8f0; /* Um fundo suave para diferenciar */
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: left;
+            max-height: 250px; /* Altura máxima para o scrolling */
+            overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+            border: 1px solid #d1ead1;
+        }
 
-        .premium-stories-list h4 {
-            font-size: 1.1em;
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: #4f8058;
-            text-align: center;
-        }
+        .premium-stories-list h4 {
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #4f8058;
+            text-align: center;
+        }
 
-        .premium-stories-list ul {
-            list-style: none; /* Remove os marcadores de lista padrão */
-            padding: 0;
-            margin: 0;
-        }
+        .premium-stories-list ul {
+            list-style: none; /* Remove os marcadores de lista padrão */
+            padding: 0;
+            margin: 0;
+        }
 
-        .premium-stories-list li {
-            padding: 8px 10px;
-            font-size: 0.9em;
-            color: #555;
-            border-bottom: 1px dashed #e6f3e6; /* Linha tracejada para separar os itens */
-        }
+        .premium-stories-list li {
+            padding: 8px 10px;
+            font-size: 0.9em;
+            color: #555;
+            border-bottom: 1px dashed #e6f3e6; /* Linha tracejada para separar os itens */
+        }
 
-        .premium-stories-list li:last-child {
-            border-bottom: none; /* Remove a linha do último item */
-        }
-        /* ----- FIM DOS ESTILOS DA NOVA LISTA DE HISTÓRIAS PREMIUM ----- */
+        .premium-stories-list li:last-child {
+            border-bottom: none; /* Remove a linha do último item */
+        }
+        /* ----- FIM DOS ESTILOS DA NOVA LISTA DE HISTÓRIAS PREMIUM ----- */
 
 
-        /* Estilos do seletor */
-        .select-container {
-            margin: 3px auto;
-            width: 260px;
+        /* Estilos do seletor */
+        .select-container {
+            margin: 3px auto;
+            width: 260px;
 			height:49px;
-        }
-    .header-img {
-            width: 100%;
-            display: block;
+        }
+    .header-img {
+            width: 100%;
+            display: block;
 		}
-        select {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #B0D0B0;
-            background-color: #C8E6C9;
-            outline: none;
-        }
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #B0D0B0;
+            background-color: #C8E6C9;
+            outline: none;
+        }
 
-        /* Estilos do boto COMPRAR */
-        .buy-btn {
-            background-color: #FF7F50;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 90%;
-            margin-bottom: 5px;
-        }
+        /* Estilos do boto COMPRAR */
+        .buy-btn {
+            background-color: #FF7F50;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 90%;
+            margin-bottom: 5px;
+        }
 
-        .buy-btn:hover {
-            background-color: #E66E45;
-        }
+        .buy-btn:hover {
+            background-color: #E66E45;
+        }
 
-        /* Estilos do slider */
-        .slideshow-container {
-            width: 100%;
-            max-width: 420px;
-            position: relative;
-            margin: auto;
-            overflow: hidden;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-            aspect-ratio: 4 / 3;
-        }
+        /* Estilos do slider */
+        .slideshow-container {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 4 / 3;
+        }
 
-        .slides {
-            display: flex;
-            width: 600%; /* Corrigido para 6 slides */
-            height: 100%;
-            transition: transform 0.5s ease-in-out;
-        }
+        .slides {
+            display: flex;
+            width: 600%; /* Corrigido para 6 slides */
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
 
-        .slide {
-            width: 16.666%; /* Corrigido para 6 slides (100% / 6) */
-            height: 100%;
-        }
+        .slide {
+            width: 16.666%; /* Corrigido para 6 slides (100% / 6) */
+            height: 100%;
+        }
 
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
 
-        .slideshow-container input {
-            display: none;
-        }
+        .slideshow-container input {
+            display: none;
+        }
 
-        /* Navegao do slider */
-        .navigation {
+        /* Navegao do slider */
+        .navigation {
 	position: absolute;
 	top: 50%;
 	width: 420px;
 	transform: translateY(-50%);
 	pointer-events: none;
-        }
+        }
 
-        .navigation label {
-            display: none;
-            cursor: pointer;
-            position: absolute;
-            top: 0;
-            padding: 15px;
-            background-color: rgba(143, 188, 143, 0.7);
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            user-select: none;
-            transition: background-color 0.3s ease;
-            pointer-events: auto;
-        }
+        .navigation label {
+            display: none;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            padding: 15px;
+            background-color: rgba(143, 188, 143, 0.7);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            user-select: none;
+            transition: background-color 0.3s ease;
+            pointer-events: auto;
+        }
 
-        .navigation label.prev {
-            left: 0;
-            border-radius: 0 50px 50px 0;
-        }
+        .navigation label.prev {
+            left: 0;
+            border-radius: 0 50px 50px 0;
+        }
 
-        .navigation label.next {
-            right: 0;
-            border-radius: 50px 0 0 50px;
-        }
+        .navigation label.next {
+            right: 0;
+            border-radius: 50px 0 0 50px;
+        }
 
-        .navigation label:hover {
-            background-color: rgba(119, 157, 119, 1);
-        }
+        .navigation label:hover {
+            background-color: rgba(119, 157, 119, 1);
+        }
 
-        /* Lgica do slider */
-        #slide1:checked ~ .slides { transform: translateX(0%); }
-        #slide2:checked ~ .slides { transform: translateX(-16.666%); } /* Corrigido */
-        #slide3:checked ~ .slides { transform: translateX(-33.333%); } /* Corrigido */
-        #slide4:checked ~ .slides { transform: translateX(-50%); } /* Corrigido */
-        #slide5:checked ~ .slides { transform: translateX(-66.666%); } /* Corrigido */
-        #slide6:checked ~ .slides { transform: translateX(-83.333%); } /* Adicionado */
+        /* Lgica do slider */
+        #slide1:checked ~ .slides { transform: translateX(0%); }
+        #slide2:checked ~ .slides { transform: translateX(-16.666%); } /* Corrigido */
+        #slide3:checked ~ .slides { transform: translateX(-33.333%); } /* Corrigido */
+        #slide4:checked ~ .slides { transform: translateX(-50%); } /* Corrigido */
+        #slide5:checked ~ .slides { transform: translateX(-66.666%); } /* Corrigido */
+        #slide6:checked ~ .slides { transform: translateX(-83.333%); } /* Adicionado */
 
-        #slide1:checked ~ .navigation .next[for="slide2"],
-        #slide1:checked ~ .navigation .prev[for="slide6"] { display: block; }
+        #slide1:checked ~ .navigation .next[for="slide2"],
+        #slide1:checked ~ .navigation .prev[for="slide6"] { display: block; }
 
-        #slide2:checked ~ .navigation .next[for="slide3"],
-        #slide2:checked ~ .navigation .prev[for="slide1"] { display: block; }
+        #slide2:checked ~ .navigation .next[for="slide3"],
+        #slide2:checked ~ .navigation .prev[for="slide1"] { display: block; }
 
-        #slide3:checked ~ .navigation .next[for="slide4"],
-        #slide3:checked ~ .navigation .prev[for="slide2"] { display: block; }
+        #slide3:checked ~ .navigation .next[for="slide4"],
+        #slide3:checked ~ .navigation .prev[for="slide2"] { display: block; }
 
-        #slide4:checked ~ .navigation .next[for="slide5"],
-        #slide4:checked ~ .navigation .prev[for="slide3"] { display: block; }
+        #slide4:checked ~ .navigation .next[for="slide5"],
+        #slide4:checked ~ .navigation .prev[for="slide3"] { display: block; }
 
-        #slide5:checked ~ .navigation .next[for="slide6"],
-        #slide5:checked ~ .navigation .prev[for="slide4"] { display: block; }
+        #slide5:checked ~ .navigation .next[for="slide6"],
+        #slide5:checked ~ .navigation .prev[for="slide4"] { display: block; }
 
-        #slide6:checked ~ .navigation .next[for="slide1"],
-        #slide6:checked ~ .navigation .prev[for="slide5"] { display: block; }
+        #slide6:checked ~ .navigation .next[for="slide1"],
+        #slide6:checked ~ .navigation .prev[for="slide5"] { display: block; }
 
-        /* ----- ESTILOS DO PLAYER DE MÚSICA DE FUNDO ORIGINAL ----- */
-        #music-player-container {
-            position: fixed;
-            top: 15px;
-            left: 50px;
-            background-color: rgba(255, 255, 255, 0.9);
-            /* TAMANHO GERAL REDUZIDO (padding menor) */
-            padding: 5px 12px;
-            border-radius: 50px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
+        /* ----- ESTILOS DO PLAYER DE MÚSICA DE FUNDO ORIGINAL ----- */
+        #music-player-container {
+            position: fixed;
+            top: 15px;
+            left: 50px;
+            background-color: rgba(255, 255, 255, 0.9);
+            /* TAMANHO GERAL REDUZIDO (padding menor) */
+            padding: 5px 12px;
+            border-radius: 50px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
 
-        #play-pause-button {
-            background: #76B4FF;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            /* TAMANHO DO BOTÃO REDUZIDO (padding menor) */
-            padding: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            outline: none;
-            margin-right: 8px; /* Margem reduzida */
-        }
+        #play-pause-button {
+            background: #76B4FF;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            /* TAMANHO DO BOTÃO REDUZIDO (padding menor) */
+            padding: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            margin-right: 8px; /* Margem reduzida */
+        }
 
-        #play-pause-button svg {
-            fill: white;
-            /* TAMANHO DOS ÍCONES REDUZIDO */
-            width: 15px;
-            height: 15px;
-        }
+        #play-pause-button svg {
+            fill: white;
+            /* TAMANHO DOS ÍCONES REDUZIDO */
+            width: 15px;
+            height: 15px;
+        }
 
-        /* Esconde o ícone de pause por padrão */
-        .pause-icon {
-            display: none;
-        }
+        /* Esconde o ícone de pause por padrão */
+        .pause-icon {
+            display: none;
+        }
 
-        /* Nova regra para o ícone de música (quando pausado) */
-        #music-player-container.playing .music-icon {
-            display: none;
-        }
+        /* Nova regra para o ícone de música (quando pausado) */
+        #music-player-container.playing .music-icon {
+            display: none;
+        }
 
-        /* Quando estiver tocando, mostra o ícone de pause */
-        #music-player-container.playing .pause-icon {
-            display: block;
-        }
+        /* Quando estiver tocando, mostra o ícone de pause */
+        #music-player-container.playing .pause-icon {
+            display: block;
+        }
 
-        #music-title {
-            /* FONTE REDUZIDA */
-            font-size: 0.8em;
-            color: #333;
-            font-weight: 500;
-        }
- .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 20;
-  /* Adicione esta linha para garantir que a cor seja herdada do botão */
-  color: inherit; 
- }
- .login-button-container {
-            text-align: center;
-            padding: 20px; /* Também diminui o padding do container se quiser */
-            background-color: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 1;
-        }
+        #music-title {
+            /* FONTE REDUZIDA */
+            font-size: 0.8em;
+            color: #333;
+            font-weight: 500;
+        }
+ .material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 20;
+  /* Adicione esta linha para garantir que a cor seja herdada do botão */
+  color: inherit; 
+ }
+ .login-button-container {
+            text-align: center;
+            padding: 20px; /* Também diminui o padding do container se quiser */
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
 
-        /* Botão Temático */
-        .login-btn {
-            background-image: linear-gradient(to right, #ff9a8d 0%, #ff6e7f 50%, #bfe9ff 100%);
-            border: none;
-            color: white;
-            
-            /* --- ALTERAÇÕES AQUI PARA DIMINUIR O BOTÃO --- */
-            padding: 10px 25px; /* Altura e largura (topo/baixo 10px, lados 25px) */
-            font-size: 18px;   /* Tamanho da fonte */
-            /* --- FIM DAS ALTERAÇÕES --- */
+        /* Botão Temático */
+        .login-btn {
+            background-image: linear-gradient(to right, #ff9a8d 0%, #ff6e7f 50%, #bfe9ff 100%);
+            border: none;
+            color: white;
+            
+            /* --- ALTERAÇÕES AQUI PARA DIMINUIR O BOTÃO --- */
+            padding: 10px 25px; /* Altura e largura (topo/baixo 10px, lados 25px) */
+            font-size: 18px;   /* Tamanho da fonte */
+            /* --- FIM DAS ALTERAÇÕES --- */
 
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-weight: bold;
-            margin: 15px 0; /* Margem ajustada um pouco */
-            cursor: pointer;
-            border-radius: 50px;
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            margin: 15px 0; /* Margem ajustada um pouco */
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
 
-        .login-btn:hover {
-            background-position: right center;
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
-            transform: translateY(-3px);
-        }
+        .login-btn:hover {
+            background-position: right center;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
 
-        .login-btn:active {
-            transform: translateY(1px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
+        .login-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
 
-        /* Ícone de Estrela (opcional, para um toque extra) */
-        .login-btn::before {
-            content: '✨';
-            position: absolute;
-            
-            /* --- ALTERAÇÕES AQUI PARA AJUSTAR A ESTRELA --- */
-            left: 10px; /* Posição da estrela, ajustada para menor padding */
-            font-size: 16px; /* Tamanho da estrela */
-            /* --- FIM DAS ALTERAÇÕES --- */
+        /* Ícone de Estrela (opcional, para um toque extra) */
+        .login-btn::before {
+            content: '✨';
+            position: absolute;
+            
+            /* --- ALTERAÇÕES AQUI PARA AJUSTAR A ESTRELA --- */
+            left: 10px; /* Posição da estrela, ajustada para menor padding */
+            font-size: 16px; /* Tamanho da estrela */
+            /* --- FIM DAS ALTERAÇÕES --- */
 
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-        }
-        .login-btn:hover::before {
-            opacity: 1;
-        }
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        .login-btn:hover::before {
+            opacity: 1;
+        }
 
-        /* Decorações temáticas de fundo (para deixar o ambiente mágico) */
-        .star {
-            position: absolute;
-            background-color: gold;
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: twinkle 4s infinite ease-in-out;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .star:nth-child(1) { top: 10%; left: 15%; width: 15px; height: 15px; animation-delay: 0s; }
-        .star:nth-child(2) { top: 80%; left: 25%; width: 10px; height: 10px; animation-delay: 1s; }
-        .star:nth-child(3) { top: 30%; left: 70%; width: 20px; height: 20px; animation-delay: 2s; }
-        .star:nth-child(4) { top: 60%; left: 85%; width: 12px; height: 12px; animation-delay: 3s; }
-        .star:nth-child(5) { top: 5%; left: 50%; width: 8px; height: 8px; animation-delay: 0.5s; }
-        .star:nth-child(6) { top: 90%; left: 5%; width: 18px; height: 18px; animation-delay: 2.5s; }
+        /* Decorações temáticas de fundo (para deixar o ambiente mágico) */
+        .star {
+            position: absolute;
+            background-color: gold;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: twinkle 4s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star:nth-child(1) { top: 10%; left: 15%; width: 15px; height: 15px; animation-delay: 0s; }
+        .star:nth-child(2) { top: 80%; left: 25%; width: 10px; height: 10px; animation-delay: 1s; }
+        .star:nth-child(3) { top: 30%; left: 70%; width: 20px; height: 20px; animation-delay: 2s; }
+        .star:nth-child(4) { top: 60%; left: 85%; width: 12px; height: 12px; animation-delay: 3s; }
+        .star:nth-child(5) { top: 5%; left: 50%; width: 8px; height: 8px; animation-delay: 0.5s; }
+        .star:nth-child(6) { top: 90%; left: 5%; width: 18px; height: 18px; animation-delay: 2.5s; }
 
-        @keyframes twinkle {
-            0%, 100% { transform: scale(1); opacity: 0.7; }
-            50% { transform: scale(1.3); opacity: 1; }
-        }
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
 
-        .cloud {
-            position: absolute;
-            background-color: white;
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: float 20s infinite ease-in-out;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .cloud:nth-child(1) { top: 20%; left: -10%; width: 100px; height: 60px; animation-delay: 0s; }
-        .cloud:nth-child(2) { top: 70%; right: -10%; width: 120px; height: 70px; animation-delay: 10s; }
-        .cloud:nth-child(3) { top: 45%; left: -5%; width: 80px; height: 50px; animation-delay: 5s; }
+        .cloud {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .cloud:nth-child(1) { top: 20%; left: -10%; width: 100px; height: 60px; animation-delay: 0s; }
+        .cloud:nth-child(2) { top: 70%; right: -10%; width: 120px; height: 70px; animation-delay: 10s; }
+        .cloud:nth-child(3) { top: 45%; left: -5%; width: 80px; height: 50px; animation-delay: 5s; }
 
-        @keyframes float {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(50px); }
-        }
+        @keyframes float {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(50px); }
+        }
 
- 
-    </style>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+ 
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0">
 <div id="music-player-container">
-    <audio id="background-music" src="DesenhosColorir.mp3" loop></audio>
+    <audio id="background-music" src="DesenhosColorir.mp3" loop></audio>
 
-    <button id="play-pause-button" title="Tocar música">
-        <span class="material-symbols-outlined music-icon">
-            headset_mic
-        </span>
-        <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20px" height="20px">
-            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
-        </svg>
-    </button>
-    <span id="music-title">Clique p/ Ouvir</span>
+    <button id="play-pause-button" title="Tocar música">
+        <span class="material-symbols-outlined music-icon">
+            headset_mic
+        </span>
+        <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20px" height="20px">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </button>
+    <span id="music-title">Clique p/ Ouvir</span>
 </div>
-<!-- Save for Web Slices (LandPageLivrinhoParaColorir.psd) -->
-   <div class="container">
-   
-   
-   <table id="Table_01" width="420" height="1132" border="0" cellpadding="0" cellspacing="0">
+   <div class="container">
+   
+   
+   <table id="Table_01" width="420" height="1132" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td colspan="4">
 			<img src="images/index_01.jpg" width="420" height="1002" alt=""></td>
 	</tr>
-    
-    <tr>
+    
+    <tr>
 		<td colspan="4">
 <video controls width="100%" height="*" poster="postervideo.jpg">
-        
+        
 <source src="historinhas.mp4" type="video/mp4">
-              
+              
 </p>
-    
+    
 </video></td>
-   	</tr> 
-    
-    
-    <tr>
+   	</tr> 
+    
+    
+    <tr>
 		<td colspan="4" bgcolor="#39893c">
 			<br>
-      <div class="slideshow-container">
-            <input type="radio" name="slider" id="slide1" checked>
-            <input type="radio" name="slider" id="slide2">
-            <input type="radio" name="slider" id="slide3">
-            <input type="radio" name="slider" id="slide4">
-            <input type="radio" name="slider" id="slide5">
-            <input type="radio" name="slider" id="slide6">
+      <div class="slideshow-container">
+            <input type="radio" name="slider" id="slide1" checked>
+            <input type="radio" name="slider" id="slide2">
+            <input type="radio" name="slider" id="slide3">
+            <input type="radio" name="slider" id="slide4">
+            <input type="radio" name="slider" id="slide5">
+            <input type="radio" name="slider" id="slide6">
 
-            <div class="slides">
-                <div class="slide">
-                    <img src="modelos/modeloslivrinhocolorir1.jpg" alt="Página do livro 1">
-                </div>
-                <div class="slide">
-                    <img src="modelos/modeloslivrinhocolorir2.jpg" alt="Página do livro 2">
-                </div>
-                <div class="slide">
-                    <img src="modelos/modeloslivrinhocolorir3.jpg" alt="Página do livro 3">
-                </div>
-                <div class="slide">
-                    <img src="modelos/modeloslivrinhocolorir4.jpg" alt="Página do livro 4">
-                </div>
-                <div class="slide">
-                    <img src="modelos/modeloslivrinhocolorir5.jpg" alt="Página do livro 5">
-                </div>
-                    <div class="slide">
-                    <img src="modelos/modeloslivrinhocolorir6.jpg" alt="Página do livro 6">
-                </div>
-            </div>
+            <div class="slides">
+                <div class="slide">
+                    <img src="modelos/modeloslivrinhocolorir1.jpg" alt="Página do livro 1">
+                </div>
+                <div class="slide">
+                    <img src="modelos/modeloslivrinhocolorir2.jpg" alt="Página do livro 2">
+                </div>
+                <div class="slide">
+                    <img src="modelos/modeloslivrinhocolorir3.jpg" alt="Página do livro 3">
+                </div>
+                <div class="slide">
+                    <img src="modelos/modeloslivrinhocolorir4.jpg" alt="Página do livro 4">
+                </div>
+                <div class="slide">
+                    <img src="modelos/modeloslivrinhocolorir5.jpg" alt="Página do livro 5">
+                </div>
+                    <div class="slide">
+                    <img src="modelos/modeloslivrinhocolorir6.jpg" alt="Página do livro 6">
+                </div>
+            </div>
 
-            <div class="navigation">
-                <label for="slide6" class="prev">&#10094;</label>
-                <label for="slide5" class="prev">&#10094;</label>
-                <label for="slide4" class="prev">&#10094;</label>
-                <label for="slide3" class="prev">&#10094;</label>
-                <label for="slide2" class="prev">&#10094;</label>
-                <label for="slide1" class="prev">&#10094;</label>
+            <div class="navigation">
+                <label for="slide6" class="prev">&#10094;</label>
+                <label for="slide5" class="prev">&#10094;</label>
+                <label for="slide4" class="prev">&#10094;</label>
+                <label for="slide3" class="prev">&#10094;</label>
+                <label for="slide2" class="prev">&#10094;</label>
+                <label for="slide1" class="prev">&#10094;</label>
 
-                <label for="slide2" class="next">&#10095;</label>
-                <label for="slide3" class="next">&#10095;</label>
-                <label for="slide4" class="next">&#10095;</label>
-                <label for="slide5" class="next">&#10095;</label>
-                <label for="slide6" class="next">&#10095;</label>
-                <label for="slide1" class="next">&#10095;</label>
-            </div>
-          
-          
-            
-            </td>
+                <label for="slide2" class="next">&#10095;</label>
+                <label for="slide3" class="next">&#10095;</label>
+                <label for="slide4" class="next">&#10095;</label>
+                <label for="slide5" class="next">&#10095;</label>
+                <label for="slide6" class="next">&#10095;</label>
+                <label for="slide1" class="next">&#10095;</label>
+            </div>
+          
+          
+            
+            </td>
 	</tr>
-    <tr bgcolor="#39893c" ><td colspan="4">&nbsp;
-    
-           </td>
+    <tr bgcolor="#39893c" ><td colspan="4">&nbsp;
+    
+           </td>
 	</tr>
 	<tr>
 		<td rowspan="3">
 			<img src="images/index_02.jpg" width="84" height="130" alt=""></td>
 		<td colspan="2" width="268" height="56" background="images/index_03.jpg">
-               <div class="select-container">
-            <select id="versao">
-                <option value="" disabled selected>Selecionar versão</option>
-                <option value="tradicional">Tradicional Flexivel - 35,99</option>
-                <option value="premium">Premium Capa Dura - 33,99</option>
-            </select>
-            
-            
-            </td>
+               <div class="select-container">
+            <select id="versao">
+                <option value="" disabled selected>Selecionar versão</option>
+                <option value="tradicional">Tradicional Flexivel - 35,99</option>
+                <option value="premium">Premium Capa Dura - 33,99</option>
+            </select>
+            
+            
+            </td>
 		<td rowspan="3">
 			<img src="images/index_04.jpg" width="68" height="130" alt=""></td>
 	</tr>
 	<tr>
 		<td width=267 height=48 background=images/index_05.jpg>
 			
-         
-               <center>   <button class="buy-btn" onclick="comprar()">COMPRAR</button></center>
-        
-            
-            
-            </td>
+         
+               <center>   <button class="buy-btn" onclick="comprar()">COMPRAR</button></center>
+        
+            
+            
+            </td>
 		<td rowspan="2">
 			<img src="images/index_06.jpg" width="1" height="74" alt=""></td>
 	</tr>
@@ -714,116 +713,115 @@
 			<img src="images/index_07.jpg" width="267" height="26" alt=""></td>
 	</tr>
 </table>
-   
-   
+   
+   
 <table id="Table_01" width="420" height="*" bgcolor="438346" border="0" cellpadding="0" cellspacing="0">
-            <tr><td>&nbsp;</td></tr>
-            <tr align="center"><td colspan="4"><img src="pagamentos.jpg" width="420" height="*" alt=""></td></tr>
-            <tr>
-                <td align="center"><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="*" alt="Instagram"></a></td>
-                <td align="center"><a href="https://wa.me/5519991950005" target="blank"><img src="livrinhoparacolorir_05.jpg" width="50" height="*" alt="Whatsapp"></a></td>
-                <td align="center"><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="livrinhoparacolorir_09.jpg" width="50" height="*" alt="Kwai"></a></td>
-                <td align="center"><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="livrinhoparacolorir_07.jpg" width="50" height="*" alt="TikTok"></td>
-            </tr>
-            <tr align="center"><td colspan="4"><img src="direitos.jpg" width="70%" height="*" alt=""></td></tr>
-        </table>
-    </div>   
-   
-   </div>   </div>   
-   
-   
-   
-   
-     
-   
-<!-- End Save for Web Slices -->
- <script>
-    function comprar() {
-        const versao = document.getElementById('versao').value;
-        if (!versao) {
-            alert("Por favor, selecione uma vers&atilde;o antes de comprar.");
-            return;
-        }
+            <tr><td>&nbsp;</td></tr>
+            <tr align="center"><td colspan="4"><img src="pagamentos.jpg" width="420" height="*" alt=""></td></tr>
+            <tr>
+                <td align="center"><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="*" alt="Instagram"></a></td>
+                <td align="center"><a href="https://wa.me/5519991950005" target="blank"><img src="livrinhoparacolorir_05.jpg" width="50" height="*" alt="Whatsapp"></a></td>
+                <td align="center"><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="livrinhoparacolorir_09.jpg" width="50" height="*" alt="Kwai"></a></td>
+                <td align="center"><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="livrinhoparacolorir_07.jpg" width="50" height="*" alt="TikTok"></td>
+            </tr>
+            <tr align="center"><td colspan="4"><img src="direitos.jpg" width="70%" height="*" alt=""></td></tr>
+        </table>
+    </div>   
+   
+   </div>   </div>   
+   
+   
+   
+   
+     
+   
+ <script>
+    function comprar() {
+        const versao = document.getElementById('versao').value;
+        if (!versao) {
+            alert("Por favor, selecione uma vers&atilde;o antes de comprar.");
+            return;
+        }
 
-        // Rastreia o clique no Google Analytics
-        gtag('event', 'clique', {
-            'event_category': 'compra',
-            'event_label': 'compra_historinhas_para_dormir_' + versao
-        });
+        // Rastreia o clique no Google Analytics
+        gtag('event', 'clique', {
+            'event_category': 'compra',
+            'event_label': 'compra_historinhas_para_dormir_' + versao
+        });
 
-        if (versao === "tradicional") {
-            window.location.href = "https://loja.uiclap.com/titulo/ua117232";
-         } else if (versao === "premium") {
-                window.location.href = "https://pag.ae/812fELkQs";
-        }
-    }
+        if (versao === "tradicional") {
+            window.location.href = "https://loja.uiclap.com/titulo/ua117232";
+         } else if (versao === "premium") {
+                window.location.href = "https://pag.ae/812fELkQs";
+        }
+    }
 </script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const musicPlayerContainer = document.getElementById('music-player-container');
-    const playPauseButton = document.getElementById('play-pause-button');
-    const backgroundMusic = document.getElementById('background-music');
+    const musicPlayerContainer = document.getElementById('music-player-container');
+    const playPauseButton = document.getElementById('play-pause-button');
+    const backgroundMusic = document.getElementById('background-music');
 
-    playPauseButton.addEventListener('click', function() {
-        if (backgroundMusic.paused) {
-            backgroundMusic.play();
-            musicPlayerContainer.classList.add('playing');
-        } else {
-            backgroundMusic.pause();
-            musicPlayerContainer.classList.remove('playing');
-        }
-    });
+    playPauseButton.addEventListener('click', function() {
+        if (backgroundMusic.paused) {
+            backgroundMusic.play();
+            musicPlayerContainer.classList.add('playing');
+        } else {
+            backgroundMusic.pause();
+            musicPlayerContainer.classList.remove('playing');
+        }
+    });
 });
 </script>
 
 <script>
-    // Aguarda o conte�do da p�gina carregar completamente
-    document.addEventListener('DOMContentLoaded', function() {
+    // Aguarda o contedo da pgina carregar completamente
+    document.addEventListener('DOMContentLoaded', function() {
 
-        // --- L�GICA DO SLIDER AUTOM�TICO ---
+        // --- LGICA DO SLIDER AUTOMTICO ---
 
-        const slideInterval = 3000; // Define o intervalo em milissegundos (2000 = 2 segundos)
-        let autoSlideTimer; // Vari�vel para controlar o tempo
+        const slideInterval = 3000; // Define o intervalo em milissegundos (2000 = 2 segundos)
+        let autoSlideTimer; // Varivel para controlar o tempo
 
-        // Fun��o que inicia ou reinicia o slideshow autom�tico
-        function startAutoSlider() {
-            // Primeiro, limpa qualquer timer que j� exista para n�o criar v�rios ao mesmo tempo
-            clearInterval(autoSlideTimer);
+        // Funo que inicia ou reinicia o slideshow automtico
+        function startAutoSlider() {
+            // Primeiro, limpa qualquer timer que j exista para no criar vrios ao mesmo tempo
+            clearInterval(autoSlideTimer);
 
-            // Cria um novo timer que executar� a fun��o de trocar de slide a cada 2 segundos
-            autoSlideTimer = setInterval(() => {
-                // Encontra qual � o slide que est� selecionado no momento
-                const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
-                
-                // Encontra o pr�ximo "irm�o" do slide atual que seja um input (o pr�ximo slide)
-                let nextRadio = currentRadio.nextElementSibling;
-                while(nextRadio && nextRadio.nodeName !== 'INPUT') {
-                    nextRadio = nextRadio.nextElementSibling;
-                }
+            // Cria um novo timer que executar a funo de trocar de slide a cada 2 segundos
+            autoSlideTimer = setInterval(() => {
+                // Encontra qual  o slide que est selecionado no momento
+                const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
+                
+                // Encontra o prximo "irmo" do slide atual que seja um input (o prximo slide)
+                let nextRadio = currentRadio.nextElementSibling;
+                while(nextRadio && nextRadio.nodeName !== 'INPUT') {
+                    nextRadio = nextRadio.nextElementSibling;
+                }
 
-                // Se n�o houver um pr�ximo (ou seja, se j� estiver no �ltimo slide)
-                if (!nextRadio) {
-                    // Volta para o primeiro slide, criando o efeito de loop
-                    nextRadio = document.querySelector('.slideshow-container input[type="radio"]');
-                }
+                // Se no houver um prximo (ou seja, se j estiver no ltimo slide)
+                if (!nextRadio) {
+                    // Volta para o primeiro slide, criando o efeito de loop
+                    nextRadio = document.querySelector('.slideshow-container input[type="radio"]');
+                }
 
-                // Marca o pr�ximo slide como selecionado, o que faz a imagem trocar
-                nextRadio.checked = true;
+                // Marca o prximo slide como selecionado, o que faz a imagem trocar
+                nextRadio.checked = true;
 
-            }, slideInterval);
-        }
+            }, slideInterval);
+        }
 
-        // Pega o container do slider
-        const sliderContainer = document.querySelector('.slideshow-container');
+        // Pega o container do slider
+        const sliderContainer = document.querySelector('.slideshow-container');
 
-        // Adiciona um "ouvinte" que reinicia o timer sempre que houver um clique nos bot�es
-        // Isso garante que, se a pessoa trocar a foto manualmente, a contagem de 2 segundos recome�a.
-        sliderContainer.addEventListener('click', startAutoSlider);
+        // Adiciona um "ouvinte" que reinicia o timer sempre que houver um clique nos botes
+        // Isso garante que, se a pessoa trocar a foto manualmente, a contagem de 2 segundos recomea.
+        sliderContainer.addEventListener('click', startAutoSlider);
 
-        // Inicia o slideshow autom�tico pela primeira vez quando a p�gina carrega
-        startAutoSlider();
-    });
+        // Inicia o slideshow automtico pela primeira vez quando a pgina carrega
+        startAutoSlider();
+    });
 </script>
 
 </body>
