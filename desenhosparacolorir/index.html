@@ -21,8 +21,12 @@
             background-color: #C8D9E6;
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* --- CORREÇÃO APLICADA AQUI --- */
+            /* Trocado 'align-items: center' por 'align-items: flex-start' para alinhar o conteúdo no topo */
+            align-items: flex-start; 
             min-height: 100vh;
+            padding: 20px 0; /* Adicionado espaçamento vertical para melhor visualização */
+            box-sizing: border-box; /* Garante que o padding não aumente o tamanho total */
         }
 
         .container {
@@ -83,13 +87,13 @@
 
         .slides {
             display: flex;
-            width: 600%; /* Corrigido para 6 slides */
+            width: 600%;
             height: 100%;
             transition: transform 0.5s ease-in-out;
         }
 
         .slide {
-            width: 16.666%; /* Corrigido para 6 slides (100% / 6) */
+            width: 16.666%;
             height: 100%;
         }
 
@@ -172,7 +176,7 @@
         #music-player-container {
             position: fixed;
             top: 15px;
-            left: 50px;
+            left: 15px; /* Ajustado para o canto superior esquerdo */
             background-color: rgba(255, 255, 255, 0.9);
             padding: 5px 12px;
             border-radius: 50px;
@@ -243,13 +247,13 @@
    <table id="Table_01" width="420" border="0" cellpadding="0" cellspacing="0">
 	<tr>
 		<td colspan="4">
-            <img src="images/index_01.jpg" width="420" height="auto" alt="">
+			<img src="images/index_01.jpg" width="420" height="auto" alt="" style="display: block;">
         </td>
 	</tr>
     
     <tr>
 		<td colspan="4">
-            <video controls width="100%" poster="postervideo.jpg">
+            <video controls width="100%" poster="postervideo.jpg" style="display: block;">
                 <source src="historinhas.mp4" type="video/mp4">
             </video>
         </td>
@@ -295,7 +299,7 @@
 	</tr>
     <tr bgcolor="#39893c" ><td colspan="4">&nbsp;</td></tr>
 	<tr>
-		<td rowspan="3"><img src="images/index_02.jpg" width="84" height="130" alt=""></td>
+		<td rowspan="3"><img src="images/index_02.jpg" width="84" height="130" alt="" style="display: block;"></td>
 		<td colspan="2" width="268" height="56" background="images/index_03.jpg">
                <div class="select-container">
                     <select id="versao">
@@ -305,30 +309,30 @@
                     </select>
                 </div>
         </td>
-		<td rowspan="3"><img src="images/index_04.jpg" width="68" height="130" alt=""></td>
+		<td rowspan="3"><img src="images/index_04.jpg" width="68" height="130" alt="" style="display: block;"></td>
 	</tr>
 	<tr>
 		<td width=267 height=48 background=images/index_05.jpg>
             <center><button class="buy-btn" onclick="comprar()">COMPRAR</button></center>
         </td>
-		<td rowspan="2"><img src="images/index_06.jpg" width="1" height="74" alt=""></td>
+		<td rowspan="2"><img src="images/index_06.jpg" width="1" height="74" alt="" style="display: block;"></td>
 	</tr>
 	<tr>
-		<td><img src="images/index_07.jpg" width="267" height="26" alt=""></td>
+		<td><img src="images/index_07.jpg" width="267" height="26" alt="" style="display: block;"></td>
 	</tr>
 </table>
    
    
 <table width="420" bgcolor="#438346" border="0" cellpadding="0" cellspacing="0">
     <tr><td>&nbsp;</td></tr>
-    <tr align="center"><td colspan="4"><img src="pagamentos.jpg" width="420" height="auto" alt=""></td></tr>
+    <tr align="center"><td colspan="4"><img src="pagamentos.jpg" width="420" height="auto" alt="" style="display: block;"></td></tr>
     <tr>
-        <td align="center"><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="auto" alt="Instagram"></a></td>
-        <td align="center"><a href="https://wa.me/5519991950005" target="blank"><img src="livrinhoparacolorir_05.jpg" width="50" height="auto" alt="Whatsapp"></a></td>
-        <td align="center"><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="livrinhoparacolorir_09.jpg" width="50" height="auto" alt="Kwai"></a></td>
-        <td align="center"><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="livrinhoparacolorir_07.jpg" width="50" height="auto" alt="TikTok"></a></td>
+        <td align="center"><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="auto" alt="Instagram" style="display: block;"></a></td>
+        <td align="center"><a href="https://wa.me/5519991950005" target="blank"><img src="livrinhoparacolorir_05.jpg" width="50" height="auto" alt="Whatsapp" style="display: block;"></a></td>
+        <td align="center"><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="livrinhoparacolorir_09.jpg" width="50" height="auto" alt="Kwai" style="display: block;"></a></td>
+        <td align="center"><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="livrinhoparacolorir_07.jpg" width="50" height="auto" alt="TikTok" style="display: block;"></a></td>
     </tr>
-    <tr align="center"><td colspan="4"><img src="direitos.jpg" width="70%" height="auto" alt=""></td></tr>
+    <tr align="center"><td colspan="4"><img src="direitos.jpg" width="70%" height="auto" alt="" style="display: block;"></td></tr>
 </table>
 </div>   
 
