@@ -25,7 +25,7 @@
             margin: 0;
             font-family: var(--fonte-principal);
             background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
-            background-color: #cccccc;
+            background-color: #f0f8ff;
             background-attachment: fixed;
             background-size: cover;
             color: var(--cor-texto);
@@ -74,8 +74,8 @@
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            cursor: pointer; /* Adiciona o cursor de mão para indicar que é clicável */
-            border: 3px solid transparent; /* Adicionado para evitar que o layout "pule" ao adicionar a borda colorida */
+            cursor: pointer;
+            border: 3px solid transparent;
         }
         
         .image-gallery img:hover {
@@ -83,10 +83,8 @@
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
         
-        /* --- NOVO ESTILO ADICIONADO --- */
-        /* Estilo para a miniatura que está atualmente selecionada */
         .image-gallery img.active-thumbnail {
-            border-color: var(--cor-acao); /* Usa a cor de ação para destacar */
+            border-color: var(--cor-acao);
             transform: scale(1.05);
         }
 
@@ -144,8 +142,10 @@
             color: white;
         }
 
+        /* --- SESSÃO DE DEPOIMENTOS (SWIPER) - ESTILOS ATUALIZADOS --- */
         .testimonials-section {
              padding-bottom: 50px;
+             position: relative;
         }
         
         .testimonials-section h2 {
@@ -157,32 +157,39 @@
         }
 
         .swiper-slide {
-            background-color: var(--cor-secundaria);
+            /* Fundo translúcido para um visual mais leve */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
             border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-
-        .testimonial-author {
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: left; /* Alinhamento à esquerda */
+            position: relative;
+            box-sizing: border-box;
+            min-height: 280px; /* Altura mínima para consistência */
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .testimonial-author img {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--cor-primaria);
-            margin-bottom: 10px;
+            justify-content: space-between;
         }
         
-        .testimonial-author span {
-            font-weight: 700;
-            font-size: 1.1rem;
+        /* Aspa decorativa no fundo */
+        .swiper-slide::before {
+            content: '“';
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            font-size: 6rem;
+            font-weight: 800;
+            color: rgba(0, 0, 0, 0.08);
+            z-index: 1;
+        }
+
+        .testimonial-content {
+            position: relative;
+            z-index: 2; /* Para ficar na frente da aspa */
         }
         
         .star-rating {
@@ -193,12 +200,39 @@
         
         .testimonial-text {
             font-style: italic;
-            color: #555;
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        /* Novo container para a foto e nome do autor */
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espaço entre a foto e o nome */
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-author img {
+            width: 60px; /* Tamanho reduzido para mais delicadeza */
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--cor-primaria);
+        }
+        
+        .testimonial-author span {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--cor-texto);
         }
         
         .swiper-pagination-bullet-active {
             background-color: var(--cor-primaria) !important;
         }
+        /* --- FIM DOS ESTILOS ATUALIZADOS DE DEPOIMENTOS --- */
         
         .buy-button-wrapper {
             text-align: center;
@@ -262,28 +296,34 @@
             <div class="swiper">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
+                        <div class="testimonial-content">
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">"Meu filho pede para ler todas as noites! As ilustrações são deslumbrantes e as histórias têm mensagens lindas. Virou nosso ritual preferido antes de dormir."</p>
+                        </div>
                         <div class="testimonial-author">
                             <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Ana Silva">
                             <span>Ana Silva, mãe do Lucas</span>
                         </div>
-                        <div class="star-rating">★★★★★</div>
-                        <p class="testimonial-text">"Meu filho pede para ler todas as noites! As ilustrações são deslumbrantes e as histórias têm mensagens lindas. Virou nosso ritual preferido antes de dormir."</p>
                     </div>
                     <div class="swiper-slide">
+                        <div class="testimonial-content">
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">"Qualidade impecável! A capa dura e as páginas são muito resistentes. Um livro que com certeza vai durar por muitos anos. Recomendo de olhos fechados."</p>
+                        </div>
                         <div class="testimonial-author">
                             <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto do cliente Carlos Pereira">
                             <span>Carlos Pereira, pai da Sofia</span>
                         </div>
-                        <div class="star-rating">★★★★★</div>
-                        <p class="testimonial-text">"Qualidade impecável! A capa dura e as páginas são muito resistentes. Um livro que com certeza vai durar por muitos anos. Recomendo de olhos fechados."</p>
                     </div>
                     <div class="swiper-slide">
+                        <div class="testimonial-content">
+                             <div class="star-rating">★★★★☆</div>
+                            <p class="testimonial-text">"Dei de presente para minha sobrinha e ela amou! As histórias são muito criativas. Só gostaria que tivesse uma versão com ainda mais contos!"</p>
+                        </div>
                         <div class="testimonial-author">
                             <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Juliana Costa">
                             <span>Juliana Costa, tia da Clara</span>
                         </div>
-                        <div class="star-rating">★★★★☆</div>
-                        <p class="testimonial-text">"Dei de presente para minha sobrinha e ela amou! As histórias são muito criativas. Só gostaria que tivesse uma versão com ainda mais contos!"</p>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
@@ -299,14 +339,11 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // Aguarda o conteúdo da página carregar completamente antes de rodar os scripts
         document.addEventListener('DOMContentLoaded', function() {
             
-            // --- LÓGICA PARA O BOTÃO "VER MAIS" DA DESCRIÇÃO ---
             const descriptionText = document.getElementById('descriptionText');
             const expandBtn = document.getElementById('expandBtn');
             
-            // A função agora é definida dentro do listener para ter acesso às variáveis
             window.toggleDescription = function() {
                 if (descriptionText.classList.contains('collapsed')) {
                     descriptionText.classList.remove('collapsed');
@@ -317,7 +354,6 @@
                 }
             }
 
-            // --- INICIALIZAÇÃO DO CARROSSEL DE DEPOIMENTOS (SWIPER) ---
             const swiper = new Swiper('.swiper', {
                 loop: true,
                 autoplay: {
@@ -330,25 +366,17 @@
                 },
             });
 
-            // --- NOVA LÓGICA PARA A GALERIA DE IMAGENS ---
             const mainImage = document.getElementById('mainProductImage');
             const galleryThumbnails = document.querySelectorAll('.image-gallery img');
 
-            // Define o primeiro thumbnail como ativo ao carregar a página
             if (galleryThumbnails.length > 0) {
                 galleryThumbnails[0].classList.add('active-thumbnail');
             }
 
-            // Adiciona um evento de clique a cada thumbnail
             galleryThumbnails.forEach(thumbnail => {
                 thumbnail.addEventListener('click', function() {
-                    // 1. Atualiza a imagem principal com o 'src' do thumbnail clicado
                     mainImage.src = this.src;
-
-                    // 2. Remove a classe ativa de todos os outros thumbnails
                     galleryThumbnails.forEach(item => item.classList.remove('active-thumbnail'));
-
-                    // 3. Adiciona a classe ativa apenas no thumbnail que foi clicado
                     this.classList.add('active-thumbnail');
                 });
             });
