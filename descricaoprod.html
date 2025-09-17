@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-        /* --- VARIÁVEIS DE CUSTOMIZAÇÃO FÁCIL --- */
         :root {
             --cor-primaria: #6EC1E4; /* Azul suave */
             --cor-secundaria: #FDF0D5; /* Creme de fundo dos cards */
@@ -22,12 +21,11 @@
             --fonte-principal: 'Nunito', sans-serif;
         }
 
-        /* --- ESTILOS GERAIS E DE FUNDO --- */
         body {
             margin: 0;
             font-family: var(--fonte-principal);
-            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png'); /* Imagem de fundo sutil - SUBSTITUA AQUI */
-            background-color: #f0f8ff; /* Cor de fundo caso a imagem não carregue */
+            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+            background-color: #f0f8ff;
             background-attachment: fixed;
             background-size: cover;
             color: var(--cor-texto);
@@ -39,7 +37,6 @@
             padding: 20px 10px;
         }
 
-        /* --- CABEÇALHO COM NOME DO PRODUTO --- */
         .product-header h1 {
             font-size: 2.5rem;
             color: var(--cor-primaria);
@@ -49,9 +46,8 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* --- IMAGEM PRINCIPAL --- */
         .main-image-wrapper {
-            padding: 0 5px; /* Espaço de 5px nas laterais */
+            padding: 0 5px;
             margin-bottom: 20px;
         }
 
@@ -63,7 +59,6 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
         
-        /* --- GALERIA DE FOTOS SECUNDÁRIAS --- */
         .image-gallery {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -74,22 +69,30 @@
 
         .image-gallery img {
             width: 100%;
-            height: 100px; /* Altura fixa para as miniaturas */
-            object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+            height: 100px;
+            object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer; /* Adiciona o cursor de mão para indicar que é clicável */
+            border: 3px solid transparent; /* Adicionado para evitar que o layout "pule" ao adicionar a borda colorida */
         }
         
         .image-gallery img:hover {
             transform: scale(1.05);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
+        
+        /* --- NOVO ESTILO ADICIONADO --- */
+        /* Estilo para a miniatura que está atualmente selecionada */
+        .image-gallery img.active-thumbnail {
+            border-color: var(--cor-acao); /* Usa a cor de ação para destacar */
+            transform: scale(1.05);
+        }
 
-        /* --- SESSÃO DE DESCRIÇÃO --- */
         .description-section {
-            background: rgba(255, 255, 255, 0.5); /* Fundo com 50% de visibilidade */
-            backdrop-filter: blur(8px); /* Efeito de vidro fosco para destacar */
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
@@ -105,17 +108,15 @@
         }
         
         .description-text {
-            /* Lógica de expandir/recolher */
             overflow: hidden;
             position: relative;
             transition: max-height 0.7s ease-in-out;
         }
 
         .description-text.collapsed {
-            max-height: 120px; /* Altura aproximada de 5 linhas de texto */
+            max-height: 120px;
         }
         
-        /* Efeito de degradê para suavizar o corte do texto */
         .description-text.collapsed::after {
             content: '';
             position: absolute;
@@ -143,9 +144,8 @@
             color: white;
         }
 
-        /* --- SESSÃO DE DEPOIMENTOS (SWIPER) --- */
         .testimonials-section {
-             padding-bottom: 50px; /* Espaço para a paginação do carrossel */
+             padding-bottom: 50px;
         }
         
         .testimonials-section h2 {
@@ -196,12 +196,10 @@
             color: #555;
         }
         
-        /* Customização da paginação do Swiper */
         .swiper-pagination-bullet-active {
             background-color: var(--cor-primaria) !important;
         }
         
-        /* --- BOTÃO DE COMPRAR --- */
         .buy-button-wrapper {
             text-align: center;
             padding: 20px 0;
@@ -224,7 +222,6 @@
             transform: translateY(-3px);
             box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
         }
-
     </style>
 </head>
 <body>
@@ -236,11 +233,11 @@
         </header>
 
         <section class="main-image-wrapper">
-            <img src="https://images.pexels.com/photos/3661244/pexels-photo-3661244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagem principal do Livro Mágico dos Sonhos">
+            <img id="mainProductImage" src="https://images.pexels.com/photos/3661244/pexels-photo-3661244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagem principal do Livro Mágico dos Sonhos">
         </section>
 
         <section class="image-gallery">
-            <img src="https://images.pexels.com/photos/2079449/pexels-photo-2079449.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto">
+            <img src="https://images.pexels.com/photos/3661244/pexels-photo-3661244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Detalhe 1 do produto">
             <img src="https://images.pexels.com/photos/1741230/pexels-photo-1741230.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto">
             <img src="https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto">
             <img src="https://images.pexels.com/photos/220760/pexels-photo-220760.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto">
@@ -302,35 +299,60 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-        // --- LÓGICA PARA O BOTÃO "VER MAIS" DA DESCRIÇÃO ---
-        function toggleDescription() {
-            const textElement = document.getElementById('descriptionText');
-            const buttonElement = document.getElementById('expandBtn');
+        // Aguarda o conteúdo da página carregar completamente antes de rodar os scripts
+        document.addEventListener('DOMContentLoaded', function() {
             
-            // Verifica se o texto está recolhido
-            if (textElement.classList.contains('collapsed')) {
-                textElement.classList.remove('collapsed');
-                buttonElement.textContent = 'Ver menos';
-            } else {
-                textElement.classList.add('collapsed');
-                buttonElement.textContent = 'Ver mais';
+            // --- LÓGICA PARA O BOTÃO "VER MAIS" DA DESCRIÇÃO ---
+            const descriptionText = document.getElementById('descriptionText');
+            const expandBtn = document.getElementById('expandBtn');
+            
+            // A função agora é definida dentro do listener para ter acesso às variáveis
+            window.toggleDescription = function() {
+                if (descriptionText.classList.contains('collapsed')) {
+                    descriptionText.classList.remove('collapsed');
+                    expandBtn.textContent = 'Ver menos';
+                } else {
+                    descriptionText.classList.add('collapsed');
+                    expandBtn.textContent = 'Ver mais';
+                }
             }
-        }
 
-        // --- INICIALIZAÇÃO DO CARROSSEL DE DEPOIMENTOS (SWIPER) ---
-        const swiper = new Swiper('.swiper', {
-            // Parâmetros opcionais
-            loop: true, // Faz o carrossel girar em loop
-            autoplay: {
-                delay: 5000, // Passa para o próximo a cada 5 segundos
-                disableOnInteraction: false,
-            },
-            
-            // Bolinhas de paginação
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
+            // --- INICIALIZAÇÃO DO CARROSSEL DE DEPOIMENTOS (SWIPER) ---
+            const swiper = new Swiper('.swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            });
+
+            // --- NOVA LÓGICA PARA A GALERIA DE IMAGENS ---
+            const mainImage = document.getElementById('mainProductImage');
+            const galleryThumbnails = document.querySelectorAll('.image-gallery img');
+
+            // Define o primeiro thumbnail como ativo ao carregar a página
+            if (galleryThumbnails.length > 0) {
+                galleryThumbnails[0].classList.add('active-thumbnail');
+            }
+
+            // Adiciona um evento de clique a cada thumbnail
+            galleryThumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // 1. Atualiza a imagem principal com o 'src' do thumbnail clicado
+                    mainImage.src = this.src;
+
+                    // 2. Remove a classe ativa de todos os outros thumbnails
+                    galleryThumbnails.forEach(item => item.classList.remove('active-thumbnail'));
+
+                    // 3. Adiciona a classe ativa apenas no thumbnail que foi clicado
+                    this.classList.add('active-thumbnail');
+                });
+            });
+
         });
     </script>
 
