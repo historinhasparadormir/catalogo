@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Produto Infantil</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        /* --- VARIÁVEIS DE CUSTOMIZAÇÃO FÁCIL --- */
+        :root {
+            --cor-primaria: #6EC1E4; /* Azul suave */
+            --cor-secundaria: #FDF0D5; /* Creme de fundo dos cards */
+            --cor-texto: #333;
+            --cor-acao: #FF6B6B; /* Coral para o botão */
+            --cor-estrelas: #FFD700; /* Dourado */
+            --fonte-principal: 'Nunito', sans-serif;
+        }
+
+        /* --- ESTILOS GERAIS E DE FUNDO --- */
+        body {
+            margin: 0;
+            font-family: var(--fonte-principal);
+            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png'); /* Imagem de fundo sutil - SUBSTITUA AQUI */
+            background-color: #f0f8ff; /* Cor de fundo caso a imagem não carregue */
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--cor-texto);
+        }
+
+        .product-page-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 10px;
+        }
+
+        /* --- CABEÇALHO COM NOME DO PRODUTO --- */
+        .product-header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-primaria);
+            text-align: center;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* --- IMAGEM PRINCIPAL --- */
+        .main-image-wrapper {
+            padding: 0 5px; /* Espaço de 5px nas laterais */
+            margin-bottom: 20px;
+        }
+
+        .main-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* --- GALERIA DE FOTOS SECUNDÁRIAS --- */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 0 5px;
+            margin-bottom: 30px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 100px; /* Altura fixa para as miniaturas */
+            object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .image-gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- SESSÃO DE DESCRIÇÃO --- */
+        .description-section {
+            background: rgba(255, 255, 255, 0.5); /* Fundo com 50% de visibilidade */
+            backdrop-filter: blur(8px); /* Efeito de vidro fosco para destacar */
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .description-section h2 {
+            margin-top: 0;
+            color: var(--cor-primaria);
+            font-weight: 800;
+        }
+        
+        .description-text {
+            /* Lógica de expandir/recolher */
+            overflow: hidden;
+            position: relative;
+            transition: max-height 0.7s ease-in-out;
+        }
+
+        .description-text.collapsed {
+            max-height: 120px; /* Altura aproximada de 5 linhas de texto */
+        }
+        
+        /* Efeito de degradê para suavizar o corte do texto */
+        .description-text.collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8));
+        }
+
+        .expand-btn {
+            background: none;
+            border: 2px solid var(--cor-primaria);
+            color: var(--cor-primaria);
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .expand-btn:hover {
+            background: var(--cor-primaria);
+            color: white;
+        }
+
+        /* --- SESSÃO DE DEPOIMENTOS (SWIPER) --- */
+        .testimonials-section {
+             padding-bottom: 50px; /* Espaço para a paginação do carrossel */
+        }
+        
+        .testimonials-section h2 {
+            text-align: center;
+            color: var(--cor-primaria);
+            font-weight: 800;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .swiper-slide {
+            background-color: var(--cor-secundaria);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .testimonial-author {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .testimonial-author img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-author span {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        .star-rating {
+            color: var(--cor-estrelas);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: #555;
+        }
+        
+        /* Customização da paginação do Swiper */
+        .swiper-pagination-bullet-active {
+            background-color: var(--cor-primaria) !important;
+        }
+        
+        /* --- BOTÃO DE COMPRAR --- */
+        .buy-button-wrapper {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .buy-button {
+            display: inline-block;
+            background-color: var(--cor-acao);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
+        }
+
+    </style>
+</head>
+<body>
+
+    <main class="product-page-container">
+        
+        <header class="product-header">
+            <h1>Livro Mágico dos Sonhos</h1>
+        </header>
+
+        <section class="main-image-wrapper">
+            <img src="https://images.pexels.com/photos/3661244/pexels-photo-3661244.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagem principal do Livro Mágico dos Sonhos">
+        </section>
+
+        <section class="image-gallery">
+            <img src="https://images.pexels.com/photos/2079449/pexels-photo-2079449.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto">
+            <img src="https://images.pexels.com/photos/1741230/pexels-photo-1741230.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto">
+            <img src="https://images.pexels.com/photos/264537/pexels-photo-264537.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto">
+            <img src="https://images.pexels.com/photos/220760/pexels-photo-220760.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto">
+            <img src="https://images.pexels.com/photos/163036/mario-luigi-yoschi-figures-163036.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 5 do produto">
+            <img src="https://images.pexels.com/photos/34140/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 6 do produto">
+            <img src="https://images.pexels.com/photos/159872/book-open-pages-op-159872.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 7 do produto">
+            <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 8 do produto">
+        </section>
+
+        <section class="description-section">
+            <h2>Sobre o Livro</h2>
+            <div id="descriptionText" class="description-text collapsed">
+                <p>Mergulhe em um universo onde as estrelas sussurram segredos e os rios cantam melodias de ninar. O "Livro Mágico dos Sonhos" não é apenas um livro, é um portal para um mundo de aventuras encantadas, criado especialmente para acalmar os corações dos pequenos e inspirar os sonhos mais doces antes de dormir.</p>
+                <p>Cada página é uma obra de arte, com ilustrações vibrantes e cheias de detalhes que capturam a imaginação. Os personagens, desde o valente esquilo Léo até a sábia coruja Luna, ensinam lições valiosas sobre amizade, coragem e a importância de ser gentil. As histórias são escritas em uma linguagem poética e suave, ideal para a leitura em voz alta, tornando cada noite um momento mágico de conexão entre pais e filhos. O material de alta qualidade, com capa dura e páginas resistentes, garante que este tesouro possa ser passado de geração em geração.</p>
+                <p>Além das histórias, o livro contém pequenas atividades interativas, como encontrar elementos escondidos nas ilustrações ou cantarolar canções de ninar cujas letras estão espalhadas pelas páginas. É uma experiência completa que estimula a criatividade, a percepção e o amor pela leitura desde cedo. Permita que seu filho embarque nesta jornada inesquecível e descubra que a magia está em cada virar de página. Este livro é mais que um presente; é uma memória afetuosa que durará para sempre no coração da sua família, construindo um alicerce de amor e fantasia que iluminará todas as noites.</p>
+            </div>
+            <button id="expandBtn" class="expand-btn" onclick="toggleDescription()">Ver mais</button>
+        </section>
+
+        <section class="testimonials-section">
+            <h2>O que os pais dizem</h2>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Ana Silva">
+                            <span>Ana Silva, mãe do Lucas</span>
+                        </div>
+                        <div class="star-rating">★★★★★</div>
+                        <p class="testimonial-text">"Meu filho pede para ler todas as noites! As ilustrações são deslumbrantes e as histórias têm mensagens lindas. Virou nosso ritual preferido antes de dormir."</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto do cliente Carlos Pereira">
+                            <span>Carlos Pereira, pai da Sofia</span>
+                        </div>
+                        <div class="star-rating">★★★★★</div>
+                        <p class="testimonial-text">"Qualidade impecável! A capa dura e as páginas são muito resistentes. Um livro que com certeza vai durar por muitos anos. Recomendo de olhos fechados."</p>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Juliana Costa">
+                            <span>Juliana Costa, tia da Clara</span>
+                        </div>
+                        <div class="star-rating">★★★★☆</div>
+                        <p class="testimonial-text">"Dei de presente para minha sobrinha e ela amou! As histórias são muito criativas. Só gostaria que tivesse uma versão com ainda mais contos!"</p>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <footer class="buy-button-wrapper">
+            <a href="#" class="buy-button">Comprar Agora</a>
+        </footer>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        // --- LÓGICA PARA O BOTÃO "VER MAIS" DA DESCRIÇÃO ---
+        function toggleDescription() {
+            const textElement = document.getElementById('descriptionText');
+            const buttonElement = document.getElementById('expandBtn');
+            
+            // Verifica se o texto está recolhido
+            if (textElement.classList.contains('collapsed')) {
+                textElement.classList.remove('collapsed');
+                buttonElement.textContent = 'Ver menos';
+            } else {
+                textElement.classList.add('collapsed');
+                buttonElement.textContent = 'Ver mais';
+            }
+        }
+
+        // --- INICIALIZAÇÃO DO CARROSSEL DE DEPOIMENTOS (SWIPER) ---
+        const swiper = new Swiper('.swiper', {
+            // Parâmetros opcionais
+            loop: true, // Faz o carrossel girar em loop
+            autoplay: {
+                delay: 5000, // Passa para o próximo a cada 5 segundos
+                disableOnInteraction: false,
+            },
+            
+            // Bolinhas de paginação
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+        });
+    </script>
+
+</body>
+</html>
