@@ -1,0 +1,410 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livrinho para Colorir</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --cor-primaria:#4E4E4E; /* Azul suave */
+            --cor-secundaria: #FDF0D5; /* Creme de fundo dos cards */
+            --cor-texto: #333;
+            --cor-acao: #FF6B6B; /* Coral para o botão */
+            --cor-estrelas: #FFD700; /* Dourado */
+            --fonte-principal: 'Nunito', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--fonte-principal);
+            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+			background-color:#EFFFEA;
+            background-attachment:fixed;
+			background-repeat:repeat;
+			background-size:auto;
+            color: var(--cor-texto);
+        }
+
+        .product-page-container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 20px 10px;
+        }
+
+        .product-header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-primaria);
+            text-align: center;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .main-image-wrapper {
+            padding: 0 5px;
+            margin-bottom: 20px;
+        }
+
+        .main-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 0 5px;
+            margin-bottom: 30px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        
+        .image-gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-gallery img.active-thumbnail {
+            border-color: var(--cor-acao);
+            transform: scale(1.05);
+        }
+
+        .description-section {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .description-section h2 {
+            margin-top: 0;
+            color: var(--cor-primaria);
+            font-weight: 800;
+        }
+        
+        .description-text {
+            overflow: hidden;
+            position: relative;
+            transition: max-height 0.7s ease-in-out;
+        }
+
+        .description-text.collapsed {
+            max-height: 120px;
+        }
+        
+        .description-text.collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8));
+        }
+
+        .expand-btn {
+            background: none;
+            border: 2px solid var(--cor-primaria);
+            color: var(--cor-primaria);
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .expand-btn:hover {
+            background: var(--cor-primaria);
+            color: white;
+        }
+
+        /* --- SESSÃO DE DEPOIMENTOS (SWIPER) - ESTILOS ATUALIZADOS --- */
+        .testimonials-section {
+             padding-bottom: 50px;
+             position: relative;
+        }
+        
+        .testimonials-section h2 {
+            text-align: center;
+            color: var(--cor-primaria);
+            font-weight: 800;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .swiper-slide {
+            /* Fundo translúcido para um visual mais leve */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: left; /* Alinhamento à esquerda */
+            position: relative;
+            box-sizing: border-box;
+            min-height: 280px; /* Altura mínima para consistência */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        /* Aspa decorativa no fundo */
+        .swiper-slide::before {
+            content: '“';
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            font-size: 6rem;
+            font-weight: 800;
+            color: rgba(0, 0, 0, 0.08);
+            z-index: 1;
+        }
+
+        .testimonial-content {
+            position: relative;
+            z-index: 2; /* Para ficar na frente da aspa */
+        }
+        
+        .star-rating {
+            color: var(--cor-estrelas);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        /* Novo container para a foto e nome do autor */
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espaço entre a foto e o nome */
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-author img {
+            width: 60px; /* Tamanho reduzido para mais delicadeza */
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--cor-primaria);
+        }
+        
+        .testimonial-author span {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--cor-texto);
+        }
+        
+        .swiper-pagination-bullet-active {
+            background-color: var(--cor-primaria) !important;
+        }
+        /* --- FIM DOS ESTILOS ATUALIZADOS DE DEPOIMENTOS --- */
+        
+        .buy-button-wrapper {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .buy-button {
+            display: inline-block;
+            background-color: var(--cor-acao);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <main class="product-page-container">
+        
+        <header class="product-header">
+            <h2>✨ 32 Historinhas Para Dormir Sem Monstros, Vilões ou Sustos
+ ✨</h2><h3>(Somente carinho e aventuras meigas)</h3>
+        </header>
+
+        <section class="main-image-wrapper">
+            <img id="mainProductImage" src="livrohistorinhasparadormir1.jpg" alt="Livrinho Contos de Fadas Infantil">
+        </section>
+
+        <section class="image-gallery">
+            <img src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto">
+            <img src="livrohistorinhasparadormir2.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto">
+            <img src="livrohistorinhasparadormir3.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto">
+            <img src="livrohistorinhasparadormir4.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto">
+            <img src="livrohistorinhasparadormir5.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 5 do produto">
+            <img src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 6 do produto">
+            <img src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 7 do produto">
+            <img src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 8 do produto">
+        </section>
+
+        <section class="description-section">
+            <h2>Descrição Produto</h2>
+            <div id="descriptionText" class="description-text collapsed">
+                <p>📖 Um livrinho de sonhos para encantar o coração das crianças!<br>
+                Este livro traz 32 historinhas originais, doces e acolhedoras, criadas especialmente para tornar o momento de dormir leve, divertido e mágico. Cada história foi pensada para ser curtinha, com mensagens positivas, sem monstros ou vilões — perfeitas para acalmar a mente e embalar o sono dos pequenos com ternura e imaginação. 🌙✨</p>
+                <p>Com ilustrações encantadoras e linguagem acessível, as histórias convidam a criança a viajar por reinos mágicos, encontrar animais curiosos, anjinhos do céu, nuvens que sorriem, aviõezinhos sonhadores e até dragõezinhos amigáveis. Tudo em um universo lúdico e seguro, que acolhe meninas e meninos de todas as idades. 🧸📘</p>
+                <p>Entre as historinhas estão:<br>
+                  🦁 O Leãozinho que Tinha Medo de Rugir</p>
+                <p>☁️ O Dia em Que a Chuva Sorriu</p>
+                <p>✈️ O Aviãozinho que Queria Voar Mais Alto</p>
+                <p>🐲 O Dragãozinho Gentil e a Princesa Voadora</p>
+                <p>👼 O Anjinho da Luz</p>
+                <p>💫 Deus e o Jardim das Estrelas</p>
+                <p>🧺 A Piquenique na Floresta Encantada</p>
+                <p>🐾 A Patinha que Pintava o Mundo</p>
+                <p>💛 Criado com carinho e qualidade, este livrinho é perfeito para pais e responsáveis que desejam criar uma rotina de leitura leve e positiva, reforçando valores como amizade, coragem, gratidão e fé.</p>
+                <p>Uma coleção de histórias para ler todas as noites com um sorriso no rosto. 🌟📚</p>
+                <p>📚</p>
+                <p data-start="173" data-end="455">.</p>
+                <p> <strong>Dados Técnicos: </strong><br>
+                  <strong>Peso</strong> 300g<br>
+                  <strong>Dimensões</strong> 21 cm × 29 cm <br>
+                  <strong>Nº Páginas</strong> 32 <br>
+                  <strong>Capa  Couchê 300g Fosco, SEM orelh</strong>a <br>
+                  <strong>Impressão</strong> Colorida (Papel Couchê) 115g <br>
+                <strong>Tamanho</strong> 21 cm x 29 cm</p>
+            </div>
+            <button id="expandBtn" class="expand-btn" onclick="toggleDescription()">Ver mais</button>
+        </section>
+
+        <section class="testimonials-section">
+            <h3>O que os pais dizem</h3>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">Meu filho finalmente dorme tranquilo, sem pesadelos. As historinhas são doces e leves!” </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Fernanda L. Barbosa">
+                            <span> Fernanda L. Barbosa</span>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">“É ótimo saber que posso ler algo seguro para minha filha antes de dormir. Ela adora e relaxa rapidinho.” – </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto do cliente Marcelo Ribeiro">
+                            <span> Marcelo Ribeiro</span>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                             <div class="star-rating">★★★★☆</div>
+                            <p class="testimonial-text">“Histórias fofas, sem sustos nem medos. Virou parte da nossa rotina de sono todas as noites.” – </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Patrícia Silverio">
+                            <span>Patrícia Silverio</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <footer class="buy-button-wrapper">
+            <a href="https://pag.ae/7__q-LU9r" class="buy-button">Comprar Agora</a>
+        </footer>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const descriptionText = document.getElementById('descriptionText');
+            const expandBtn = document.getElementById('expandBtn');
+            
+            window.toggleDescription = function() {
+                if (descriptionText.classList.contains('collapsed')) {
+                    descriptionText.classList.remove('collapsed');
+                    expandBtn.textContent = 'Ver menos';
+                } else {
+                    descriptionText.classList.add('collapsed');
+                    expandBtn.textContent = 'Ver mais';
+                }
+            }
+
+            const swiper = new Swiper('.swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            });
+
+            const mainImage = document.getElementById('mainProductImage');
+            const galleryThumbnails = document.querySelectorAll('.image-gallery img');
+
+            if (galleryThumbnails.length > 0) {
+                galleryThumbnails[0].classList.add('active-thumbnail');
+            }
+
+            galleryThumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    mainImage.src = this.src;
+                    galleryThumbnails.forEach(item => item.classList.remove('active-thumbnail'));
+                    this.classList.add('active-thumbnail');
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>
