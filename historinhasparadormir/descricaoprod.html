@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contos de Fadas Infantil</title>
+    <title>Livrinho para Colorir</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,7 +33,7 @@
         }
 
         .product-page-container {
-            max-width: 420px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px 10px;
         }
@@ -50,9 +50,11 @@
         .main-image-wrapper {
             padding: 0 5px;
             margin-bottom: 20px;
+            position: relative;
         }
 
-        .main-image-wrapper img {
+        .main-image-wrapper img,
+        .main-image-wrapper video { /* Estilo aplicado tanto na imagem quanto no vídeo */
             width: 100%;
             height: auto;
             display: block;
@@ -68,9 +70,15 @@
             margin-bottom: 30px;
         }
 
-        .image-gallery img {
+        .image-gallery .thumbnail-wrapper {
+            position: relative; /* Necessário para o ícone de play */
             width: 100%;
             height: 100px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -89,10 +97,35 @@
             transform: scale(1.05);
         }
 
+        /* --- AQUI COMEÇA A IMPLANTAÇÃO DO CSS PARA O VÍDEO --- */
+        /* Ícone de Play sobre a miniatura de vídeo */
+        .video-thumbnail-wrapper::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Garante que o clique passe para a imagem abaixo */
+            transition: background-color 0.3s ease;
+        }
+
+        .video-thumbnail-wrapper:hover::after {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        /* --- AQUI TERMINA A IMPLANTAÇÃO DO CSS PARA O VÍDEO --- */
+
         .description-section {
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 25px;
@@ -100,163 +133,71 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
-        .description-section h2 {
-            margin-top: 0;
-            color: var(--cor-primaria);
-            font-weight: 800;
-        }
-        
-        .description-text {
-            overflow: hidden;
-            position: relative;
-            transition: max-height 0.7s ease-in-out;
-        }
-
-        .description-text.collapsed {
-            max-height: 120px;
-        }
-        
+        .description-section h2 { margin-top: 0; color: var(--cor-primaria); font-weight: 800; }
+        .description-text { overflow: hidden; position: relative; transition: max-height 0.7s ease-in-out; }
+        .description-text.collapsed { max-height: 120px; }
         .description-text.collapsed::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
             background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8));
         }
-
         .expand-btn {
-            background: none;
-            border: 2px solid var(--cor-primaria);
-            color: var(--cor-primaria);
-            font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s ease;
+            background: none; border: 2px solid var(--cor-primaria); color: var(--cor-primaria); font-weight: 700; padding: 8px 16px;
+            border-radius: 50px; cursor: pointer; margin-top: 15px; transition: all 0.3s ease;
         }
-        
-        .expand-btn:hover {
-            background: var(--cor-primaria);
-            color: white;
-        }
+        .expand-btn:hover { background: var(--cor-primaria); color: white; }
 
-        /* --- SESSÃO DE DEPOIMENTOS (SWIPER) - ESTILOS ATUALIZADOS --- */
-        .testimonials-section {
-             padding-bottom: 50px;
-             position: relative;
-        }
-        
+        .testimonials-section { padding-bottom: 50px; position: relative; }
         .testimonials-section h2 {
-            text-align: center;
-            color: var(--cor-primaria);
-            font-weight: 800;
-            font-size: 2rem;
-            margin-bottom: 20px;
+            text-align: center; color: var(--cor-primaria); font-weight: 800; font-size: 2rem; margin-bottom: 20px;
         }
-
         .swiper-slide {
-            /* Fundo translúcido para um visual mais leve */
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            text-align: left; /* Alinhamento à esquerda */
-            position: relative;
-            box-sizing: border-box;
-            min-height: 280px; /* Altura mínima para consistência */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: left;
+            position: relative; box-sizing: border-box; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between;
         }
-        
-        /* Aspa decorativa no fundo */
         .swiper-slide::before {
-            content: '“';
-            position: absolute;
-            top: 5px;
-            left: 15px;
-            font-size: 6rem;
-            font-weight: 800;
-            color: rgba(0, 0, 0, 0.08);
-            z-index: 1;
+            content: '“'; position: absolute; top: 5px; left: 15px; font-size: 6rem; font-weight: 800;
+            color: rgba(0, 0, 0, 0.08); z-index: 1;
         }
-
-        .testimonial-content {
-            position: relative;
-            z-index: 2; /* Para ficar na frente da aspa */
-        }
-        
-        .star-rating {
-            color: var(--cor-estrelas);
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .testimonial-text {
-            font-style: italic;
-            color: #444;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-        
-        /* Novo container para a foto e nome do autor */
+        .testimonial-content { position: relative; z-index: 2; }
+        .star-rating { color: var(--cor-estrelas); font-size: 1.2rem; margin-bottom: 10px; }
+        .testimonial-text { font-style: italic; color: #444; font-size: 1.05rem; line-height: 1.6; }
         .testimonial-author {
+            display: flex; align-items: center; gap: 15px; margin-top: 20px; position: relative; z-index: 2;
+        }
+        .testimonial-author img {
+            width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--cor-primaria);
+        }
+        .testimonial-author span { font-weight: 700; font-size: 1.1rem; color: var(--cor-texto); }
+        .swiper-pagination-bullet-active { background-color: var(--cor-primaria) !important; }
+
+        /* --- AQUI COMEÇA A IMPLANTAÇÃO DO CSS PARA AS CURTIDAS DO DEPOIMENTO --- */
+        .testimonial-likes {
             display: flex;
             align-items: center;
-            gap: 15px; /* Espaço entre a foto e o nome */
             margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #777;
+            font-size: 0.9rem;
             position: relative;
             z-index: 2;
         }
+        .testimonial-likes svg {
+            width: 18px;
+            height: 18px;
+            fill: #777;
+            margin-right: 8px;
+        }
+        /* --- AQUI TERMINA A IMPLANTAÇÃO DO CSS PARA AS CURTIDAS DO DEPOIMENTO --- */
 
-        .testimonial-author img {
-            width: 60px; /* Tamanho reduzido para mais delicadeza */
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--cor-primaria);
-        }
-        
-        .testimonial-author span {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--cor-texto);
-        }
-        
-        .swiper-pagination-bullet-active {
-            background-color: var(--cor-primaria) !important;
-        }
-        /* --- FIM DOS ESTILOS ATUALIZADOS DE DEPOIMENTOS --- */
-        
-        .buy-button-wrapper {
-            text-align: center;
-            padding: 20px 0;
-        }
-
+        .buy-button-wrapper { text-align: center; padding: 20px 0; }
         .buy-button {
-            display: inline-block;
-            background-color: var(--cor-acao);
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 800;
-            text-decoration: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-            transition: all 0.3s ease;
+            display: inline-block; background-color: var(--cor-acao); color: white; font-size: 1.5rem; font-weight: 800;
+            text-decoration: none; padding: 15px 40px; border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4); transition: all 0.3s ease;
         }
-        
-        .buy-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
-        }
+        .buy-button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6); }
     </style>
 </head>
 <body>
@@ -264,54 +205,56 @@
     <main class="product-page-container">
         
         <header class="product-header">
-            <h2>✨ Mergulhe na Fofura: Mundo Fofinho – Seu Livro de Colorir para Relaxar! ✨</h2>
+            <h2>✨ 32 Historinhas Para Dormir Sem Monstros, Vilões ou Sustos
+ ✨</h2><h3>(Somente carinho e aventuras meigas)</h3>
         </header>
 
         <section class="main-image-wrapper">
-            <img id="mainProductImage" src="produtos/produto01.jpg" alt="Livrinho Para Colorir">
-        </section>
+            <img id="mainProductImage" src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagem principal do Livro Mágico dos Sonhos">
+            
+            <video id="mainProductVideo" src="" controls style="display: none;"></video>
+            </section>
 
         <section class="image-gallery">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto">
-            <img src="produtos/produto02.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto">
-            <img src="produtos/produto03.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto">
-            <img src="produtos/produto04.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 5 do produto">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 6 do produto">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 7 do produto">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 8 do produto">
-        </section>
+            <div class="thumbnail-wrapper"><img src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="livrohistorinhasparadormir2.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="livrohistorinhasparadormir3.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="livrohistorinhasparadormir4.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="livrohistorinhasparadormir5.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 5 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="livrohistorinhasparadormir2.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 6 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 7 do produto"></div>
+            
+            <div class="thumbnail-wrapper video-thumbnail-wrapper">
+                <img id="videoThumbnail" data-video-src="produtos/videoproduto.mp4" src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=420&h=*&dpr=1" alt="Clique para ver o vídeo do produto">
+            </div>
+            </section>
 
         <section class="description-section">
             <h2>Descrição Produto</h2>
             <div id="descriptionText" class="description-text collapsed">
-                <p data-start="173" data-end="455">✨ Você merece um <strong data-start="190" data-end="208">momento só seu</strong>, repleto de <strong data-start="221" data-end="252">paz, alegria e muita fofura</strong>! 🧸💕<br data-start="258" data-end="261">
-                  Apresentamos o <strong data-start="276" data-end="330">&ldquo;Mundo Fofinho – Um Livro de Colorir para Relaxar&rdquo;</strong>, a sua <strong data-start="338" data-end="386">porta de entrada para um universo encantador</strong>, desenhado para <strong data-start="403" data-end="424">aquecer o coração</strong> e <strong data-start="427" data-end="446">acalmar a mente</strong> 🌈🖍️.</p>
-                <p data-start="457" data-end="858">Imagine-se colorindo <strong data-start="478" data-end="521">gatinhos enrolados em cobertores macios</strong> 🐱🛌, <strong data-start="528" data-end="559">xícaras de café que sorriem</strong> ☕😊, <strong data-start="565" data-end="597">unicórnios brincando na neve</strong> 🦄❄️ e <strong data-start="605" data-end="644">amigos animais em aventuras diárias</strong>, como <strong data-start="651" data-end="671">festas do pijama</strong> 🎉🛏️ e <strong data-start="680" data-end="703">piqueniques alegres</strong> 🧺🐰.<br data-start="709" data-end="712">
-                  Cada página é uma <strong data-start="730" data-end="749" data-is-only-node="">nova descoberta</strong>, um <strong data-start="754" data-end="790">convite para soltar a imaginação</strong> e <strong data-start="793" data-end="850">pintar a vida com as cores mais vibrantes da sua alma</strong> 🎨💖.</p>
-                <p data-start="860" data-end="912">🌟 O que torna o <strong data-start="877" data-end="896">&ldquo;Mundo Fofinho&rdquo;</strong> tão especial?</p>
-                <ul data-start="914" data-end="1688">
-                  <li data-start="914" data-end="1089">
-                    <p data-start="916" data-end="1089"><strong data-start="916" data-end="965">Ilustrações Exclusivas no Estilo Bobbie Goods</strong> 🎀: desenhos adoráveis, com <strong data-start="994" data-end="1011">traços limpos</strong> e <strong data-start="1014" data-end="1036">personagens meigos</strong> que você vai se <strong data-start="1053" data-end="1083">apaixonar à primeira vista</strong> 😍.</p>
-                  </li>
-                  <li data-start="1090" data-end="1305">
-                    <p data-start="1092" data-end="1305"><strong data-start="1092" data-end="1124">Momentos de Relaxamento Puro</strong> 🌸🧘: mais do que um livro de colorir, é uma <strong data-start="1170" data-end="1193">terapia para a alma</strong>. Desconecte-se do estresse, alivie a ansiedade e encontre um <strong data-start="1255" data-end="1297">refúgio de tranquilidade em cada traço</strong> 🍃💆.</p>
-                  </li>
-                  <li data-start="1306" data-end="1513">
-                    <p data-start="1308" data-end="1513"><strong data-start="1308" data-end="1341">Perfeito para Todas as Idades</strong> 👧👩‍🦰👨‍🦳: seja criança em busca de <strong data-start="1381" data-end="1393">diversão</strong> ou adulto procurando um <strong data-start="1418" data-end="1437">hobby relaxante</strong>, o &ldquo;Mundo Fofinho&rdquo; é <strong data-start="1459" data-end="1505">ideal para todos que amam a doçura da vida</strong> 🍭💫.</p>
-                  </li>
-                  <li data-start="1514" data-end="1688">
-                    <p data-start="1516" data-end="1688"><strong data-start="1516" data-end="1537">Qualidade Premium</strong> 🏅📖: páginas perfeitas para <strong data-start="1567" data-end="1612">lápis de cor, canetinhas ou gizes de cera</strong>, garantindo que suas <strong data-start="1634" data-end="1669">obras de arte fiquem impecáveis</strong> sem vazar 💡🖍️.</p>
-                  </li>
-                </ul>
-              <p data-start="1690" data-end="1824">Deixe a <strong data-start="1698" data-end="1757">magia dos gatinhos, cachorrinhos, ursinhos e unicórnios</strong> 🐶🐻🦄 te levar para um <strong data-start="1782" data-end="1817">lugar onde a fofura não tem fim</strong> ✨💞.</p>
+                <p>📖 Um livrinho de sonhos para encantar o coração das crianças!<br>
+                Este livro traz 32 historinhas originais, doces e acolhedoras, criadas especialmente para tornar o momento de dormir leve, divertido e mágico. Cada história foi pensada para ser curtinha, com mensagens positivas, sem monstros ou vilões — perfeitas para acalmar a mente e embalar o sono dos pequenos com ternura e imaginação. 🌙✨</p>
+                <p>Com ilustrações encantadoras e linguagem acessível, as histórias convidam a criança a viajar por reinos mágicos, encontrar animais curiosos, anjinhos do céu, nuvens que sorriem, aviõezinhos sonhadores e até dragõezinhos amigáveis. Tudo em um universo lúdico e seguro, que acolhe meninas e meninos de todas as idades. 🧸📘</p>
+                <p>Entre as historinhas estão:<br>
+                  🦁 O Leãozinho que Tinha Medo de Rugir</p>
+                <p>☁️ O Dia em Que a Chuva Sorriu</p>
+                <p>✈️ O Aviãozinho que Queria Voar Mais Alto</p>
+                <p>🐲 O Dragãozinho Gentil e a Princesa Voadora</p>
+                <p>👼 O Anjinho da Luz</p>
+                <p>💫 Deus e o Jardim das Estrelas</p>
+                <p>🧺 A Piquenique na Floresta Encantada</p>
+                <p>🐾 A Patinha que Pintava o Mundo</p>
+                <p>💛 Criado com carinho e qualidade, este livrinho é perfeito para pais e responsáveis que desejam criar uma rotina de leitura leve e positiva, reforçando valores como amizade, coragem, gratidão e fé.</p>
+                <p>Uma coleção de histórias para ler todas as noites com um sorriso no rosto. 🌟📚</p>
+                <p>📚</p>
+                <p data-start="173" data-end="455">.</p>
                 <p> <strong>Dados Técnicos: </strong><br>
                   <strong>Peso</strong> 300g<br>
-                  <strong>Dimensões</strong> 15 cm × 15 cm <br>
-                  <strong>Nº Páginas</strong> 40 <br>
-                  <strong>Capa  Dura Fosco, SEM orelh</strong>a <br>
-                  <strong>Impressão</strong> Preto e Branco (Papel Offset) 90g <br>
-                <strong>Tamanho</strong> 15 x 15 cm</p>
+                  <strong>Dimensões</strong> 21 cm × 29 cm <br>
+                  <strong>Nº Páginas</strong> 32 <br>
+                  <strong>Capa  Couchê 300g Fosco, SEM orelh</strong>a <br>
+                  <strong>Impressão</strong> Colorida (Papel Couchê) 115g <br>
+                <strong>Tamanho</strong> 21 cm x 29 cm</p>
             </div>
             <button id="expandBtn" class="expand-btn" onclick="toggleDescription()">Ver mais</button>
         </section>
@@ -323,32 +266,38 @@
                     <div class="swiper-slide">
                         <div class="testimonial-content">
                             <div class="star-rating">★★★★★</div>
-                            <p class="testimonial-text">"Comprei um pra minha filha e outro pra mim! Virou nosso ritual preferido para a hora de relaxar."</p>
+                            <p class="testimonial-text">Meu filho finalmente dorme tranquilo, sem pesadelos. As historinhas são doces e leves!” </p>
                         </div>
                         <div class="testimonial-author">
-                            <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Ana Silva">
-                            <span>Ana Silva, mãe do Lucas</span>
+                            <img src="https://img.freepik.com/premium-photo/mom-dad-newborn-son-are-playing-home-happy-family-couple-with-child_173815-50215.jpg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Fernanda L. Barbosa">
+                            <span> Fernanda L. Barbosa</span>
                         </div>
-                    </div>
+                    <div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>152 pessoas acharam útil</span></div></div>
                     <div class="swiper-slide">
                         <div class="testimonial-content">
                             <div class="star-rating">★★★★★</div>
-                            <p class="testimonial-text">"Qualidade impecável! A capa dura e as páginas são muito resistentes. Comprei um pro meu filho. Recomendo de olhos fechados."</p>
+                            <p class="testimonial-text">“É ótimo saber que posso ler algo seguro para minha filha antes de dormir. Ela adora e relaxa rapidinho.” – </p>
                         </div>
                         <div class="testimonial-author">
-                            <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto do cliente Carlos Pereira">
-                            <span>Carlos Pereira, pai da Sofia</span>
-                        </div>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmig3JlWKtl3jfJUIGe7PBzauGmb1_BMSBFA&s?auto=compress&cs=tinysrgb&w=400" alt="Foto do cliente Marcelo Ribeiro">
+                            <span> Marcelo Ribeiro</span>
+                        </div><div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>53 pessoas acharam útil</span></div>
                     </div>
                     <div class="swiper-slide">
                         <div class="testimonial-content">
                              <div class="star-rating">★★★★☆</div>
-                            <p class="testimonial-text">"Dei de presente para minha sobrinha e ela amou! Desenhos são muito fofos. Só gostaria que tivesse uma versão com ainda mais desenhos!"</p>
+                            <p class="testimonial-text">“Histórias fofas, sem sustos nem medos. Virou parte da nossa rotina de sono todas as noites.” – </p>
                         </div>
                         <div class="testimonial-author">
-                            <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Juliana Costa">
-                            <span>Juliana Costa, tia da Clara</span>
-                        </div>
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUfS1L6ovJG75GwQigLFnnGJdDNFsJXuERa_ZTQjOR4u--C3tpyOUErNVrJJDKAvXt7Po&usqp=CAU?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Patrícia Silverio">
+                            <span>Patrícia Silverio</span>
+                        </div><div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>35 pessoas acharam útil</span></div>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
@@ -356,42 +305,31 @@
         </section>
 
         <footer class="buy-button-wrapper">
-            <a href="https://pag.ae/812fELkQs" class="buy-button">Comprar Agora</a>
+            <a href="https://pag.ae/7__q-LU9r" class="buy-button">Comprar Agora</a>
         </footer>
 
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             
             const descriptionText = document.getElementById('descriptionText');
             const expandBtn = document.getElementById('expandBtn');
-            
             window.toggleDescription = function() {
-                if (descriptionText.classList.contains('collapsed')) {
-                    descriptionText.classList.remove('collapsed');
-                    expandBtn.textContent = 'Ver menos';
-                } else {
-                    descriptionText.classList.add('collapsed');
-                    expandBtn.textContent = 'Ver mais';
-                }
+                descriptionText.classList.toggle('collapsed');
+                expandBtn.textContent = descriptionText.classList.contains('collapsed') ? 'Ver mais' : 'Ver menos';
             }
 
             const swiper = new Swiper('.swiper', {
-                loop: true,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
+                loop: true, autoplay: { delay: 5000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination', clickable: true },
             });
-
+            
+            // --- AQUI COMEÇA A IMPLANTAÇÃO DO JAVASCRIPT PARA O VÍDEO ---
             const mainImage = document.getElementById('mainProductImage');
+            const mainVideo = document.getElementById('mainProductVideo');
             const galleryThumbnails = document.querySelectorAll('.image-gallery img');
 
             if (galleryThumbnails.length > 0) {
@@ -400,12 +338,26 @@
 
             galleryThumbnails.forEach(thumbnail => {
                 thumbnail.addEventListener('click', function() {
-                    mainImage.src = this.src;
+                    
+                    // Verifica se o thumbnail clicado é o do vídeo
+                    if (this.id === 'videoThumbnail') {
+                        mainImage.style.display = 'none'; // Esconde a imagem principal
+                        mainVideo.style.display = 'block'; // Mostra o player de vídeo
+                        mainVideo.src = this.getAttribute('data-video-src'); // Define a URL do vídeo
+                        mainVideo.play(); // Inicia o vídeo
+                    } else {
+                        mainVideo.style.display = 'none'; // Esconde o player de vídeo
+                        mainVideo.pause(); // PAUSA o vídeo para não ficar tocando som no fundo
+                        mainImage.style.display = 'block'; // Mostra a imagem principal
+                        mainImage.src = this.src; // Atualiza a URL da imagem
+                    }
+
+                    // Lógica para destacar a miniatura ativa (funciona para fotos e vídeo)
                     galleryThumbnails.forEach(item => item.classList.remove('active-thumbnail'));
                     this.classList.add('active-thumbnail');
                 });
             });
-
+            // --- AQUI TERMINA A IMPLANTAÇÃO DO JAVASCRIPT PARA O VÍDEO ---
         });
     </script>
 
