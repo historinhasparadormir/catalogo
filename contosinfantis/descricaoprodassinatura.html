@@ -1,0 +1,447 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livrinho para Colorir</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --cor-primaria:#4E4E4E; /* Azul suave */
+            --cor-secundaria: #FDF0D5; /* Creme de fundo dos cards */
+            --cor-texto: #333;
+            --cor-acao: #FF6B6B; /* Coral para o botão */
+            --cor-estrelas: #FFD700; /* Dourado */
+            --fonte-principal: 'Nunito', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--fonte-principal);
+            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+			background-color:#EFFFEA;
+            background-attachment:fixed;
+			background-repeat:repeat;
+			background-size:auto;
+            color: var(--cor-texto);
+        }
+
+        .product-page-container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding: 20px 10px;
+        }
+
+        .product-header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-primaria);
+            text-align: center;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .main-image-wrapper {
+            padding: 0 5px;
+            margin-bottom: 20px;
+        }
+
+        .main-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 0 5px;
+            margin-bottom: 30px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        
+        .image-gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-gallery img.active-thumbnail {
+            border-color: var(--cor-acao);
+            transform: scale(1.05);
+        }
+
+        .description-section {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .description-section h2 {
+            margin-top: 0;
+            color: var(--cor-primaria);
+            font-weight: 800;
+        }
+        
+        .description-text {
+            overflow: hidden;
+            position: relative;
+            transition: max-height 0.7s ease-in-out;
+        }
+
+        .description-text.collapsed {
+            max-height: 120px;
+        }
+        
+        .description-text.collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8));
+        }
+
+        .expand-btn {
+            background: none;
+            border: 2px solid var(--cor-primaria);
+            color: var(--cor-primaria);
+            font-weight: 700;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .expand-btn:hover {
+            background: var(--cor-primaria);
+            color: white;
+        }
+
+        /* --- SESSÃO DE DEPOIMENTOS (SWIPER) - ESTILOS ATUALIZADOS --- */
+        .testimonials-section {
+             padding-bottom: 50px;
+             position: relative;
+        }
+        
+        .testimonials-section h2 {
+            text-align: center;
+            color: var(--cor-primaria);
+            font-weight: 800;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .swiper-slide {
+            /* Fundo translúcido para um visual mais leve */
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: left; /* Alinhamento à esquerda */
+            position: relative;
+            box-sizing: border-box;
+            min-height: 280px; /* Altura mínima para consistência */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        /* Aspa decorativa no fundo */
+        .swiper-slide::before {
+            content: '“';
+            position: absolute;
+            top: 5px;
+            left: 15px;
+            font-size: 6rem;
+            font-weight: 800;
+            color: rgba(0, 0, 0, 0.08);
+            z-index: 1;
+        }
+
+        .testimonial-content {
+            position: relative;
+            z-index: 2; /* Para ficar na frente da aspa */
+        }
+        
+        .star-rating {
+            color: var(--cor-estrelas);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        /* Novo container para a foto e nome do autor */
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Espaço entre a foto e o nome */
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .testimonial-author img {
+            width: 60px; /* Tamanho reduzido para mais delicadeza */
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--cor-primaria);
+        }
+        
+        .testimonial-author span {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--cor-texto);
+        }
+        
+        .swiper-pagination-bullet-active {
+            background-color: var(--cor-primaria) !important;
+        }
+        /* --- FIM DOS ESTILOS ATUALIZADOS DE DEPOIMENTOS --- */
+        
+        .buy-button-wrapper {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .buy-button {
+            display: inline-block;
+            background-color: var(--cor-acao);
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .buy-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <main class="product-page-container">
+        
+        <header class="product-header">
+            <h2>✨ Plano Mensal 40 Contos de Fadas Infantil (Audiobook)✨</h2>
+        </header>
+
+        <section class="main-image-wrapper">
+            <img id="mainProductImage" src="produtos/produto01.jpg" alt="Livrinho Contos de Fadas Infantil">
+        </section>
+
+        <section class="image-gallery">
+            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto">
+            <img src="produtos/produto02.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto">
+            <img src="produtos/produto03.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto">
+            <img src="produtos/produto04.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto">
+            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 5 do produto">
+            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 6 do produto">
+            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 7 do produto">
+            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 8 do produto">
+        </section>
+
+        <section class="description-section">
+            <h2>Descrição Produto</h2>
+            <div id="descriptionText" class="description-text collapsed">
+                <p data-start="252" data-end="562">Transforme as noites da sua criança em momentos mágicos e cheios de encanto! 🌙💤<br data-start="333" data-end="336">
+                  Com o nosso <strong data-start="348" data-end="378">plano de assinatura mensal</strong>, você terá acesso a uma coleção exclusiva de <strong data-start="424" data-end="464">40 contos de fadas narrados em áudio</strong>, perfeitos para embalar o sono dos pequenos com <strong data-start="513" data-end="559">histórias clássicas e cheias de imaginação</strong>.</p>
+                <p data-start="564" data-end="604">📖 Entre os contos disponíveis, estão:</p>
+                <p><ul>
+                <li>1- A Bela Adormecida</li>
+                <li>2- A Bela e a Fera</li>
+                <li>3- A Cigarra e a Formiga</li>
+                <li>4- A Festa no Céu</li>
+                <li>5- A Flautinha Encantada</li>
+                <li>6- A Formiguinha e a Neve</li>
+                <li>7- A Formiguinha e a Pomba</li>
+                <li>8- A Gata Borralheira</li>
+                <li>9- A Lebre e a Tartaruga</li>
+                <li>10- Aladim e a Lâmpada Maravilhosa</li>
+                <li>11- Branca de Neve e os Sete Anões</li>
+                <li>12- Briga no Galinheiro</li>
+                <li>13- Dona Baratinha</li>
+                <li>14- Dona Galinha e seus Pintinhos</li>
+                <li>15- O Bonequinho de Neve</li>
+                <li>16- O Burrinho e o Sal</li>
+                <li>17- O Burrinho Tró-ló-ló</li>
+                <li>18- O Burro e o Grilo</li>
+                <li>19- O Cabra Cabrez</li>
+                <li>20- O Carvalho e o Junco</li>
+                <li>21- O Chapeuzinho Vermelho</li>
+                <li>22- O Cisne Vaidoso</li>
+                <li>23- O Gato de Botas</li>
+                <li>24- O Golfinho e o Leão</li>
+                <li>25- O Leão e o Ratinho</li>
+                <li>26- O Lobo e os 3 Cabritinhos</li>
+                <li>27- O Macaco e a Velha</li>
+                <li>28- O Patinho Feio</li>
+                <li>29- O Pequeno Polegar</li>
+                <li>30- O Soldadinho De Chumbo</li>
+                <li>31- Os 3 Porquinhos</li>
+                <li>32- Os 4 Heróis</li>
+                <li>33- Os Dois Sapos</li>
+                <li>34- Pedro e o Lobo</li>
+                <li>35- Pinóquio</li>
+                <li>36- Rapunzel</li>
+                <li>37- Saci Pererê</li>
+                <li>38- A Goela do Inferno 1</li>
+                <li>39- Estória Da Baratinha</li>
+                <li>40- João Maria</li>
+            </ul></p>
+            <p data-start="874" data-end="899">💡 <strong data-start="877" data-end="897">Por que assinar?</strong></p>
+            <ul data-start="900" data-end="1170">
+              <li data-start="900" data-end="953">
+                <p data-start="902" data-end="953">🌟 Acesso ilimitado aos áudios durante todo o mês</p>
+              </li>
+              <li data-start="954" data-end="1040">
+                <p data-start="956" data-end="1040">🎧 Histórias perfeitas para a hora de dormir, viagens ou momentos de tranquilidade</p>
+              </li>
+              <li data-start="1041" data-end="1123">
+                <p data-start="1043" data-end="1123">👨‍👩‍👧 Criado para aproximar pais e filhos em momentos de afeto e imaginação</p>
+              </li>
+              <li data-start="1124" data-end="1170">
+                <p data-start="1126" data-end="1170">🧸 Linguagem leve, envolvente e acolhedora</p>
+              </li>
+            </ul>
+            <p data-start="1172" data-end="1362">👉 Com apenas uma assinatura, você garante noites mais tranquilas e cheias de fantasia, ajudando os pequenos a relaxarem enquanto sonham com príncipes, princesas e aventuras inesquecíveis.</p>
+          </div>
+            <button id="expandBtn" class="expand-btn" onclick="toggleDescription()">Ver mais</button>
+        </section>
+
+        <section class="testimonials-section">
+            <h3>O que os pais dizem</h3>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">“As histórias são narradas de forma tão gostosa que até eu relaxo ouvindo junto com meu neto. Simplesmente perfeito!” – </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Helena S. ">
+                            <span>Helena S. </span>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">“Meu filho sempre pede: ‘coloca mais uma, pai!’ Histórias leves e encantadoras, virou parte da nossa rotina.” – </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto do cliente Eduardo M.">
+                            <span> Eduardo M.</span>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                             <div class="star-rating">★★★★☆</div>
+                            <p class="testimonial-text">“Agora a hora de dormir ficou muito mais fácil aqui em casa. Minha filha adora ouvir as historinhas antes de pegar no sono!” – </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Camila R ">
+                            <span>Camila R </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <footer class="buy-button-wrapper">
+            <a href="https://pag.ae/811ECxJ7H" class="buy-button">Assinar Agora</a>
+        </footer>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const descriptionText = document.getElementById('descriptionText');
+            const expandBtn = document.getElementById('expandBtn');
+            
+            window.toggleDescription = function() {
+                if (descriptionText.classList.contains('collapsed')) {
+                    descriptionText.classList.remove('collapsed');
+                    expandBtn.textContent = 'Ver menos';
+                } else {
+                    descriptionText.classList.add('collapsed');
+                    expandBtn.textContent = 'Ver mais';
+                }
+            }
+
+            const swiper = new Swiper('.swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+            });
+
+            const mainImage = document.getElementById('mainProductImage');
+            const galleryThumbnails = document.querySelectorAll('.image-gallery img');
+
+            if (galleryThumbnails.length > 0) {
+                galleryThumbnails[0].classList.add('active-thumbnail');
+            }
+
+            galleryThumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    mainImage.src = this.src;
+                    galleryThumbnails.forEach(item => item.classList.remove('active-thumbnail'));
+                    this.classList.add('active-thumbnail');
+                });
+            });
+
+        });
+    </script>
+
+</body>
+</html>
