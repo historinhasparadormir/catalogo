@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Livrinho para Colorir</title>
+    <title>Contos de Fadas Infantil</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,8 +32,9 @@
             color: var(--cor-texto);
         }
 
+       
         .product-page-container {
-            max-width: 420px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 20px 10px;
         }
@@ -50,9 +51,11 @@
         .main-image-wrapper {
             padding: 0 5px;
             margin-bottom: 20px;
+            position: relative;
         }
 
-        .main-image-wrapper img {
+        .main-image-wrapper img,
+        .main-image-wrapper video { /* Estilo aplicado tanto na imagem quanto no vídeo */
             width: 100%;
             height: auto;
             display: block;
@@ -68,9 +71,15 @@
             margin-bottom: 30px;
         }
 
-        .image-gallery img {
+        .image-gallery .thumbnail-wrapper {
+            position: relative; /* Necessário para o ícone de play */
             width: 100%;
             height: 100px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -89,10 +98,35 @@
             transform: scale(1.05);
         }
 
+        /* --- AQUI COMEÇA A IMPLANTAÇÃO DO CSS PARA O VÍDEO --- */
+        /* Ícone de Play sobre a miniatura de vídeo */
+        .video-thumbnail-wrapper::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Garante que o clique passe para a imagem abaixo */
+            transition: background-color 0.3s ease;
+        }
+
+        .video-thumbnail-wrapper:hover::after {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        /* --- AQUI TERMINA A IMPLANTAÇÃO DO CSS PARA O VÍDEO --- */
+
         .description-section {
             background: rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 25px;
@@ -100,163 +134,71 @@
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
 
-        .description-section h2 {
-            margin-top: 0;
-            color: var(--cor-primaria);
-            font-weight: 800;
-        }
-        
-        .description-text {
-            overflow: hidden;
-            position: relative;
-            transition: max-height 0.7s ease-in-out;
-        }
-
-        .description-text.collapsed {
-            max-height: 120px;
-        }
-        
+        .description-section h2 { margin-top: 0; color: var(--cor-primaria); font-weight: 800; }
+        .description-text { overflow: hidden; position: relative; transition: max-height 0.7s ease-in-out; }
+        .description-text.collapsed { max-height: 120px; }
         .description-text.collapsed::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
             background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8));
         }
-
         .expand-btn {
-            background: none;
-            border: 2px solid var(--cor-primaria);
-            color: var(--cor-primaria);
-            font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 15px;
-            transition: all 0.3s ease;
+            background: none; border: 2px solid var(--cor-primaria); color: var(--cor-primaria); font-weight: 700; padding: 8px 16px;
+            border-radius: 50px; cursor: pointer; margin-top: 15px; transition: all 0.3s ease;
         }
-        
-        .expand-btn:hover {
-            background: var(--cor-primaria);
-            color: white;
-        }
+        .expand-btn:hover { background: var(--cor-primaria); color: white; }
 
-        /* --- SESSÃO DE DEPOIMENTOS (SWIPER) - ESTILOS ATUALIZADOS --- */
-        .testimonials-section {
-             padding-bottom: 50px;
-             position: relative;
-        }
-        
+        .testimonials-section { padding-bottom: 50px; position: relative; }
         .testimonials-section h2 {
-            text-align: center;
-            color: var(--cor-primaria);
-            font-weight: 800;
-            font-size: 2rem;
-            margin-bottom: 20px;
+            text-align: center; color: var(--cor-primaria); font-weight: 800; font-size: 2rem; margin-bottom: 20px;
         }
-
         .swiper-slide {
-            /* Fundo translúcido para um visual mais leve */
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            text-align: left; /* Alinhamento à esquerda */
-            position: relative;
-            box-sizing: border-box;
-            min-height: 280px; /* Altura mínima para consistência */
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: left;
+            position: relative; box-sizing: border-box; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between;
         }
-        
-        /* Aspa decorativa no fundo */
         .swiper-slide::before {
-            content: '“';
-            position: absolute;
-            top: 5px;
-            left: 15px;
-            font-size: 6rem;
-            font-weight: 800;
-            color: rgba(0, 0, 0, 0.08);
-            z-index: 1;
+            content: '“'; position: absolute; top: 5px; left: 15px; font-size: 6rem; font-weight: 800;
+            color: rgba(0, 0, 0, 0.08); z-index: 1;
         }
-
-        .testimonial-content {
-            position: relative;
-            z-index: 2; /* Para ficar na frente da aspa */
-        }
-        
-        .star-rating {
-            color: var(--cor-estrelas);
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        
-        .testimonial-text {
-            font-style: italic;
-            color: #444;
-            font-size: 1.05rem;
-            line-height: 1.6;
-        }
-        
-        /* Novo container para a foto e nome do autor */
+        .testimonial-content { position: relative; z-index: 2; }
+        .star-rating { color: var(--cor-estrelas); font-size: 1.2rem; margin-bottom: 10px; }
+        .testimonial-text { font-style: italic; color: #444; font-size: 1.05rem; line-height: 1.6; }
         .testimonial-author {
+            display: flex; align-items: center; gap: 15px; margin-top: 20px; position: relative; z-index: 2;
+        }
+        .testimonial-author img {
+            width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--cor-primaria);
+        }
+        .testimonial-author span { font-weight: 700; font-size: 1.1rem; color: var(--cor-texto); }
+        .swiper-pagination-bullet-active { background-color: var(--cor-primaria) !important; }
+
+        /* --- AQUI COMEÇA A IMPLANTAÇÃO DO CSS PARA AS CURTIDAS DO DEPOIMENTO --- */
+        .testimonial-likes {
             display: flex;
             align-items: center;
-            gap: 15px; /* Espaço entre a foto e o nome */
             margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #777;
+            font-size: 0.9rem;
             position: relative;
             z-index: 2;
         }
+        .testimonial-likes svg {
+            width: 18px;
+            height: 18px;
+            fill: #777;
+            margin-right: 8px;
+        }
+        /* --- AQUI TERMINA A IMPLANTAÇÃO DO CSS PARA AS CURTIDAS DO DEPOIMENTO --- */
 
-        .testimonial-author img {
-            width: 60px; /* Tamanho reduzido para mais delicadeza */
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--cor-primaria);
-        }
-        
-        .testimonial-author span {
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--cor-texto);
-        }
-        
-        .swiper-pagination-bullet-active {
-            background-color: var(--cor-primaria) !important;
-        }
-        /* --- FIM DOS ESTILOS ATUALIZADOS DE DEPOIMENTOS --- */
-        
-        .buy-button-wrapper {
-            text-align: center;
-            padding: 20px 0;
-        }
-
+        .buy-button-wrapper { text-align: center; padding: 20px 0; }
         .buy-button {
-            display: inline-block;
-            background-color: var(--cor-acao);
-            color: white;
-            font-size: 1.5rem;
-            font-weight: 800;
-            text-decoration: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4);
-            transition: all 0.3s ease;
+            display: inline-block; background-color: var(--cor-acao); color: white; font-size: 1.5rem; font-weight: 800;
+            text-decoration: none; padding: 15px 40px; border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4); transition: all 0.3s ease;
         }
-        
-        .buy-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6);
-        }
+        .buy-button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6); }
     </style>
 </head>
 <body>
@@ -268,19 +210,24 @@
         </header>
 
         <section class="main-image-wrapper">
-            <img id="mainProductImage" src="produtos/produto01.jpg" alt="Livrinho Para Colorir">
-        </section>
+            <img id="mainProductImage" src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagem principal do Livro Mágico dos Sonhos">
+            
+            <video id="mainProductVideo" src="" controls style="display: none;"></video>
+            </section>
 
         <section class="image-gallery">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto">
-            <img src="produtos/produto02.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto">
-            <img src="produtos/produto03.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto">
-            <img src="produtos/produto04.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 5 do produto">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 6 do produto">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 7 do produto">
-            <img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 8 do produto">
-        </section>
+            <div class="thumbnail-wrapper"><img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto02.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto03.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto04.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto05.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 5 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto02.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 6 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 7 do produto"></div>
+            
+            <div class="thumbnail-wrapper video-thumbnail-wrapper">
+                <img id="videoThumbnail" data-video-src="produtos/videoproduto.mp4" src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=420&h=*&dpr=1" alt="Clique para ver o vídeo do produto">
+            </div>
+            </section>
 
         <section class="description-section">
             <h2>Descrição Produto</h2>
@@ -328,7 +275,9 @@
                         <div class="testimonial-author">
                             <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Ana Silva">
                             <span>Ana Silva, mãe do Lucas</span>
-                        </div>
+                        </div> <div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>23 pessoas acharam útil</span></div>
                     </div>
                     <div class="swiper-slide">
                         <div class="testimonial-content">
@@ -338,7 +287,9 @@
                         <div class="testimonial-author">
                             <img src="https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto do cliente Carlos Pereira">
                             <span>Carlos Pereira, pai da Sofia</span>
-                        </div>
+                        </div> <div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>39 pessoas acharam útil</span></div>
                     </div>
                     <div class="swiper-slide">
                         <div class="testimonial-content">
@@ -348,7 +299,9 @@
                         <div class="testimonial-author">
                             <img src="https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Juliana Costa">
                             <span>Juliana Costa, tia da Clara</span>
-                        </div>
+                        </div> <div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>62 pessoas acharam útil</span></div>
                     </div>
                 </div>
                 <div class="swiper-pagination"></div>
@@ -361,37 +314,26 @@
 
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
         document.addEventListener('DOMContentLoaded', function() {
             
             const descriptionText = document.getElementById('descriptionText');
             const expandBtn = document.getElementById('expandBtn');
-            
             window.toggleDescription = function() {
-                if (descriptionText.classList.contains('collapsed')) {
-                    descriptionText.classList.remove('collapsed');
-                    expandBtn.textContent = 'Ver menos';
-                } else {
-                    descriptionText.classList.add('collapsed');
-                    expandBtn.textContent = 'Ver mais';
-                }
+                descriptionText.classList.toggle('collapsed');
+                expandBtn.textContent = descriptionText.classList.contains('collapsed') ? 'Ver mais' : 'Ver menos';
             }
 
             const swiper = new Swiper('.swiper', {
-                loop: true,
-                autoplay: {
-                    delay: 5000,
-                    disableOnInteraction: false,
-                },
-                pagination: {
-                    el: '.swiper-pagination',
-                    clickable: true,
-                },
+                loop: true, autoplay: { delay: 5000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination', clickable: true },
             });
-
+            
+            // --- AQUI COMEÇA A IMPLANTAÇÃO DO JAVASCRIPT PARA O VÍDEO ---
             const mainImage = document.getElementById('mainProductImage');
+            const mainVideo = document.getElementById('mainProductVideo');
             const galleryThumbnails = document.querySelectorAll('.image-gallery img');
 
             if (galleryThumbnails.length > 0) {
@@ -400,12 +342,26 @@
 
             galleryThumbnails.forEach(thumbnail => {
                 thumbnail.addEventListener('click', function() {
-                    mainImage.src = this.src;
+                    
+                    // Verifica se o thumbnail clicado é o do vídeo
+                    if (this.id === 'videoThumbnail') {
+                        mainImage.style.display = 'none'; // Esconde a imagem principal
+                        mainVideo.style.display = 'block'; // Mostra o player de vídeo
+                        mainVideo.src = this.getAttribute('data-video-src'); // Define a URL do vídeo
+                        mainVideo.play(); // Inicia o vídeo
+                    } else {
+                        mainVideo.style.display = 'none'; // Esconde o player de vídeo
+                        mainVideo.pause(); // PAUSA o vídeo para não ficar tocando som no fundo
+                        mainImage.style.display = 'block'; // Mostra a imagem principal
+                        mainImage.src = this.src; // Atualiza a URL da imagem
+                    }
+
+                    // Lógica para destacar a miniatura ativa (funciona para fotos e vídeo)
                     galleryThumbnails.forEach(item => item.classList.remove('active-thumbnail'));
                     this.classList.add('active-thumbnail');
                 });
             });
-
+            // --- AQUI TERMINA A IMPLANTAÇÃO DO JAVASCRIPT PARA O VÍDEO ---
         });
     </script>
 
