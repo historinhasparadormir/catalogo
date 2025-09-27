@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" translate="no">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Bedtime Stories</title><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-   
+    <title>Bedtime Stories</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -15,7 +14,6 @@
         gtag('config', 'G-6L0EHGEC85');
     </script>
     
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <style>
         /* --- ESTILOS GERAIS E DE LAYOUT --- */
         body {
@@ -24,9 +22,11 @@
             background-color: #C8E6C9;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Corrigido para alinhar no topo */
+            align-items: flex-start;
             min-height: 100vh;
-            padding: 20px 0;
+            /* --- CORREÇÃO APLICADA AQUI --- */
+            /* O padding que criava o espaço no topo foi removido. */
+            padding: 0;
             box-sizing: border-box;
         }
 
@@ -200,7 +200,7 @@
             width: 100%;
             background-color: #438346;
             padding: 15px 0;
-            border-spacing: 0; /* Remove espaçamento entre células */
+            border-spacing: 0;
         }
         .footer-table td {
             text-align: center;
@@ -217,7 +217,7 @@
             <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
         </svg>
     </button>
-    <span id="music-title">Click to Listen</span>
+    <span id="music-title">Listen</span>
 </div>
 
 <div class="container">
@@ -234,6 +234,7 @@
         <div class="time-info">
             <span id="current-time">0:00</span>
             <span id="duration">0:00</span>
+
         </div>
         <div class="playback-buttons">
             <button id="prev-btn" title="Previous"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
@@ -273,7 +274,6 @@
         <input type="radio" name="slider" id="slide2"><input type="radio" name="slider" id="slide3">
         <input type="radio" name="slider" id="slide4"><input type="radio" name="slider" id="slide5">
         <input type="radio" name="slider" id="slide6">
-
         <div class="slides">
             <div class="slide"><img src="../livrohistorinhasparadormir1.jpg" alt="Book page 1"></div>
             <div class="slide"><img src="../livrohistorinhasparadormir2.jpg" alt="Book page 2"></div>
@@ -282,7 +282,6 @@
             <div class="slide"><img src="../livrohistorinhasparadormir5.jpg" alt="Book page 5"></div>
             <div class="slide"><img src="../livrohistorinhasparadormir6.jpg" alt="Book page 6"></div>
         </div>
-
         <div class="navigation">
             <label for="slide6" class="prev">&#10094;</label><label for="slide5" class="prev">&#10094;</label>
             <label for="slide4" class="prev">&#10094;</label><label for="slide3" class="prev">&#10094;</label>
@@ -322,6 +321,27 @@
 </div>
 
 <script>
+    // Função de compra (global para ser acessada pelo HTML)
+    function comprar() {
+        const versao = document.getElementById('versao').value;
+        if (!versao) {
+            alert("Please select a version before purchasing.");
+            return;
+        }
+        gtag('event', 'clique', {
+            'event_category': 'compra',
+            'event_label': 'compra_contos_infantis_' + versao
+        });
+        if (versao === "tradicional") {
+            window.location.href = "https://loja.uiclap.com/titulo/ua113287";
+        } else if (versao === "premium") {
+            window.location.href = "descricaoproding.html";
+        } else if (versao === "assinatura") {
+            window.location.href = "descricaoprodassinaturaing.html";
+        }
+    }
+
+    // Lógica principal da página
     document.addEventListener('DOMContentLoaded', function() {
         // --- LÓGICA DO PLAYER DE MÚSICA DE FUNDO ---
         const backgroundMusic = document.getElementById('background-music');
@@ -354,9 +374,7 @@
         const audioPath = "amostra_historinha/";
 
         let currentTrackIndex = 0;
-        const REPEAT_NONE = 0;
-        const REPEAT_ALL = 1;
-        const REPEAT_ONE = 2;
+        const REPEAT_NONE = 0, REPEAT_ALL = 1, REPEAT_ONE = 2;
         let repeatMode = REPEAT_ALL;
 
         function formatTime(seconds) {
@@ -414,7 +432,7 @@
         function updateProgressBar() {
             if(audioPlayer.duration) {
                 const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                progressBar.style.width = progress + '%';
+                progressBar.style.width = `${progress}%`;
                 currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
             }
         }
@@ -426,6 +444,7 @@
         }
         
         function updateVolume() { audioPlayer.volume = volumeSlider.value; }
+
         function toggleMute() {
             audioPlayer.muted = !audioPlayer.muted;
             muteBtn.title = audioPlayer.muted ? "Unmute" : "Mute";
@@ -463,13 +482,11 @@
                 playTrack();
             } else if (repeatMode === REPEAT_ALL) {
                 nextTrack();
+            } else if (currentTrackIndex < audioFiles.length - 1) {
+                nextTrack();
             } else {
-                if (currentTrackIndex < audioFiles.length - 1) {
-                    nextTrack();
-                } else {
-                    pauseTrack();
-                    audioPlayer.currentTime = 0;
-                }
+                pauseTrack();
+                audioPlayer.currentTime = 0;
             }
         }
 
@@ -541,26 +558,6 @@
         });
         startAutoSlider();
     });
-
-    // Função de compra (global)
-    function comprar() {
-        const versao = document.getElementById('versao').value;
-        if (!versao) {
-            alert("Please select a version before purchasing.");
-            return;
-        }
-        gtag('event', 'clique', {
-            'event_category': 'compra',
-            'event_label': 'compra_contos_infantis_' + versao
-        });
-        if (versao === "tradicional") {
-            window.location.href = "https://loja.uiclap.com/titulo/ua113287";
-        } else if (versao === "premium") {
-            window.location.href = "descricaoproding.html";
-        } else if (versao === "assinatura") {
-            window.location.href = "descricaoprodassinaturaing.html";
-        }
-    }
 </script>
 </body>
 </html>
