@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <title>Bedtime Stories</title>   
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
     <script>
@@ -15,20 +14,23 @@
     </script>
     
     <style>
-        /* --- ESTILOS GERAIS (TODOS UNIFICADOS AQUI) --- */
+        /* --- ESTILOS GERAIS --- */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #1b2b4b;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Alinhado no topo */
+            align-items: flex-start;
             min-height: 100vh;
-            padding: 20px 0;
+            /* --- CORREÇÃO APLICADA AQUI --- */
+            /* O padding que criava o espaço no topo foi removido. */
+            padding: 0; 
             box-sizing: border-box;
         }
 
         .container {
+            /* A margem negativa foi removida pois não é necessária */
             background-color: #ffffff;
             border-radius: 20px;
             overflow: hidden;
@@ -57,7 +59,6 @@
             z-index: 1000;
             transition: all 0.3s ease;
         }
-
         #play-pause-button {
             background: #7a9cff;
             border: none;
@@ -70,13 +71,11 @@
             outline: none;
             margin-right: 8px; 
         }
-
         #play-pause-button svg {
             fill: white;
             width: 15px;
             height: 15px;
         }
-
         .pause-icon { display: none; }
         #music-player-container.playing .music-icon { display: none; }
         #music-player-container.playing .pause-icon { display: block; }
@@ -93,26 +92,22 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             aspect-ratio: 4 / 3;
         }
-
         .slides {
             display: flex;
-            width: 500%; /* 5 slides */
+            width: 500%;
             height: 100%;
             transition: transform 0.5s ease-in-out;
         }
-
         .slide {
-            width: 20%; /* 100% / 5 */
+            width: 20%;
             height: 100%;
         }
-
         .slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             display: block;
         }
-
         .slideshow-container input { display: none; }
         .navigation {
             position: absolute;
@@ -180,6 +175,7 @@
             width: 100%;
             background-color: #002f5b;
             padding: 15px 0;
+            border-spacing: 0;
         }
         .footer-table td {
             text-align: center;
@@ -193,7 +189,7 @@
             <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
             <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
         </button>
-        <span id="music-title"> Listen</span>
+        <span id="music-title">Listen</span>
     </div>
 
     <div class="container">
