@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historinhas para Dormir</title>   
+    <title>Contos Infantis Para Dormir</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -13,18 +15,18 @@
     </script>
     
     <style>
-        /* --- ESTILOS GERAIS E DE LAYOUT (UNIFICADOS) --- */
+        /* --- ESTILOS GERAIS E DE LAYOUT --- */
         body {
             margin: 0;
-			margin-top:0;
-            font-family: Arial, sans-serif;
-            background-color: #1b2b4b;
+            font-family: Georgia, serif;
+            background-color: #C8D9E6;
             display: flex;
             justify-content: center;
-            /* --- CORREÇÃO DE LAYOUT APLICADA AQUI --- */
-            align-items: flex-start; /* Alinha o conteúdo no topo */
+            align-items: flex-start;
             min-height: 100vh;
-            padding: 0px 0; /* Adiciona um respiro vertical na página */
+            /* --- CORREÇÃO APLICADA AQUI --- */
+            /* O padding que criava o espaço no topo foi removido. */
+            padding: 0;
             box-sizing: border-box;
         }
         .container {
@@ -33,55 +35,41 @@
             overflow: hidden;
             max-width: 420px;
             width: 100%;
-            box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
+            box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
-        .header-img {
+        .select-container {
+            margin: 3px auto;
+            width: 260px;
+            height:49px;
+        }
+        select {
             width: 100%;
-            display: block;
-        }
-        
-        /* --- PLAYER DE MÚSICA DE FUNDO --- */
-        #music-player-container {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 5px 12px;
-            border-radius: 50px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-            display: flex;
-            align-items: center;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-        #play-pause-button {
-            background: #7a9cff;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            padding: 7px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #B0D0B0;
+            background-color: #C8E6C9;
             outline: none;
-            margin-right: 8px;
         }
-        #play-pause-button svg {
-            fill: white;
-            width: 15px;
-            height: 15px;
+        .buy-btn-cell {
+            text-align: center;
         }
-        #music-player-container .pause-icon { display: none; }
-        #music-player-container.playing .music-icon { display: none; }
-        #music-player-container.playing .pause-icon { display: block; }
-        #music-title {
-            font-size: 0.8em;
-            color: #333;
-            font-weight: 500;
+        .buy-btn {
+            background-color: #ffc107;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 90%;
+            margin-bottom: 5px;
         }
-        
-        /* --- SLIDER DE IMAGENS --- */
+        .buy-btn:hover {
+            background-color: #ffd700;
+        }
         .slideshow-container {
             width: 100%;
             max-width: 420px;
@@ -94,12 +82,12 @@
         }
         .slides {
             display: flex;
-            width: 500%;
+            width: 600%;
             height: 100%;
             transition: transform 0.5s ease-in-out;
         }
         .slide {
-            width: 20%;
+            width: 16.666%;
             height: 100%;
         }
         .slide img {
@@ -112,164 +100,175 @@
         .navigation {
             position: absolute;
             top: 50%;
-            width: 100%;
+            width: 420px;
             transform: translateY(-50%);
             pointer-events: none;
         }
         .navigation label {
-            display: none;
-            cursor: pointer;
-            position: absolute;
-            top: 0;
-            padding: 15px;
-            background-color: rgba(122, 156, 255, 0.7);
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            user-select: none;
-            transition: background-color 0.3s ease;
-            pointer-events: auto;
+            display: none; cursor: pointer; position: absolute; top: 0; padding: 15px;
+            background-color: rgba(143, 188, 143, 0.7);
+            color: white; font-size: 24px; font-weight: bold; user-select: none;
+            transition: background-color 0.3s ease; pointer-events: auto;
         }
         .navigation label.prev { left: 0; border-radius: 0 50px 50px 0; }
         .navigation label.next { right: 0; border-radius: 50px 0 0 50px; }
-        .navigation label:hover { background-color: rgba(90, 125, 255, 1); }
+        .navigation label:hover { background-color: rgba(119, 157, 119, 1); }
         #slide1:checked ~ .slides { transform: translateX(0%); }
-        #slide2:checked ~ .slides { transform: translateX(-20%); }
-        #slide3:checked ~ .slides { transform: translateX(-40%); }
-        #slide4:checked ~ .slides { transform: translateX(-60%); }
-        #slide5:checked ~ .slides { transform: translateX(-80%); }
-        #slide1:checked ~ .navigation label.next[for="slide2"],
-        #slide1:checked ~ .navigation label.prev[for="slide5"] { display: block; }
-        #slide2:checked ~ .navigation label.next[for="slide3"],
-        #slide2:checked ~ .navigation label.prev[for="slide1"] { display: block; }
-        #slide3:checked ~ .navigation label.next[for="slide4"],
-        #slide3:checked ~ .navigation label.prev[for="slide2"] { display: block; }
-        #slide4:checked ~ .navigation label.next[for="slide5"],
-        #slide4:checked ~ .navigation label.prev[for="slide3"] { display: block; }
-        #slide5:checked ~ .navigation label.next[for="slide1"],
-        #slide5:checked ~ .navigation label.prev[for="slide4"] { display: block; }
-
-        /* --- SELEÇÃO E BOTÃO DE COMPRA --- */
-        .select-container {
-            margin: 20px auto;
-            width: 90%;
+        #slide2:checked ~ .slides { transform: translateX(-16.666%); }
+        #slide3:checked ~ .slides { transform: translateX(-33.333%); }
+        #slide4:checked ~ .slides { transform: translateX(-50%); }
+        #slide5:checked ~ .slides { transform: translateX(-66.666%); }
+        #slide6:checked ~ .slides { transform: translateX(-83.333%); }
+        #slide1:checked ~ .navigation .next[for="slide2"],
+        #slide1:checked ~ .navigation .prev[for="slide6"] { display: block; }
+        #slide2:checked ~ .navigation .next[for="slide3"],
+        #slide2:checked ~ .navigation .prev[for="slide1"] { display: block; }
+        #slide3:checked ~ .navigation .next[for="slide4"],
+        #slide3:checked ~ .navigation .prev[for="slide2"] { display: block; }
+        #slide4:checked ~ .navigation .next[for="slide5"],
+        #slide4:checked ~ .navigation .prev[for="slide3"] { display: block; }
+        #slide5:checked ~ .navigation .next[for="slide6"],
+        #slide5:checked ~ .navigation .prev[for="slide4"] { display: block; }
+        #slide6:checked ~ .navigation .next[for="slide1"],
+        #slide6:checked ~ .navigation .prev[for="slide5"] { display: block; }
+        #music-player-container {
+            position: fixed; top: 15px; left: 15px; background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 12px; border-radius: 50px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            display: flex; align-items: center; z-index: 1000; transition: all 0.3s ease;
         }
-        select {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            outline: none;
+        #play-pause-button {
+            background: #76B4FF; border: none; border-radius: 50%; cursor: pointer; padding: 7px;
+            display: flex; align-items: center; justify-content: center; outline: none; margin-right: 8px;
         }
-        .buy-btn {
-            background-color: #00a3d9;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border: none;
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 90%;
-            margin-bottom: 20px;
+        #play-pause-button svg { fill: white; width: 15px; height: 15px; }
+        .pause-icon { display: none; }
+        #music-player-container.playing .music-icon { display: none; }
+        #music-player-container.playing .pause-icon { display: block; }
+        #music-title { font-size: 0.8em; color: #333; font-weight: 500; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+            color: inherit;
         }
-        .buy-btn:hover {
-            background-color: #008bb8;
-        }
-
-        /* --- RODAPÉ --- */
         .footer-table {
-            width: 100%;
-            background-color: #002f5b;
             border-spacing: 0;
-            padding: 15px 0;
         }
         .footer-table td {
-            text-align: center;
             padding: 5px;
         }
     </style>
 </head>
 <body>
 
+<div id="music-player-container">
+    <audio id="background-music" src="DesenhosColorir.mp3" loop></audio>
+    <button id="play-pause-button" title="Tocar música">
+        <span class="material-symbols-outlined music-icon">headset_mic</span>
+        <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20px" height="20px">
+            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+        </svg>
+    </button>
+    <span id="music-title">Tocar</span>
+</div>
+
 <div class="container">
-    <img src="LandpageHistorinha.jpg" alt="Historinhas para Dormir" class="header-img">
-
-    <video controls width="100%" poster="postervideo.jpg" style="display:block;">
-        <source src="historinhas.mp4" type="video/mp4">
-    </video>
-    <br>
-
-    <div class="slideshow-container">
-        <input type="radio" name="slider" id="slide1" checked>
-        <input type="radio" name="slider" id="slide2">
-        <input type="radio" name="slider" id="slide3">
-        <input type="radio" name="slider" id="slide4">
-        <input type="radio" name="slider" id="slide5">
-        <div class="slides">
-            <div class="slide"><img src="livrohistorinhasparadormir1.jpg" alt="Página do livro 1"></div>
-            <div class="slide"><img src="livrohistorinhasparadormir2.jpg" alt="Página do livro 2"></div>
-            <div class="slide"><img src="livrohistorinhasparadormir3.jpg" alt="Página do livro 3"></div>
-            <div class="slide"><img src="livrohistorinhasparadormir4.jpg" alt="Página do livro 4"></div>
-            <div class="slide"><img src="livrohistorinhasparadormir5.jpg" alt="Página do livro 5"></div>
-        </div>
-        <div class="navigation">
-            <label for="slide5" class="prev">&#10094;</label> 
-            <label for="slide1" class="prev">&#10094;</label> 
-            <label for="slide2" class="prev">&#10094;</label> 
-            <label for="slide3" class="prev">&#10094;</label> 
-            <label for="slide4" class="prev">&#10094;</label> 
-            <label for="slide2" class="next">&#10095;</label> 
-            <label for="slide3" class="next">&#10095;</label> 
-            <label for="slide4" class="next">&#10095;</label> 
-            <label for="slide5" class="next">&#10095;</label> 
-            <label for="slide1" class="next">&#10095;</label> 
-        </div>
-    </div>
-    <br>
-
-    <div class="select-container">
-        <select id="versao">
-            <option value="" disabled selected>Selecionar versão</option>
-            <option value="tradicional">Tradicional - 49,99</option>
-            <option value="premium">Premium - 59,99</option>
-        </select>
-    </div>
-
-    <button class="buy-btn" onclick="comprar()">SAIBA MAIS</button>
-    <br><br>
-
-    <div id="music-player-container">
-        <audio id="background-music" src="cancaoninar.mp3" loop></audio>
-        <button id="play-pause-button" title="Tocar música">
-            <svg class="music-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-            <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24px" height="24px"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-        </button>
-        <span id="music-title">Tocar</span>
-    </div>
-
-    <table class="footer-table" width="100%" border="0" cellpadding="0">
+    <table id="Table_01" width="420" border="0" cellpadding="0" cellspacing="0">
         <tr>
-            <td colspan="4"><img src="pagamentos.jpg" width="100%" height="auto" alt="Formas de pagamento"></td>
+            <td colspan="4">
+                <img src="images/index_01.jpg" width="420" height="auto" alt="Cabeçalho da página de historinhas" style="display: block;">
+            </td>
         </tr>
         <tr>
-            <td><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="auto" alt="Instagram"></a></td>
-            <td><a href="https://wa.me/5519991950005" target="blank"><img src="livrinhoparacolorir_05.jpg" width="50" height="auto" alt="Whatsapp"></a></td>
-            <td><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="livrinhoparacolorir_09.jpg" width="50" height="auto" alt="Kwai"></a></td>
-            <td><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="livrinhoparacolorir_07.jpg" width="50" height="auto" alt="TikTok"></a></td>
+            <td colspan="4">
+                <video controls width="100%" poster="criancapintando.jpg" style="display: block;">
+                    <source src="livrinhoparacolorirbubu.mp4" type="video/mp4">
+                </video>
+            </td>
         </tr>
         <tr>
-            <td colspan="4"><img src="direitos.jpg" width="70%" height="auto" alt="Direitos Reservados"></td>
+            <td colspan="4" bgcolor="#39893c">
+                <br>
+                <div class="slideshow-container">
+                    <input type="radio" name="slider" id="slide1" checked>
+                    <input type="radio" name="slider" id="slide2">
+                    <input type="radio" name="slider" id="slide3">
+                    <input type="radio" name="slider" id="slide4">
+                    <input type="radio" name="slider" id="slide5">
+                    <input type="radio" name="slider" id="slide6">
+
+                    <div class="slides">
+                        <div class="slide"><img src="modelos/modeloslivrinhocolorir1.jpg" alt="Página do livro 1"></div>
+                        <div class="slide"><img src="modelos/modeloslivrinhocolorir2.jpg" alt="Página do livro 2"></div>
+                        <div class="slide"><img src="modelos/modeloslivrinhocolorir3.jpg" alt="Página do livro 3"></div>
+                        <div class="slide"><img src="modelos/modeloslivrinhocolorir4.jpg" alt="Página do livro 4"></div>
+                        <div class="slide"><img src="modelos/modeloslivrinhocolorir5.jpg" alt="Página do livro 5"></div>
+                        <div class="slide"><img src="modelos/modeloslivrinhocolorir6.jpg" alt="Página do livro 6"></div>
+                    </div>
+
+                    <div class="navigation">
+                        <label for="slide6" class="prev">&#10094;</label>
+                        <label for="slide5" class="prev">&#10094;</label>
+                        <label for="slide4" class="prev">&#10094;</label>
+                        <label for="slide3" class="prev">&#10094;</label>
+                        <label for="slide2" class="prev">&#10094;</label>
+                        <label for="slide1" class="prev">&#10094;</label>
+                        <label for="slide2" class="next">&#10095;</label>
+                        <label for="slide3" class="next">&#10095;</label>
+                        <label for="slide4" class="next">&#10095;</label>
+                        <label for="slide5" class="next">&#10095;</label>
+                        <label for="slide6" class="next">&#10095;</label>
+                        <label for="slide1" class="next">&#10095;</label>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr bgcolor="#39893c" ><td colspan="4" style="height: 10px;"></td></tr>
+        <tr>
+            <td rowspan="3"><img src="images/index_02.jpg" width="84" height="130" alt="" style="display: block;"></td>
+            <td colspan="2" width="268" height="56" background="images/index_03.jpg">
+                <div class="select-container">
+                    <select id="versao">
+                        <option value="" disabled selected>Selecionar versão</option>
+                        <option value="tradicional">Tradicional Flexível - 35,99</option>
+                        <option value="premium">Premium Capa Dura - 33,99</option>
+                    </select>
+                </div>
+            </td>
+            <td rowspan="3"><img src="images/index_04.jpg" width="68" height="130" alt="" style="display: block;"></td>
+        </tr>
+        <tr>
+            <td class="buy-btn-cell" width="267" height="48" background="images/index_05.jpg">
+                <button class="buy-btn" onclick="comprar()">SAIBA MAIS</button>
+            </td>
+            <td rowspan="2"><img src="images/index_06.jpg" width="1" height="74" alt="" style="display: block;"></td>
+        </tr>
+        <tr>
+            <td><img src="images/index_07.jpg" width="267" height="26" alt="" style="display: block;"></td>
         </tr>
     </table>
-</div>
+    
+    <table class="footer-table" width="420" bgcolor="#438346" border="0" cellpadding="0">
+        <tr><td colspan="4" style="height: 10px;"></td></tr>
+        <tr>
+            <td colspan="4" align="center"><img src="pagamentos.jpg" width="420" height="auto" alt="Formas de pagamento" style="display: block;"></td>
+        </tr>
+        <tr>
+            <td align="center"><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="auto" alt="Instagram" style="display: block;"></a></td>
+            <td align="center"><a href="https://wa.me/5519991950005" target="blank"><img src="livrinhoparacolorir_05.jpg" width="50" height="auto" alt="Whatsapp" style="display: block;"></a></td>
+            <td align="center"><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="livrinhoparacolorir_09.jpg" width="50" height="auto" alt="Kwai" style="display: block;"></a></td>
+            <td align="center"><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="livrinhoparacolorir_07.jpg" width="50" height="auto" alt="TikTok" style="display: block;"></a></td>
+        </tr>
+        <tr>
+            <td colspan="4" align="center"><img src="direitos.jpg" width="70%" height="auto" alt="Direitos Reservados" style="display: block;"></td>
+        </tr>
+    </table>
+</div>    
 
 <script>
     // Função de compra (global)
     function comprar() {
         const versao = document.getElementById('versao').value;
         if (!versao) {
+            // Alerta corrigido para Português
             alert("Por favor, selecione uma versão antes de comprar.");
             return;
         }
@@ -278,7 +277,7 @@
             'event_label': 'compra_historinhas_para_dormir_' + versao
         });
         if (versao === "tradicional") {
-            window.location.href = "https://loja.uiclap.com/titulo/ua111036";
+            window.location.href = "https://loja.uiclap.com/titulo/ua117232";
         } else if (versao === "premium") {
             window.location.href = "descricaoprod.html";
         }
@@ -286,31 +285,11 @@
 
     // Lógica principal da página (tudo consolidado)
     document.addEventListener('DOMContentLoaded', function() {
-        // Slider automático
-        const slideInterval = 3000;
-        let autoSlideTimer;
-        function startAutoSlider() {
-            clearInterval(autoSlideTimer);
-            autoSlideTimer = setInterval(() => {
-                const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
-                let nextRadio = currentRadio.nextElementSibling;
-                while(nextRadio && nextRadio.nodeName !== 'INPUT') {
-                    nextRadio = nextRadio.nextElementSibling;
-                }
-                if (!nextRadio) {
-                    nextRadio = document.querySelector('.slideshow-container input[type="radio"]');
-                }
-                nextRadio.checked = true;
-            }, slideInterval);
-        }
-        const sliderContainer = document.querySelector('.slideshow-container');
-        sliderContainer.addEventListener('click', startAutoSlider);
-        startAutoSlider();
-
         // Player de música de fundo
         const musicPlayerContainer = document.getElementById('music-player-container');
         const playPauseButton = document.getElementById('play-pause-button');
         const backgroundMusic = document.getElementById('background-music');
+
         playPauseButton.addEventListener('click', function() {
             if (backgroundMusic.paused) {
                 backgroundMusic.play();
@@ -320,7 +299,31 @@
                 musicPlayerContainer.classList.remove('playing');
             }
         });
+
+        // Slider automático
+        const slideInterval = 3000;
+        let autoSlideTimer;
+        const sliderContainer = document.querySelector('.slideshow-container');
+        const radioButtons = document.querySelectorAll('.slideshow-container input[type="radio"]');
+
+        function startAutoSlider() {
+            clearInterval(autoSlideTimer);
+            autoSlideTimer = setInterval(() => {
+                const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
+                let currentIndex = Array.from(radioButtons).indexOf(currentRadio);
+                let nextIndex = (currentIndex + 1) % radioButtons.length;
+                radioButtons[nextIndex].checked = true;
+            }, slideInterval);
+        }
+        
+        sliderContainer.addEventListener('click', () => {
+             clearInterval(autoSlideTimer);
+             setTimeout(startAutoSlider, slideInterval * 2);
+        });
+
+        startAutoSlider();
     });
 </script>
+
 </body>
 </html>
