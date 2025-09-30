@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Livrinho para Colorir</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        :root {
+            --cor-primaria:#4E4E4E; /* Azul suave */
+            --cor-secundaria: #FDF0D5; /* Creme de fundo dos cards */
+            --cor-texto: #333;
+            --cor-acao: #FF6B6B; /* Coral para o botão */
+            --cor-estrelas: #FFD700; /* Dourado */
+            --fonte-principal: 'Nunito', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            font-family: var(--fonte-principal);
+            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+			background-color:#EFFFEA;
+            background-attachment:fixed;
+			background-repeat:repeat;
+			background-size:auto;
+            color: var(--cor-texto);
+        }
+
+       
+        .product-page-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px 10px;
+        }
+
+        .product-header h1 {
+            font-size: 2.5rem;
+            color: var(--cor-primaria);
+            text-align: center;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .main-image-wrapper {
+            padding: 0 5px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .main-image-wrapper img,
+        .main-image-wrapper video { /* Estilo aplicado tanto na imagem quanto no vídeo */
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            padding: 0 5px;
+            margin-bottom: 30px;
+        }
+
+        .image-gallery .thumbnail-wrapper {
+            position: relative; /* Necessário para o ícone de play */
+            width: 100%;
+            height: 100px;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+        }
+        
+        .image-gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .image-gallery img.active-thumbnail {
+            border-color: var(--cor-acao);
+            transform: scale(1.05);
+        }
+
+        /* --- AQUI COMEÇA A IMPLANTAÇÃO DO CSS PARA O VÍDEO --- */
+        /* Ícone de Play sobre a miniatura de vídeo */
+        .video-thumbnail-wrapper::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none; /* Garante que o clique passe para a imagem abaixo */
+            transition: background-color 0.3s ease;
+        }
+
+        .video-thumbnail-wrapper:hover::after {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+        /* --- AQUI TERMINA A IMPLANTAÇÃO DO CSS PARA O VÍDEO --- */
+
+        .description-section {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .description-section h2 { margin-top: 0; color: var(--cor-primaria); font-weight: 800; }
+        .description-text { overflow: hidden; position: relative; transition: max-height 0.7s ease-in-out; }
+        .description-text.collapsed { max-height: 120px; }
+        .description-text.collapsed::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 50px;
+            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.8));
+        }
+        .expand-btn {
+            background: none; border: 2px solid var(--cor-primaria); color: var(--cor-primaria); font-weight: 700; padding: 8px 16px;
+            border-radius: 50px; cursor: pointer; margin-top: 15px; transition: all 0.3s ease;
+        }
+        .expand-btn:hover { background: var(--cor-primaria); color: white; }
+
+
+        .testimonials-section { padding-bottom: 50px; position: relative; }
+        .testimonials-section h2 {
+            text-align: center; color: var(--cor-primaria); font-weight: 800; font-size: 2rem; margin-bottom: 20px;
+        }
+        .swiper-slide {
+            background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); text-align: left;
+            position: relative; box-sizing: border-box; min-height: 320px; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .swiper-slide::before {
+            content: '“'; position: absolute; top: 5px; left: 15px; font-size: 6rem; font-weight: 800;
+            color: rgba(0, 0, 0, 0.08); z-index: 1;
+        }
+        .testimonial-content { position: relative; z-index: 2; }
+        .star-rating { color: var(--cor-estrelas); font-size: 1.2rem; margin-bottom: 10px; }
+        .testimonial-text { font-style: italic; color: #444; font-size: 1.05rem; line-height: 1.6; }
+        .testimonial-author {
+            display: flex; align-items: center; gap: 15px; margin-top: 20px; position: relative; z-index: 2;
+        }
+        .testimonial-author img {
+            width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 3px solid var(--cor-primaria);
+        }
+        .testimonial-author span { font-weight: 700; font-size: 1.1rem; color: var(--cor-texto); }
+        .swiper-pagination-bullet-active { background-color: var(--cor-primaria) !important; }
+
+        /* --- AQUI COMEÇA A IMPLANTAÇÃO DO CSS PARA AS CURTIDAS DO DEPOIMENTO --- */
+        .testimonial-likes {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            color: #777;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
+        }
+        .testimonial-likes svg {
+            width: 18px;
+            height: 18px;
+            fill: #777;
+            margin-right: 8px;
+        }
+        /* --- AQUI TERMINA A IMPLANTAÇÃO DO CSS PARA AS CURTIDAS DO DEPOIMENTO --- */
+
+        .buy-button-wrapper { text-align: center; padding: 20px 0; }
+        .buy-button {
+            display: inline-block; background-color: var(--cor-acao); color: white; font-size: 1.5rem; font-weight: 800;
+            text-decoration: none; padding: 15px 40px; border-radius: 50px;
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.4); transition: all 0.3s ease;
+        }
+        .buy-button:hover { transform: translateY(-3px); box-shadow: 0 12px 25px rgba(255, 107, 107, 0.6); }
+    </style>
+</head>
+<body>
+
+    <main class="product-page-container">
+        
+        <header class="product-header">
+            <h2>✨ Um Livro de Contos Infantis Que Encantaram o Mundo ✨</h2>
+        </header>
+
+        <section class="main-image-wrapper">
+            <img id="mainProductImage" src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Imagem principal do Livro Mágico dos Sonhos">
+            
+            <video id="mainProductVideo" src="" controls style="display: none;"></video>
+            </section>
+
+        <section class="image-gallery">
+            <div class="thumbnail-wrapper"><img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 1 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto02.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 2 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto03.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 3 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto04.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 4 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto05.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 5 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto02.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 6 do produto"></div>
+            <div class="thumbnail-wrapper"><img src="produtos/produto01.jpg?auto=compress&cs=tinysrgb&w=400" alt="Detalhe 7 do produto"></div>
+            
+            <div class="thumbnail-wrapper video-thumbnail-wrapper">
+                <img id="videoThumbnail" data-video-src="produtos/videoproduto.mp4" src="livrohistorinhasparadormir1.jpg?auto=compress&cs=tinysrgb&w=420&h=*&dpr=1" alt="Clique para ver o vídeo do produto">
+            </div>
+            </section>
+
+        <section class="description-section">
+            <h2>Descrição Produto</h2>
+            <div id="descriptionText" class="description-text collapsed">
+                <p>📖 O tesouro de contos clássicos para encantar gerações!</p>
+                <p>Este livro traz 32 contos de fadas clássicos, as histórias que avós leram para seus pais, e que agora você pode compartilhar com seus filhos. Cada conto foi recontado de forma suave e carinhosa, em textos curtinhos, ideais para o momento de dormir. Preservamos a magia dos originais, sempre com mensagens de coragem, bondade e a vitória do bem. 🌙✨</p>
+                <p>Com ilustrações encantadoras e linguagem acessível, as histórias convidam a criança a viajar por reinos distantes, encontrar príncipes e princesas, animais falantes, fadas madrinhas e mundos onde tudo é possível. Um universo de fantasia e aventura que acolhe meninas e meninos de todas as idades. 🧸📘</p>
+                <p>Entre as historinhas estão:<br>
+                  👑 Cinderela e o Sapatinho de Cristal<br>
+                  🐺 Chapeuzinho Vermelho e o Lobo Esperto<br>
+                  🍎 Branca de Neve e os Sete Anões<br>
+                  🐢 A Lebre e a Tartaruga<br>
+                  🧜♀️ A Pequena Sereia<br>
+                  🏠 Os Três Porquinhos …e muitas outras aventuras inesquecíveis!</p>
+                <p>💛 Criado com carinho e qualidade, este livrinho é perfeito para pais e responsáveis que desejam criar uma rotina de leitura mágica e nostálgica, reforçando valores como amizade, perseverança, honestidade e amor.</p>
+                <p>Uma coleção de histórias para ler todas as noites com um sorriso no rosto. 🌟📚</p>
+                <p data-start="173" data-end="455">.</p>
+                <p> <strong>Dados Técnicos: </strong><br>
+                  <strong>Peso</strong> 300g<br>
+                  <strong>Dimensões</strong> 16 cm × 23 cm <br>
+                  <strong>Nº Páginas</strong> 66 <br>
+                  <strong>Capa  Dura Fosco, SEM orelh</strong>a <br>
+                  <strong>Impressão</strong> Colorida (Papel Couchê) 115g <br>
+                <strong>Tamanho</strong> 16 cm x 23 cm</p>
+            </div>
+            <button id="expandBtn" class="expand-btn" onclick="toggleDescription()">Ver mais</button>
+        </section>
+
+        <section class="testimonials-section">
+            <h3>O que os pais dizem</h3>
+            <div class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">"“Minha filha simplesmente amou! Agora toda noite pede para eu ler uma historinha antes de dormir.” – </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYxZ6ZR7WYn8kFtkbLCxaLb0WqrRayCBmJFB9IFqrieAM4dEOF92TfaAdldlMhTYkHdYk&usqp=CAU?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Juliana M.">
+                            <span>Juliana M.</span>
+                        </div> <div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>46 pessoas acharam útil</span></div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                            <div class="star-rating">★★★★★</div>
+                            <p class="testimonial-text">“Histórias leves, fofas e divertidas. Foi o melhor presente que já dei para o meu filho!” –</p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQC5lOUxESiHPR11UZualZr3HtkL2zh2c8HTufn1UjB1C2Y459WO12g7OMOInkBBvP6-_g&usqp=CAU?auto=compress&cs=tinysrgb&w=400" alt="Foto do cliente Ricardo Araujo Perini">
+                            <span> Ricardo Araujo Perini</span>
+                        </div> <div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>40 pessoas acharam útil</span></div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="testimonial-content">
+                             <div class="star-rating">★★★★☆</div>
+                            <p class="testimonial-text">“Os contos encantaram não só minha neta, mas a mim também. É mágico compartilhar esses momentos juntos.” – </p>
+                        </div>
+                        <div class="testimonial-author">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ07H0umsqtdsMDjNe7gCJQ5MmBp9yaNRByKu05AGztlhSXakfGxPRQViCygkNjwcvbU40&usqp=CAU?auto=compress&cs=tinysrgb&w=400" alt="Foto da cliente Ana Paula Aguiar">
+                            <span>Ana Paula Aguiar</span>
+                        </div> <div class="testimonial-likes">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"/></svg>
+                            <span>17 pessoas acharam útil</span></div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </section>
+
+        <footer class="buy-button-wrapper">
+            <a href="https://pag.ae/7__r2ohr1" class="buy-button">Comprar Agora</a>
+        </footer>
+
+    </main>
+
+   
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            const descriptionText = document.getElementById('descriptionText');
+            const expandBtn = document.getElementById('expandBtn');
+            window.toggleDescription = function() {
+                descriptionText.classList.toggle('collapsed');
+                expandBtn.textContent = descriptionText.classList.contains('collapsed') ? 'Ver mais' : 'Ver menos';
+            }
+
+            const swiper = new Swiper('.swiper', {
+                loop: true, autoplay: { delay: 5000, disableOnInteraction: false },
+                pagination: { el: '.swiper-pagination', clickable: true },
+            });
+            
+            // --- AQUI COMEÇA A IMPLANTAÇÃO DO JAVASCRIPT PARA O VÍDEO ---
+            const mainImage = document.getElementById('mainProductImage');
+            const mainVideo = document.getElementById('mainProductVideo');
+            const galleryThumbnails = document.querySelectorAll('.image-gallery img');
+
+            if (galleryThumbnails.length > 0) {
+                galleryThumbnails[0].classList.add('active-thumbnail');
+            }
+
+            galleryThumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    
+                    // Verifica se o thumbnail clicado é o do vídeo
+                    if (this.id === 'videoThumbnail') {
+                        mainImage.style.display = 'none'; // Esconde a imagem principal
+                        mainVideo.style.display = 'block'; // Mostra o player de vídeo
+                        mainVideo.src = this.getAttribute('data-video-src'); // Define a URL do vídeo
+                        mainVideo.play(); // Inicia o vídeo
+                    } else {
+                        mainVideo.style.display = 'none'; // Esconde o player de vídeo
+                        mainVideo.pause(); // PAUSA o vídeo para não ficar tocando som no fundo
+                        mainImage.style.display = 'block'; // Mostra a imagem principal
+                        mainImage.src = this.src; // Atualiza a URL da imagem
+                    }
+
+                    // Lógica para destacar a miniatura ativa (funciona para fotos e vídeo)
+                    galleryThumbnails.forEach(item => item.classList.remove('active-thumbnail'));
+                    this.classList.add('active-thumbnail');
+                });
+            });
+            // --- AQUI TERMINA A IMPLANTAÇÃO DO JAVASCRIPT PARA O VÍDEO ---
+        });
+    </script>
+
+</body>
+</html>
