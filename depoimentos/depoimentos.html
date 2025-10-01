@@ -1,181 +1,439 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Perfil Infantil</title>
-  <style>
-    body {
-      font-family: "Comic Sans MS", "Poppins", sans-serif;
-      background: linear-gradient(to bottom, #fef6ff, #fcefff);
-      color: #444;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Depoimentos - Um Mundo de Sonhos</title>
+    
+    <!-- Fonte Nunito do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --cor-primaria: #a2d2ff; /* Azul bebê */
+            --cor-secundaria: #ffafcc; /* Rosa suave */
+            --cor-texto: #5c5c7b;
+            --cor-estrelas: #ffdd57;
+            --fonte-principal: 'Nunito', sans-serif;
+        }
 
-    .profile-container {
-      max-width: 650px;
-      margin: 40px auto;
-      background: #fff;
-      border-radius: 20px;
-      padding: 25px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-    }
+        body {
+            font-family: var(--fonte-principal);
+            background-color: #f8f9fe;
+            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+            margin: 0;
+            padding: 30px 15px;
+            color: var(--cor-texto);
+        }
 
-    .profile-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--cor-primaria);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
 
-    .profile-header h1 {
-      font-size: 22px;
-      margin: 0;
-      color: #5a3d9a;
-      font-weight: bold;
-    }
+        .carousel {
+            position: relative;
+            max-width: 550px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
 
-    .profile-header h2 {
-      font-size: 18px;
-      margin: 5px 0 0;
-      color: #f28a2e;
-      font-weight: normal;
-    }
+        .carousel-inner {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 15px;
-    }
+        .carousel-item {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+        }
 
-    .gallery img {
-      width: 100%;
-      border-radius: 15px;
-      cursor: pointer;
-      transition: transform 0.2s;
-      border: 3px solid #f8e6ff;
-    }
+        .testimonial-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 35px rgba(150, 170, 200, 0.2);
+            position: relative;
+            text-align: center;
+            overflow: hidden;
+        }
 
-    .gallery img:hover {
-      transform: scale(1.05);
-    }
+        /* Ícone de aspas decorativo */
+        .testimonial-card::before {
+            content: '“';
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 6rem;
+            font-weight: 800;
+            color: rgba(162, 210, 255, 0.2);
+            z-index: 1;
+        }
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      padding-top: 50px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.7);
-    }
+        .testimonial-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            line-height: 1.7;
+            color: var(--cor-texto);
+            margin-bottom: 20px;
+        }
+        
+        /* --- INÍCIO DA ALTERAÇÃO: LAYOUT DO AUTOR --- */
+        .author-details {
+            font-weight: 700;
+            margin-top: 15px;
+            line-height: 1.4;
+        }
+        .author-name {
+            font-size: 1.1rem;
+            color: #333;
+            font-weight: 800;
+        }
+        .author-role {
+            font-size: 0.95rem;
+            color: var(--cor-secundaria);
+        }
+        /* --- FIM DA ALTERAÇÃO --- */
 
-    .modal-content {
-      margin: auto;
-      display: block;
-      max-width: 380px;
-      width: 100%;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    }
+        .stars {
+            color: var(--cor-estrelas);
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
 
-    .close, .prev, .next {
-      position: absolute;
-      top: 50%;
-      color: #fff;
-      font-size: 28px;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 12px;
-      user-select: none;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.4);
-      transform: translateY(-50%);
-    }
+        .media-thumbs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+        }
+        .media-thumbnail {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid #eee;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .media-thumbnail:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(162, 210, 255, 0.5);
+        }
 
-    .close {
-      top: 30px;
-      right: 30px;
-      transform: none;
-    }
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .control-btn {
+            pointer-events: auto;
+            background: rgba(255, 255, 255, 0.8);
+            color: var(--cor-primaria);
+            border: none;
+            width: 45px;
+            height: 45px;
+            cursor: pointer;
+            border-radius: 50%;
+            font-size: 24px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .control-btn:hover {
+            background: var(--cor-primaria);
+            color: white;
+        }
+        #prevBtn { margin-left: -22px; }
+        #nextBtn { margin-right: -22px; }
 
-    .prev {
-      left: 20px;
-    }
+        /* Modal (Janela Ampliada) */
+        .modal {
+            display: none; position: fixed; z-index: 9999; left: 0; top: 0;
+            width: 100%; height: 100%; background-color: rgba(0,0,0,0.85);
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-inner {
+            position: relative;
+            /* --- INÍCIO DA ALTERAÇÃO: TAMANHO MÁXIMO DA MÍDIA --- */
+            max-width: 380px;
+            width: 90%;
+            /* --- FIM DA ALTERAÇÃO --- */
+        }
+        .modal-inner img, .modal-inner video {
+            width: 100%; /* Ocupa a largura do container (máx 380px) */
+            height: auto; /* Altura proporcional */
+            display: block;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .modal-close, .modal-prev, .modal-next {
+            position: absolute; color: white; font-size: 2rem;
+            background: rgba(0,0,0,0.3); border-radius: 50%;
+            width: 45px; height: 45px; cursor: pointer; user-select: none;
+            display: flex; align-items: center; justify-content: center;
+            transition: background-color 0.2s;
+        }
+        .modal-close:hover, .modal-prev:hover, .modal-next:hover { background: rgba(0,0,0,0.6); }
+        .modal-close { top: -50px; right: 0; }
+        .modal-prev { left: -60px; top: 50%; transform: translateY(-50%); }
+        .modal-next { right: -60px; top: 50%; transform: translateY(-50%); }
 
-    .next {
-      right: 20px;
-    }
-
-    .close:hover, .prev:hover, .next:hover {
-      background: rgba(0,0,0,0.7);
-    }
-
-    /* Animação */
-    @keyframes zoom {
-      from {transform: scale(0.7);}
-      to {transform: scale(1);}
-    }
-
-    .modal-content {
-      animation: zoom 0.3s;
-    }
-  </style>
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .modal-prev { left: 10px; transform: translateY(-50%); }
+            .modal-next { right: 10px; transform: translateY(-50%); }
+        }
+    </style>
 </head>
 <body>
-  <div class="profile-container">
-    <div class="profile-header">
-      <h1>Adamo Costa - Pai da Gabi</h1>
-      <h2>Gabriela</h2>
+    <h1>O que nossas famílias estão dizendo</h1>
+
+    <div class="carousel" id="testimonialCarousel" aria-label="carrossel de depoimentos">
+        <div class="carousel-inner" id="carouselInner"></div>
+        <div class="carousel-controls" aria-hidden="true">
+            <button class="control-btn" id="prevBtn" aria-label="Anterior">&#10094;</button>
+            <button class="control-btn" id="nextBtn" aria-label="Próximo">&#10095;</button>
+        </div>
     </div>
 
-    <div class="gallery">
-      <img src="foto1.jpg" alt="Foto 1" onclick="openModal(0)">
-      <img src="foto2.jpg" alt="Foto 2" onclick="openModal(1)">
-      <img src="foto3.jpg" alt="Foto 3" onclick="openModal(2)">
+    <div id="mediaModal" class="modal" aria-hidden="true">
+        <div class="modal-inner" id="modalInner"></div>
+        <div class="modal-close" id="closeModal" title="Fechar">&times;</div>
+        <div class="modal-prev" id="prevMedia" title="Anterior">&#10094;</div>
+        <div class="modal-next" id="nextMedia" title="Próximo">&#10095;</div>
     </div>
-  </div>
 
-  <!-- Modal -->
-  <div id="myModal" class="modal">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <span class="prev" onclick="changeSlide(-1)">&#10094;</span>
-    <span class="next" onclick="changeSlide(1)">&#10095;</span>
-    <img class="modal-content" id="modalImg">
-  </div>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  <script>
-    let currentIndex = 0;
-    const images = document.querySelectorAll('.gallery img');
-    const modal = document.getElementById("myModal");
-    const modalImg = document.getElementById("modalImg");
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
+            authDomain: "meus-depoimentos.firebaseapp.com",
+            projectId: "meus-depoimentos",
+            storageBucket: "meus-depoimentos.appspot.com",
+            messagingSenderId: "781528550069",
+            appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
+            measurementId: "G-90MR5JQT0Z"
+        };
 
-    function openModal(index) {
-      currentIndex = index;
-      modal.style.display = "block";
-      modalImg.src = images[currentIndex].src;
-    }
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-    function closeModal() {
-      modal.style.display = "none";
-    }
+        const carouselInner = document.getElementById('carouselInner');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const carousel = document.getElementById('testimonialCarousel');
+        const modal = document.getElementById('mediaModal');
+        const modalInner = document.getElementById('modalInner');
+        const closeModalBtn = document.getElementById('closeModal');
+        const prevMediaBtn = document.getElementById('prevMedia');
+        const nextMediaBtn = document.getElementById('nextMedia');
 
-    function changeSlide(n) {
-      currentIndex += n;
-      if (currentIndex < 0) currentIndex = images.length - 1;
-      if (currentIndex >= images.length) currentIndex = 0;
-      modalImg.src = images[currentIndex].src;
-    }
+        let currentIndex = 0;
+        let totalItems = 0;
+        let autoplayInterval = null;
+        const mediaPerSlide = [];
 
-    // Fechar clicando fora da imagem
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        closeModal();
-      }
-    }
-  </script>
+        function isVideoUrl(url) {
+            const vExt = ['.mp4', '.mov', '.webm', '.ogg'];
+            return vExt.some(ext => url.toLowerCase().includes(ext));
+        }
+
+        async function loadTestimonials() {
+            try {
+                const q = query(collection(db, 'depoimentos'), orderBy('createdAt', 'desc'));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    carouselInner.innerHTML = '<div class="carousel-item"><div class="testimonial-card"><p>Nenhum depoimento disponível ainda.</p></div></div>';
+                    totalItems = 1;
+                    return;
+                }
+
+                let slideCount = 0;
+                for (const doc of snapshot.docs) {
+                    const data = doc.data();
+                    const mediaUrls = (data.media || '').split(',').map(s => s.trim()).filter(Boolean);
+                    
+                    mediaPerSlide.push(mediaUrls);
+
+                    const mediaThumbsHTML = mediaUrls.map((url, mIdx) => {
+                        const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}" data-url="${url}"`;
+                        if (isVideoUrl(url)) {
+                            return `<video ${dataAttrs} src="${url}" class="media-thumbnail" muted preload="metadata"></video>`;
+                        }
+                        return `<img ${dataAttrs} src="${url}" class="media-thumbnail" alt="Mídia do depoimento">`;
+                    }).join('');
+
+                    const stars = '★'.repeat(data.rating || 0) + '☆'.repeat(5 - (data.rating || 0));
+
+                    // --- INÍCIO DA ALTERAÇÃO: NOVA ESTRUTURA HTML DO DEPOIMENTO ---
+                    const slideHtml = `
+                        <div class="carousel-item" data-slide-index="${slideCount}">
+                            <div class="testimonial-card">
+                                <div class="testimonial-content">
+                                    <div class="stars">${stars}</div>
+                                    <p class="testimonial-text">"${(data.testimonial || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')}"</p>
+                                    <div class="author-details">
+                                        <div class="author-name">${data.name || 'Anônimo'}</div>
+                                        <div class="author-role">${data.role || ''} do(a) ${data.childName || ''}</div>
+                                    </div>
+                                    ${mediaUrls.length > 0 ? `<div class="media-thumbs">${mediaThumbsHTML}</div>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    // --- FIM DA ALTERAÇÃO ---
+
+                    carouselInner.insertAdjacentHTML('beforeend', slideHtml);
+                    slideCount++;
+                }
+
+                totalItems = slideCount;
+                showSlide(0);
+                attachEventListeners();
+
+            } catch (err) {
+                console.error('Erro ao carregar depoimentos:', err);
+                carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Erro ao carregar depoimentos.</p></div>';
+            }
+        }
+
+        function showSlide(index) {
+            if (!totalItems || totalItems <= 0) return;
+            currentIndex = (index + totalItems) % totalItems;
+            carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        function nextSlide() { showSlide(currentIndex + 1); }
+        function prevSlide() { showSlide(currentIndex - 1); }
+
+        function startAutoplay() {
+            stopAutoplay();
+            if (totalItems > 1) {
+                autoplayInterval = setInterval(nextSlide, 5000);
+            }
+        }
+        function stopAutoplay() {
+            clearInterval(autoplayInterval);
+            autoplayInterval = null;
+        }
+
+        let currentModalSlide = 0;
+        let currentModalMedia = 0;
+
+        function openModalFor(slideIdx, mediaIdx) {
+            if (!mediaPerSlide[slideIdx] || mediaPerSlide[slideIdx].length === 0) return;
+            currentModalSlide = slideIdx;
+            currentModalMedia = mediaIdx;
+            renderModal();
+            modal.style.display = 'flex';
+            modal.setAttribute('aria-hidden', 'false');
+            stopAutoplay();
+        }
+
+        function renderModal() {
+            const list = mediaPerSlide[currentModalSlide] || [];
+            if (!list || list.length === 0) return;
+
+            // Navegação do modal só aparece se houver mais de uma mídia
+            prevMediaBtn.style.display = list.length > 1 ? 'flex' : 'none';
+            nextMediaBtn.style.display = list.length > 1 ? 'flex' : 'none';
+            
+            const url = list[currentModalMedia];
+            modalInner.innerHTML = '';
+            if (isVideoUrl(url)) {
+                modalInner.innerHTML = `<video src="${url}" controls autoplay></video>`;
+            } else {
+                modalInner.innerHTML = `<img src="${url}" alt="Mídia do depoimento ampliada">`;
+            }
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+            modalInner.innerHTML = '';
+            startAutoplay();
+        }
+
+        function nextModalMedia() {
+            const list = mediaPerSlide[currentModalSlide];
+            if (!list || list.length <= 1) return;
+            currentModalMedia = (currentModalMedia + 1) % list.length;
+            renderModal();
+        }
+        function prevModalMedia() {
+            const list = mediaPerSlide[currentModalSlide];
+            if (!list || list.length <= 1) return;
+            currentModalMedia = (currentModalMedia - 1 + list.length) % list.length;
+            renderModal();
+        }
+
+        function attachEventListeners() {
+            nextBtn.addEventListener('click', () => { nextSlide(); startAutoplay(); });
+            prevBtn.addEventListener('click', () => { prevSlide(); startAutoplay(); });
+
+            carousel.addEventListener('mouseenter', stopAutoplay);
+            carousel.addEventListener('mouseleave', startAutoplay);
+
+            document.querySelectorAll('.media-thumbnail').forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    const slideIdx = parseInt(thumb.getAttribute('data-slide'), 10);
+                    const mediaIdx = parseInt(thumb.getAttribute('data-media'), 10);
+                    openModalFor(slideIdx, mediaIdx);
+                });
+            });
+
+            closeModalBtn.addEventListener('click', closeModal);
+            nextMediaBtn.addEventListener('click', nextModalMedia);
+            prevMediaBtn.addEventListener('click', prevModalMedia);
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (modal.style.display === 'flex') {
+                    if (e.key === 'Escape') closeModal();
+                    if (e.key === 'ArrowRight') nextModalMedia();
+                    if (e.key === 'ArrowLeft') prevModalMedia();
+                } else if (document.activeElement.tagName !== 'TEXTAREA' && document.activeElement.tagName !== 'INPUT') {
+                    if (e.key === 'ArrowRight') { nextSlide(); startAutoplay(); }
+                    if (e.key === 'ArrowLeft') { prevSlide(); startAutoplay(); }
+                }
+            });
+
+            startAutoplay();
+        }
+
+        loadTestimonials();
+    </script>
 </body>
 </html>
+
