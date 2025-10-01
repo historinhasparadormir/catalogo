@@ -170,134 +170,90 @@
     <span class="next" id="nextMedia">&#10095;</span>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+ <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
-      authDomain: "meus-depoimentos.firebaseapp.com",
-      projectId: "meus-depoimentos",
-      storageBucket: "meus-depoimentos.appspot.com",
-      messagingSenderId: "781528550069",
-      appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
-      measurementId: "G-90MR5JQT0Z"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
+    authDomain: "meus-depoimentos.firebaseapp.com",
+    projectId: "meus-depoimentos",
+    storageBucket: "meus-depoimentos.appspot.com",
+    messagingSenderId: "781528550069",
+    appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
+    measurementId: "G-90MR5JQT0Z"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    const carouselInner = document.getElementById("carouselInner");
-    const modal = document.getElementById("mediaModal");
-    const modalContent = document.getElementById("modalContent");
-    let currentIndex = 0;
-    let totalItems = 0;
-    let mediaList = [];
-    let currentMediaIndex = 0;
+  const carouselInner = document.getElementById("carouselInner");
 
-    async function loadTestimonials() {
-      const q = query(collection(db, "depoimentos"), orderBy("createdAt", "desc"));
-      const querySnapshot = await getDocs(q);
-
-      if (querySnapshot.empty) {
-        carouselInner.innerHTML = "<p style='text-align:center;'>Nenhum depoimento disponível ainda.</p>";
-        return;
-      }
-
-      querySnapshot.forEach((doc) => {
-        const data = doc.data();
-
-        let mediaHTML = '';
-        if (data.media && data.media.length > 0) {
-          const mediaUrls = data.media.split(',');
-          mediaUrls.forEach(url => {
-            const isVideo = ['.mp4', '.mov', '.webm'].some(ext => url.toLowerCase().includes(ext));
-            mediaHTML += isVideo 
-              ? `<video src="${url.trim()}nth/0/" class="media-thumbnail" data-url="${url.trim()}" muted></video>`
-              : `<img src="${url.trim()}nth/0/" alt="Mídia do depoimento" class="media-thumbnail" data-url="${url.trim()}">`;
-          });
-        }
-
-        const stars = "★".repeat(data.rating || 0);
-
-        const slide = `
-          <div class="carousel-item">
-            <p class="testimonial">"${data.testimonial}"</p>
-            <p class="stars">${stars}</p>
-            <p class="author">${data.name} (${data.role}) da ${data.childName}</p>
-            <div class="media-container">${mediaHTML}</div>
-          </div>
-        `;
-        carouselInner.innerHTML += slide;
-      });
-
-      totalItems = document.querySelectorAll(".carousel-item").length;
-
-      // evento de abrir popup ao clicar
-      document.querySelectorAll(".media-thumbnail").forEach((thumb, index) => {
-        thumb.addEventListener("click", () => openModal(index));
-        mediaList.push({ url: thumb.dataset.url, isVideo: thumb.tagName === "VIDEO" });
-      });
+  async function urlExists(url) {
+    try {
+      const res = await fetch(url, { method: "HEAD" });
+      return res.ok;
+    } catch {
+      return false;
     }
+  }
 
-    loadTestimonials();
+  async function getAllGroupMedia(baseUrl) {
+    let media = [];
+    let index = 0;
+    let exists = true;
 
-    function showSlide(index) {
-      carouselInner.style.transform = `translateX(-${index * 100}%)`;
-    }
-
-    document.getElementById("nextBtn").addEventListener("click", () => {
-      currentIndex = (currentIndex + 1) % totalItems;
-      showSlide(currentIndex);
-    });
-
-    document.getElementById("prevBtn").addEventListener("click", () => {
-      currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-      showSlide(currentIndex);
-    });
-
-    // autoplay
-    setInterval(() => {
-      if (totalItems > 0) {
-        currentIndex = (currentIndex + 1) % totalItems;
-        showSlide(currentIndex);
-      }
-    }, 5000);
-
-    // modal
-    function openModal(index) {
-      currentMediaIndex = index;
-      showMedia(index);
-      modal.style.display = "block";
-    }
-
-    function showMedia(index) {
-      modalContent.innerHTML = "";
-      const media = mediaList[index];
-      if (media.isVideo) {
-        modalContent.innerHTML = `<video src="${media.url}" controls autoplay></video>`;
-      } else {
-        modalContent.innerHTML = `<img src="${media.url}" alt="mídia">`;
+    while (exists) {
+      let testUrl = `${baseUrl}nth/${index}/`;
+      exists = await urlExists(testUrl);
+      if (exists) {
+        media.push(testUrl);
+        index++;
       }
     }
+    return media;
+  }
 
-    document.getElementById("closeModal").addEventListener("click", () => {
-      modal.style.display = "none";
-    });
+  async function loadTestimonials() {
+    const q = query(collection(db, "depoimentos"), orderBy("createdAt", "desc"));
+    const querySnapshot = await getDocs(q);
 
-    document.getElementById("nextMedia").addEventListener("click", () => {
-      currentMediaIndex = (currentMediaIndex + 1) % mediaList.length;
-      showMedia(currentMediaIndex);
-    });
+    if (querySnapshot.empty) {
+      carouselInner.innerHTML = "<p style='text-align:center;'>Nenhum depoimento disponível ainda.</p>";
+      return;
+    }
 
-    document.getElementById("prevMedia").addEventListener("click", () => {
-      currentMediaIndex = (currentMediaIndex - 1 + mediaList.length) % mediaList.length;
-      showMedia(currentMediaIndex);
-    });
+    for (let doc of querySnapshot.docs) {
+      const data = doc.data();
+      let mediaHTML = '';
 
-    window.addEventListener("click", (e) => {
-      if (e.target == modal) modal.style.display = "none";
-    });
-  </script>
+      if (data.media) {
+        // pega todas as mídias do grupo
+        const mediaUrls = await getAllGroupMedia(data.media.trim());
+        mediaUrls.forEach(url => {
+          const isVideo = ['.mp4', '.mov', '.webm'].some(ext => url.toLowerCase().includes(ext));
+          mediaHTML += isVideo 
+            ? `<video src="${url}" class="media-thumbnail" controls></video>`
+            : `<img src="${url}" class="media-thumbnail" alt="Mídia do depoimento">`;
+        });
+      }
+
+      const stars = "★".repeat(data.rating || 0);
+
+      const slide = `
+        <div class="carousel-item">
+          <p class="testimonial">"${data.testimonial}"</p>
+          <p class="stars">${stars}</p>
+          <p class="author">${data.name} (${data.role}) da ${data.childName}</p>
+          <div class="media-container">${mediaHTML}</div>
+        </div>
+      `;
+      carouselInner.innerHTML += slide;
+    }
+  }
+
+  loadTestimonials();
+</script>
+
 </body>
 </html>
