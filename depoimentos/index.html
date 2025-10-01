@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --cor-primaria: #a2d2ff; /* Azul bebê */
-            --cor-secundaria: #ffafcc; /* Rosa suave */
+            --cor-primaria: #a2d2ff;
+            --cor-secundaria: #ffafcc;
             --cor-texto: #555;
             --fonte-principal: 'Nunito', sans-serif;
         }
@@ -63,11 +63,9 @@
             box-shadow: 0 8px 20px rgba(162, 210, 255, 0.5);
         }
         .submit-btn:disabled { background-image: none; background-color: #ccc; cursor: not-allowed; }
-        
         #success-message { text-align: center; display: none; }
         #success-message p { color: var(--cor-texto); font-size: 1.1rem; }
         .view-testimonials-btn { margin-top: 20px; font-size: 1rem; }
-        
         #preloader {
             position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
@@ -81,7 +79,6 @@
         }
         #preloader-text { margin-top: 20px; font-weight: 700; color: var(--cor-texto); font-size: 1.1rem; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-        
         #error-feedback { display: none; text-align: center; }
         #error-feedback p { color: #d9534f; font-weight: 700; }
         .retry-btn { margin-top: 15px; font-size: 1rem; background-image: linear-gradient(45deg, #ffc75f, #ff9671); }
@@ -195,17 +192,13 @@
             }
         });
 
-        // --- INÍCIO DA LÓGICA DE ENVIO ATUALIZADA E ROBUSTA ---
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-
-            // 1. Validação
             if (!document.getElementById('product').value || !ratingInput.value) {
                 alert('Por favor, selecione o produto e dê uma nota clicando nas estrelas.');
                 return; 
             }
-
-            // 2. Prepara e mostra o Preloader
+            
             submitBtn.disabled = true;
             preloader.classList.add('visible'); 
             moonAnimation.style.display = 'block';
@@ -213,11 +206,12 @@
             preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
 
             try {
-                // 3. Espera o upload da mídia terminar
                 const fileInfo = await widget.value();
-                const mediaUrls = fileInfo ? fileInfo.files().map(file => file.cdnUrl) : [];
+                
+                // --- INÍCIO DA CORREÇÃO: SALVAR MÍDIA COMO TEXTO ---
+                const mediaUrlsString = fileInfo ? fileInfo.files().map(file => file.cdnUrl).join(',') : '';
+                // --- FIM DA CORREÇÃO ---
 
-                // 4. Salva no Firebase
                 preloaderText.textContent = 'Salvando depoimento...';
                 const newTestimonial = {
                     name: document.getElementById('name').value,
@@ -226,18 +220,16 @@
                     productName: document.getElementById('product').value,
                     testimonial: document.getElementById('testimonial').value,
                     rating: parseInt(ratingInput.value),
-                    media: mediaUrls,
+                    media: mediaUrlsString, // Salva o texto com URLs separadas por vírgula
                     createdAt: serverTimestamp()
                 };
                 await addDoc(collection(db, "depoimentos"), newTestimonial);
 
-                // 5. Sucesso
                 preloader.classList.remove('visible');
                 form.style.display = 'none';
                 successMessage.style.display = 'block';
 
             } catch (error) {
-                // 6. Manipulação de ERRO UNIVERSAL
                 console.error("Ocorreu um erro no envio: ", error);
                 moonAnimation.style.display = 'none';
                 preloaderText.textContent = '';
@@ -249,7 +241,6 @@
             preloader.classList.remove('visible');
             submitBtn.disabled = false;
         });
-        // --- FIM DA LÓGICA DE ENVIO ---
     </script>
 </body>
 </html>
