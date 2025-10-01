@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --cor-primaria: #a2d2ff; /* Azul bebê */
-            --cor-secundaria: #ffafcc; /* Rosa suave */
+            --cor-primaria: #a2d2ff;
+            --cor-secundaria: #ffafcc;
             --cor-texto: #555;
             --fonte-principal: 'Nunito', sans-serif;
         }
@@ -157,6 +157,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+
         const firebaseConfig = {
             apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
             authDomain: "meus-depoimentos.firebaseapp.com",
@@ -195,7 +196,6 @@
             }
         });
 
-        // --- INÍCIO DA LÓGICA DE ENVIO ATUALIZADA E ROBUSTA ---
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
             if (!document.getElementById('product').value || !ratingInput.value) {
@@ -210,13 +210,20 @@
             preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
 
             try {
-                // ETAPA 1: Espera o upload da mídia terminar
-                const fileInfo = await widget.value();
-                
-                // ETAPA 2: Pega as URLs. Se não houver, retorna uma string vazia
+                // --- INÍCIO DA CORREÇÃO DEFINITIVA ---
+                // Transforma o processo de upload em uma promessa real que o "await" pode esperar
+                const fileInfo = await new Promise((resolve, reject) => {
+                    const upload = widget.value();
+                    if (upload) {
+                        upload.done(info => resolve(info)).fail((_, error) => reject(error));
+                    } else {
+                        resolve(null); // Resolve como nulo se não houver arquivos
+                    }
+                });
+                // --- FIM DA CORREÇÃO DEFINITIVA ---
+
                 const mediaUrlsString = fileInfo ? fileInfo.files().map(file => file.cdnUrl).join(',') : '';
 
-                // ETAPA 3: Salva no Firebase
                 preloaderText.textContent = 'Salvando depoimento...';
                 const newTestimonial = {
                     name: document.getElementById('name').value,
@@ -230,13 +237,11 @@
                 };
                 await addDoc(collection(db, "depoimentos"), newTestimonial);
 
-                // ETAPA 4: Sucesso
                 preloader.classList.remove('visible');
                 form.style.display = 'none';
                 successMessage.style.display = 'block';
 
             } catch (error) {
-                // ETAPA 5: Captura de erro universal
                 console.error("Ocorreu um erro no envio: ", error);
                 moonAnimation.style.display = 'none';
                 preloaderText.textContent = '';
@@ -248,7 +253,6 @@
             preloader.classList.remove('visible');
             submitBtn.disabled = false;
         });
-        // --- FIM DA LÓGICA DE ENVIO ---
     </script>
 </body>
 </html>
