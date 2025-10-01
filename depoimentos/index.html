@@ -1,5 +1,4 @@
 ﻿<!DOCTYPE html>
-
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -83,11 +82,9 @@
         #preloader-text { margin-top: 20px; font-weight: 700; color: var(--cor-texto); font-size: 1.1rem; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
         
-        /* --- INÍCIO DA ALTERAÇÃO: FEEDBACK DE ERRO --- */
         #error-feedback { display: none; text-align: center; }
         #error-feedback p { color: #d9534f; font-weight: 700; }
         .retry-btn { margin-top: 15px; font-size: 1rem; background-image: linear-gradient(45deg, #ffc75f, #ff9671); }
-        /* --- FIM DA ALTERAÇÃO --- */
     </style>
 </head>
 <body>
@@ -95,13 +92,11 @@
         <div id="preloader">
             <div class="moon"></div>
             <p id="preloader-text">Enviando seu depoimento...</p>
-            <!-- INÍCIO DA ALTERAÇÃO: MENSAGEM DE ERRO VISUAL -->
             <div id="error-feedback">
                 <h2>Oops! Algo deu errado.</h2>
-                <p>Não foi possível salvar seu depoimento. Por favor, verifique sua conexão com a internet ou tente novamente.</p>
+                <p>Não foi possível salvar seu depoimento. Por favor, tente novamente.</p>
                 <button id="retry-btn" class="retry-btn">Tentar Novamente</button>
             </div>
-            <!-- FIM DA ALTERAÇÃO -->
         </div>
 
         <form id="testimonialForm">
@@ -162,7 +157,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // SUAS CHAVES DO FIREBASE FORAM RESTAURADAS AQUI
         const firebaseConfig = {
             apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
             authDomain: "meus-depoimentos.firebaseapp.com",
@@ -201,22 +195,30 @@
             }
         });
 
-        form.addEventListener('submit', function(e) {
+        // --- INÍCIO DA LÓGICA DE ENVIO ATUALIZADA E ROBUSTA ---
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            // 1. Validação
             if (!document.getElementById('product').value || !ratingInput.value) {
                 alert('Por favor, selecione o produto e dê uma nota clicando nas estrelas.');
                 return; 
             }
+
+            // 2. Prepara e mostra o Preloader
             submitBtn.disabled = true;
             preloader.classList.add('visible'); 
             moonAnimation.style.display = 'block';
             errorFeedback.style.display = 'none';
             preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
 
-            widget.value().done(async function(fileInfo) {
-                preloaderText.textContent = 'Salvando depoimento...';
+            try {
+                // 3. Espera o upload da mídia terminar
+                const fileInfo = await widget.value();
                 const mediaUrls = fileInfo ? fileInfo.files().map(file => file.cdnUrl) : [];
-                
+
+                // 4. Salva no Firebase
+                preloaderText.textContent = 'Salvando depoimento...';
                 const newTestimonial = {
                     name: document.getElementById('name').value,
                     role: document.getElementById('role').value,
@@ -227,27 +229,28 @@
                     media: mediaUrls,
                     createdAt: serverTimestamp()
                 };
+                await addDoc(collection(db, "depoimentos"), newTestimonial);
 
-                try {
-                    await addDoc(collection(db, "depoimentos"), newTestimonial);
-                    preloader.classList.remove('visible');
-                    form.style.display = 'none';
-                    successMessage.style.display = 'block';
-                } catch (error) {
-                    console.error("Firebase Error: ", error);
-                    // --- INÍCIO DA CORREÇÃO: MOSTRA ERRO VISUAL ---
-                    moonAnimation.style.display = 'none';
-                    preloaderText.textContent = '';
-                    errorFeedback.style.display = 'block';
-                    // --- FIM DA CORREÇÃO ---
-                }
-            });
+                // 5. Sucesso
+                preloader.classList.remove('visible');
+                form.style.display = 'none';
+                successMessage.style.display = 'block';
+
+            } catch (error) {
+                // 6. Manipulação de ERRO UNIVERSAL
+                console.error("Ocorreu um erro no envio: ", error);
+                moonAnimation.style.display = 'none';
+                preloaderText.textContent = '';
+                errorFeedback.style.display = 'block';
+            }
         });
 
         retryBtn.addEventListener('click', () => {
             preloader.classList.remove('visible');
             submitBtn.disabled = false;
         });
+        // --- FIM DA LÓGICA DE ENVIO ---
     </script>
 </body>
 </html>
+
