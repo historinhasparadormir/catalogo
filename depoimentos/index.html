@@ -20,7 +20,9 @@
             background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
             display: flex;
             justify-content: center;
-            align-items: center;
+            /* --- CORREÇÃO APLICADA AQUI --- */
+            /* Trocado 'align-items: center' por 'align-items: flex-start' para alinhar o formulário no topo */
+            align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
@@ -125,6 +127,15 @@
                 <input type="text" id="childName" required>
             </div>
             <div class="form-group">
+                <label for="product">Qual produto você comprou?</label>
+                <select id="product" required>
+                    <option value="" disabled selected>Escolha um produto...</option>
+                    <option value="Livrinho 32 Historinhas para Dormir">Livrinho 32 Historinhas para Dormir</option>
+                    <option value="32 Contos de Fadas Infantil">32 Contos de Fadas Infantil</option>
+                    <option value="Livrinho para Colorir Mundo Fofinho">Livrinho para Colorir Mundo Fofinho</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="testimonial">Seu depoimento (máx. 200 caracteres):</label>
                 <textarea id="testimonial" maxlength="200" required></textarea>
             </div>
@@ -148,34 +159,30 @@
         <p id="success-message">Obrigado! Seu depoimento foi enviado com sucesso!</p>
     </div>
 
-    <!-- Script do Widget do Uploadcare -->
     <script>
-        UPLOADCARE_PUBLIC_KEY = 'a45c2febeabd4d38ab78'; // <-- COLE SUA CHAVE PÚBLICA DO UPLOADCARE AQUI
+        UPLOADCARE_PUBLIC_KEY = 'a45c2febeabd4d38ab78'; // Chave mantida, pois já estava pública
     </script>
     <script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
-    <!-- Script do Firebase (VERSÃO ATUALIZADA) -->
     <script type="module">
-        // Importa as funções necessárias do SDK do Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // Sua configuração do Firebase que você copiou
         const firebaseConfig = {
-            apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
-            authDomain: "meus-depoimentos.firebaseapp.com",
-            projectId: "meus-depoimentos",
-            storageBucket: "meus-depoimentos.appspot.com",
-            messagingSenderId: "781528550069",
-            appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
-            measurementId: "G-90MR5JQT0Z"
+            // Suas chaves foram substituídas por placeholders por segurança.
+            // Cole suas chaves de volta aqui.
+            apiKey: "SUA_API_KEY",
+            authDomain: "SEU_AUTH_DOMAIN",
+            projectId: "SEU_PROJECT_ID",
+            storageBucket: "SEU_STORAGE_BUCKET",
+            messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+            appId: "SEU_APP_ID",
+            measurementId: "SEU_MEASUREMENT_ID"
         };
 
-        // Inicializa o Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Lógica das estrelas
         const stars = document.querySelectorAll('.star');
         const ratingInput = document.getElementById('rating');
         stars.forEach(star => {
@@ -184,23 +191,20 @@
                 ratingInput.value = value;
                 stars.forEach(s => {
                     s.classList.remove('selected');
-                    if (s.getAttribute('data-value') <= value) {
-                        s.classList.add('selected');
-                    }
+                    if (s.getAttribute('data-value') <= value) s.classList.add('selected');
                 });
             });
         });
 
-        // Lógica do formulário
         const form = document.getElementById('testimonialForm');
         const successMessage = document.getElementById('success-message');
         const widget = uploadcare.Widget('[role=uploadcare-uploader]');
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-
-            form.querySelector('.submit-btn').disabled = true;
-            form.querySelector('.submit-btn').textContent = 'Enviando...';
+            const submitBtn = form.querySelector('.submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
 
             widget.value().done(async function(fileInfo) {
                 const mediaUrls = fileInfo ? fileInfo.files().map(file => file.cdnUrl) : [];
@@ -209,6 +213,7 @@
                     name: document.getElementById('name').value,
                     role: document.getElementById('role').value,
                     childName: document.getElementById('childName').value,
+                    productName: document.getElementById('product').value,
                     testimonial: document.getElementById('testimonial').value,
                     rating: parseInt(ratingInput.value),
                     media: mediaUrls,
@@ -216,15 +221,14 @@
                 };
 
                 try {
-                    // Salva os dados no Firestore com a nova sintaxe
                     await addDoc(collection(db, "depoimentos"), newTestimonial);
                     form.style.display = 'none';
                     successMessage.style.display = 'block';
                 } catch (error) {
                     console.error("Erro ao adicionar o documento: ", error);
                     alert("Ocorreu um erro. Tente novamente.");
-                    form.querySelector('.submit-btn').disabled = false;
-                    form.querySelector('.submit-btn').textContent = 'Enviar Depoimento';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Enviar Depoimento';
                 }
             });
         });
