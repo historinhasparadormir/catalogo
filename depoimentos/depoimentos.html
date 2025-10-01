@@ -4,12 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Depoimentos</title>
-
-  <!-- Fonte Nunito -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-
+ 
   <style>
     :root {
       --cor-primaria: #a2d2ff; /* Azul bebê */
@@ -236,22 +231,300 @@
     <div class="carousel-inner" id="carouselInner"></div>
 
     <div class="carousel-controls" aria-hidden="false">
-      <button class="control-btn" id="prevBtn" aria-label="Anterior">&#10094;</button>
-      <button class="control-btn" id="nextBtn" aria-label="Próximo">&#10095;</button>
+      <button class="control-btn" id="prevBtn" aria-label="Anterior">&#8592;</button>
+      <button class="control-btn" id="nextBtn" aria-label="Próximo">&#8594;</button>
     </div>
   </div>
 
   <!-- Modal -->
   <div id="mediaModal" class="modal" aria-hidden="true">
-    <div class="modal-inner" id="modalInner"></div>
+    <div class="modal-inner" id="modalInner">
+      <!-- conteúdo inserido dinamicamente -->
+    </div>
     <div class="modal-close" id="closeModal" title="Fechar">&times;</div>
     <div class="modal-prev" id="prevMedia" title="Anterior">&#10094;</div>
     <div class="modal-next" id="nextMedia" title="Próximo">&#10095;</div>
   </div>
 
-  <!-- Seu script original continua igual -->
   <script type="module">
-    // ... aqui vai exatamente o mesmo JS do seu primeiro código
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
+      authDomain: "meus-depoimentos.firebaseapp.com",
+      projectId: "meus-depoimentos",
+      storageBucket: "meus-depoimentos.appspot.com",
+      messagingSenderId: "781528550069",
+      appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
+      measurementId: "G-90MR5JQT0Z"
+    };
+
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Elementos
+    const carouselInner = document.getElementById('carouselInner');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const carousel = document.getElementById('testimonialCarousel');
+
+    const modal = document.getElementById('mediaModal');
+    const modalInner = document.getElementById('modalInner');
+    const closeModalBtn = document.getElementById('closeModal');
+    const prevMediaBtn = document.getElementById('prevMedia');
+    const nextMediaBtn = document.getElementById('nextMedia');
+
+    // Estado do carrossel e modal
+    let currentIndex = 0;
+    let totalItems = 0;
+    let autoplayInterval = null;
+
+    // Guarda as mídias por slide: [ [url1, url2], [url1], ... ]
+    const mediaPerSlide = [];
+
+    // -------------------- Funções auxiliares --------------------
+    function isVideoUrl(url) {
+      const vExt = ['.mp4', '.mov', '.webm', '.ogg'];
+      return vExt.some(ext => url.toLowerCase().includes(ext));
+    }
+
+    async function urlExists(url) {
+      try {
+        const res = await fetch(url, { method: 'HEAD' });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    // Recebe a URL do grupo e retorna um array com todos os nth/X/ válidos
+    async function getAllGroupMedia(baseUrl) {
+      const trimmed = baseUrl.trim();
+      let media = [];
+      let i = 0;
+      while (true) {
+        const testUrl = `${trimmed}nth/${i}/`;
+        // testa existência
+        // OBS: em alguns hosts o HEAD pode não responder corretamente; se der problema,
+        // pode-se usar GET com modo "no-cors" — mas isso complica. Vamos manter HEAD.
+        // Se precisar, eu ajusto.
+        // eslint-disable-next-line no-await-in-loop
+        const exists = await urlExists(testUrl);
+        if (!exists) break;
+        media.push(testUrl);
+        i++;
+      }
+      return media;
+    }
+
+    // -------------------- Carrega depoimentos --------------------
+    async function loadTestimonials() {
+      try {
+        const q = query(collection(db, 'depoimentos'), orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Nenhum depoimento disponível ainda.</p></div>';
+          totalItems = 1;
+          return;
+        }
+
+        let slideCount = 0;
+
+        // percorre docs em série (necessário porque getAllGroupMedia é assíncrono)
+        for (const doc of snapshot.docs) {
+          const data = doc.data();
+          const baseMedia = (data.media || '').trim();
+
+          let mediaUrls = [];
+          if (baseMedia.length > 0) {
+            // baseMedia pode ser um grupo; tenta extrair todas as nth
+            // se baseMedia já for uma lista separada por vírgula (URLs diretas), tenta dividir também
+            if (baseMedia.includes(',')) {
+              // separadas por vírgula: usa cada item direto (trim)
+              mediaUrls = baseMedia.split(',').map(s => s.trim()).filter(Boolean);
+            } else {
+              // presumimos ser link do group -> pega nth/0..n
+              // eslint-disable-next-line no-await-in-loop
+              const found = await getAllGroupMedia(baseMedia);
+              if (found.length > 0) mediaUrls = found;
+              else mediaUrls = [baseMedia]; // fallback: usa a própria base
+            }
+          }
+
+          // armazena lista de mídias desse slide
+          mediaPerSlide.push(mediaUrls);
+
+          // cria HTML das miniaturas com data attributes para indexar slide e mídia
+          const mediaThumbsHTML = mediaUrls.map((url, mIdx) => {
+            const safeUrl = url.trim();
+            const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}" data-url="${safeUrl}"`;
+            if (isVideoUrl(safeUrl)) {
+              return `<video ${dataAttrs} src="${safeUrl}" class="media-thumbnail" muted preload="metadata"></video>`;
+            }
+            return `<img ${dataAttrs} src="${safeUrl}" class="media-thumbnail" alt="Mídia do depoimento">`;
+          }).join('');
+
+          const stars = '★'.repeat(data.rating || 0);
+
+          const slideHtml = `
+            <div class="carousel-item" data-slide-index="${slideCount}">
+              <p class="testimonial">"${(data.testimonial || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')}"</p>
+              <p class="stars">${stars}</p>
+              <p class="author">${(data.name || 'Anônimo')} (${(data.role || '')}) ${ data.childName ? 'da ' + data.childName : '' }</p>
+              <div class="media-thumbs">${mediaThumbsHTML}</div>
+            </div>
+          `;
+
+          carouselInner.insertAdjacentHTML('beforeend', slideHtml);
+          slideCount++;
+        }
+
+        totalItems = slideCount;
+        // garante que o carrossel mostre o primeiro slide
+        showSlide(0);
+
+        // adiciona listeners agora que os elementos existem
+        attachEventListeners();
+
+      } catch (err) {
+        console.error('Erro ao carregar depoimentos:', err);
+        carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Erro ao carregar depoimentos.</p></div>';
+      }
+    }
+
+    // -------------------- Carrossel --------------------
+    function showSlide(index) {
+      if (!totalItems || totalItems <= 0) return;
+      currentIndex = (index + totalItems) % totalItems;
+      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    function nextSlide() { showSlide(currentIndex + 1); }
+    function prevSlide() { showSlide(currentIndex - 1); }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayInterval = setInterval(() => {
+        if (totalItems > 1) nextSlide();
+      }, 5000);
+    }
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+
+    // -------------------- Modal / Galeria por slide --------------------
+    let currentModalSlide = 0;
+    let currentModalMedia = 0;
+
+    function openModalFor(slideIdx, mediaIdx) {
+      if (!mediaPerSlide[slideIdx] || mediaPerSlide[slideIdx].length === 0) return;
+      currentModalSlide = slideIdx;
+      currentModalMedia = mediaIdx;
+      renderModal();
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+      // pausar autoplay enquanto modal aberto
+      stopAutoplay();
+    }
+
+    function renderModal() {
+      const list = mediaPerSlide[currentModalSlide] || [];
+      if (!list || list.length === 0) return;
+      const url = list[currentModalMedia];
+      // limpa
+      modalInner.innerHTML = '';
+      if (isVideoUrl(url)) {
+        const v = document.createElement('video');
+        v.src = url;
+        v.controls = true;
+        v.autoplay = true;
+        v.style.maxWidth = '100%';
+        v.style.maxHeight = '100%';
+        modalInner.appendChild(v);
+      } else {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Mídia do depoimento';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '100%';
+        modalInner.appendChild(img);
+      }
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      modalInner.innerHTML = '';
+      startAutoplay();
+    }
+
+    function nextModalMedia() {
+      const list = mediaPerSlide[currentModalSlide];
+      if (!list || list.length === 0) return;
+      currentModalMedia = (currentModalMedia + 1) % list.length;
+      renderModal();
+    }
+    function prevModalMedia() {
+      const list = mediaPerSlide[currentModalSlide];
+      if (!list || list.length === 0) return;
+      currentModalMedia = (currentModalMedia - 1 + list.length) % list.length;
+      renderModal();
+    }
+
+    // -------------------- Attach listeners (após DOM build) --------------------
+    function attachEventListeners() {
+      // controles do carrossel
+      nextBtn.addEventListener('click', () => { nextSlide(); startAutoplay(); });
+      prevBtn.addEventListener('click', () => { prevSlide(); startAutoplay(); });
+
+      // pausa autoplay ao passar mouse e retoma ao sair
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+
+      // miniaturas: abrir modal (captura slide e media index via data-attrs)
+      document.querySelectorAll('.media-thumbnail').forEach(thumb => {
+        thumb.addEventListener('click', (ev) => {
+          const slideIdx = parseInt(thumb.getAttribute('data-slide'), 10);
+          const mediaIdx = parseInt(thumb.getAttribute('data-media'), 10);
+          openModalFor(slideIdx, mediaIdx);
+        });
+      });
+
+      // modal buttons
+      closeModalBtn.addEventListener('click', closeModal);
+      nextMediaBtn.addEventListener('click', nextModalMedia);
+      prevMediaBtn.addEventListener('click', prevModalMedia);
+
+      // fechar clicando fora do conteúdo
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // teclado (ESC fecha, setas navegam no modal)
+      document.addEventListener('keydown', (e) => {
+        if (modal.style.display === 'flex') {
+          if (e.key === 'Escape') closeModal();
+          if (e.key === 'ArrowRight') nextModalMedia();
+          if (e.key === 'ArrowLeft') prevModalMedia();
+        } else {
+          // atalhos do carrossel quando modal fechado
+          if (e.key === 'ArrowRight') { nextSlide(); startAutoplay(); }
+          if (e.key === 'ArrowLeft') { prevSlide(); startAutoplay(); }
+        }
+      });
+
+      // inicia autoplay após attach
+      startAutoplay();
+    }
+
+    // inicia tudo
+    loadTestimonials();
   </script>
 </body>
 </html>
