@@ -7,85 +7,187 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --cor-primaria: #a2d2ff;
-            --cor-secundaria: #ffafcc;
-            --cor-texto: #555;
-            --fonte-principal: 'Nunito', sans-serif;
-        }
-        body {
-            font-family: var(--fonte-principal);
-            background-color: #fdf4f5;
-            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .form-container {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 30px 40px;
-            max-width: 500px;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        h1, h2 {
-            color: var(--cor-primaria);
-            text-align: center;
-            font-weight: 800;
-        }
-        .form-group { margin-bottom: 20px; }
-        label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--cor-texto); }
-        input, select, textarea {
-            width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px;
-            font-family: var(--fonte-principal); font-size: 1rem; transition: border-color 0.3s;
-            box-sizing: border-box;
-        }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--cor-primaria); }
-        textarea { resize: vertical; height: 100px; }
-        .star-rating { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
-        .star { font-size: 2.5rem; color: #ddd; cursor: pointer; transition: color 0.2s, transform 0.2s; }
-        .star:hover, .star.selected { color: #ffdd57; transform: scale(1.2); }
-        .submit-btn, .view-testimonials-btn, .retry-btn {
-            width: 100%; padding: 15px; border: none; border-radius: 10px;
-            background-image: linear-gradient(45deg, var(--cor-primaria), var(--cor-secundaria));
-            color: white; font-size: 1.2rem; font-weight: 800; cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; display: inline-block;
-        }
-        .submit-btn:hover, .view-testimonials-btn:hover, .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(162, 210, 255, 0.5);
-        }
-        .submit-btn:disabled { background-image: none; background-color: #ccc; cursor: not-allowed; }
-        
-        #success-message { text-align: center; display: none; }
-        #success-message p { color: var(--cor-texto); font-size: 1.1rem; }
-        .view-testimonials-btn { margin-top: 20px; font-size: 1rem; }
-        
-        #preloader {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
-            z-index: 10; display: flex; flex-direction: column; justify-content: center;
-            align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        #preloader.visible { opacity: 1; visibility: visible; }
-        .moon {
-            width: 80px; height: 80px; border-radius: 50%; background-color: #ffdd57;
-            box-shadow: 0 0 40px #ffdd57; animation: pulse 2s infinite ease-in-out;
-        }
-        #preloader-text { margin-top: 20px; font-weight: 700; color: var(--cor-texto); font-size: 1.1rem; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-        
-        #error-feedback { display: none; text-align: center; }
-        #error-feedback p { color: #d9534f; font-weight: 700; }
-        .retry-btn { margin-top: 15px; font-size: 1rem; background-image: linear-gradient(45deg, #ffc75f, #ff9671); }
-    </style>
+    
+            <style>
+  :root {
+    --cor-primaria: #a2d2ff; /* Azul bebê */
+    --cor-secundaria: #ffafcc; /* Rosa suave */
+    --cor-texto: #5c5c7b;
+    --cor-estrelas: #ffdd57;
+    --fonte-principal: 'Nunito', sans-serif;
+  }
+
+  body {
+    font-family: var(--fonte-principal);
+    background-color: #f8f9fe;
+    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+    margin: 0;
+    padding: 30px 15px;
+    color: var(--cor-texto);
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--cor-primaria);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  }
+
+  .carousel {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .carousel-item {
+    min-width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+
+  /* Card para cada depoimento */
+  .carousel-item p.testimonial {
+    font-size: 1.1rem;
+    font-style: italic;
+    line-height: 1.6;
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 25px rgba(150, 170, 200, 0.2);
+  }
+
+  .stars {
+    color: var(--cor-estrelas);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .author {
+    font-weight: 700;
+    margin-top: 10px;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  /* Agora divide em duas linhas */
+  .author-line1 {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #333;
+  }
+  .author-line2 {
+    font-size: 0.95rem;
+    color: var(--cor-secundaria);
+  }
+
+  /* Miniaturas */
+  .media-thumbnail {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid #eee;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 5px;
+  }
+  .media-thumbnail:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(162, 210, 255, 0.5);
+  }
+
+  /* Botões carrossel */
+  .carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+    padding: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .control-btn {
+    pointer-events: auto;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--cor-primaria);
+    border: none;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 50%;
+    font-size: 24px;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .control-btn:hover {
+    background: var(--cor-primaria);
+    color: white;
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.85);
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+  }
+
+  .modal-content {
+    max-width: 380px;
+    width: 90%;
+  }
+
+  .modal-content img, .modal-content video {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+
+  .close, .prev, .next {
+    position: absolute;
+    color: white;
+    font-size: 2rem;
+    background: rgba(0,0,0,0.3);
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+  }
+
+  .close { top: 20px; right: 20px; }
+  .prev { left: 20px; top: 50%; transform: translateY(-50%); }
+  .next { right: 20px; top: 50%; transform: translateY(-50%); }
+</style>
 </head>
 <body>
     <div class="form-container">
@@ -263,3 +365,4 @@
 
 </body>
 </html>
+
