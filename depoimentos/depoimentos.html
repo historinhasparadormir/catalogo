@@ -3,33 +3,246 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Depoimentos</title>
+  <title>Depoimentos de Clientes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg,#f5f7fa,#e4ecf7); margin:0; padding:30px; }
-    h1 { text-align:center; margin-bottom:30px; color:#333; }
-    .carousel { position:relative; max-width:700px; margin:0 auto; overflow:hidden; border-radius:16px; background:#fff; box-shadow:0 6px 20px rgba(0,0,0,0.15); }
-    .carousel-inner { display:flex; transition:transform .6s ease-in-out; }
-    .carousel-item { min-width:100%; box-sizing:border-box; padding:30px 20px; text-align:center; }
-    .testimonial { font-size:18px; font-style:italic; color:#444; margin-bottom:15px; }
-    .author { font-weight:bold; margin-top:10px; font-size:16px; color:#222; }
-    .stars { color:#f5c518; font-size:20px; margin:8px 0; }
-    .media-thumbs { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:12px; }
-    .media-thumbnail { width:100px; height:100px; border-radius:8px; box-shadow:0 3px 10px rgba(0,0,0,0.15); object-fit:cover; cursor:pointer; }
-    video.media-thumbnail { background:#000; display:block; }
-    .carousel-controls { position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%); padding:0 15px; pointer-events:none; }
-    .control-btn { pointer-events:auto; background:rgba(0,0,0,0.5); color:white; border:none; padding:12px; cursor:pointer; border-radius:50%; font-size:18px; transition:background .3s; }
-    .control-btn:hover { background:rgba(0,0,0,0.8); }
+    :root {
+      --cor-primaria: #a2d2ff; /* Azul bebê */
+      --cor-secundaria: #ffafcc; /* Rosa suave */
+      --cor-texto: #5c5c7b;
+      --cor-estrelas: #ffdd57;
+      --fonte-principal: 'Nunito', sans-serif;
+    }
+
+    body {
+      font-family: var(--fonte-principal);
+      background-color: #f8f9fe;
+      background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+      margin: 0;
+      padding: 30px 15px;
+      color: var(--cor-texto);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--cor-primaria);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .carousel {
+      position: relative;
+      max-width: 550px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-item {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+    }
+
+    .testimonial-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 35px rgba(150, 170, 200, 0.2);
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .testimonial-card::before {
+      content: '“';
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 6rem;
+      font-weight: 800;
+      color: rgba(162, 210, 255, 0.2);
+      z-index: 1;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .testimonial-card::after {
+      content: '”';
+      position: absolute;
+      bottom: 0;
+      right: 20px;
+      font-size: 6rem;
+      font-weight: 800;
+      color: rgba(162, 210, 255, 0.2);
+      z-index: 1;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .testimonial-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .testimonial {
+      font-size: 1.1rem;
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .stars {
+      color: var(--cor-estrelas);
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+
+    .author {
+      font-weight: 700;
+      margin-top: 15px;
+      line-height: 1.4;
+    }
+    .author-name {
+      font-size: 1.1rem;
+      color: #333;
+      font-weight: 800;
+    }
+    .author-role {
+      font-size: 0.95rem;
+      color: var(--cor-secundaria);
+    }
+
+    .media-thumbs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .media-thumbnail {
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid #eee;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .media-thumbnail:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(162, 210, 255, 0.5);
+    }
+    video.media-thumbnail {
+      background: #000;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .control-btn {
+      pointer-events: auto;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--cor-primaria);
+      border: none;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 24px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .control-btn:hover {
+      background: var(--cor-primaria);
+      color: white;
+    }
+
+    #prevBtn { margin-left: -22px; }
+    #nextBtn { margin-right: -22px; }
+
     /* Modal */
-    .modal { display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.85); align-items:center; justify-content:center; }
-    .modal-inner { max-width:90%; max-height:86%; display:flex; align-items:center; justify-content:center; position:relative; }
-    .modal-inner img, .modal-inner video { max-width:100%; max-height:100%; border-radius:10px; }
-    .modal-close, .modal-prev, .modal-next { position:absolute; color:white; font-size:30px; background:rgba(0,0,0,0.4); border-radius:50%; padding:10px; cursor:pointer; user-select:none; }
-    .modal-close { right:4%; top:6%; transform:none; }
-    .modal-prev { left:4%; top:50%; transform:translateY(-50%); }
-    .modal-next { right:4%; top:50%; transform:translateY(-50%); }
-    @media (max-width:520px) {
-      .media-thumbnail { width:72px; height:72px; }
-      .control-btn { padding:8px; font-size:16px; }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-inner {
+      position: relative;
+      max-width: 380px;
+      width: 90%;
+    }
+
+    .modal-inner img, .modal-inner video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    .modal-close, .modal-prev, .modal-next {
+      position: absolute;
+      color: white;
+      font-size: 2rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+    }
+    .modal-close:hover, .modal-prev:hover, .modal-next:hover {
+      background: rgba(0,0,0,0.6);
+    }
+
+    .modal-close { top: -50px; right: 0; }
+    .modal-prev { left: -60px; top: 50%; transform: translateY(-50%); }
+    .modal-next { right: -60px; top: 50%; transform: translateY(-50%); }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .modal-prev { left: 10px; transform: translateY(-50%); }
+      .modal-next { right: 10px; transform: translateY(-50%); }
+      #prevBtn { margin-left: -10px; }
+      #nextBtn { margin-right: -10px; }
     }
   </style>
 </head>
@@ -50,9 +263,9 @@
     <div class="modal-inner" id="modalInner">
       <!-- conteúdo inserido dinamicamente -->
     </div>
-    <div class="modal-close" id="closeModal" title="Fechar">&times;</div>
-    <div class="modal-prev" id="prevMedia" title="Anterior">&#10094;</div>
-    <div class="modal-next" id="nextMedia" title="Próximo">&#10095;</div>
+    <span class="modal-close" id="closeModal" title="Fechar">&times;</span>
+    <span class="modal-prev" id="prevMedia" title="Anterior">&#10094;</span>
+    <span class="modal-next" id="nextMedia" title="Próximo">&#10095;</span>
   </div>
 
   <script type="module">
@@ -60,6 +273,7 @@
     import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
+      // Sua configuração do Firebase aqui
       apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
       authDomain: "meus-depoimentos.firebaseapp.com",
       projectId: "meus-depoimentos",
@@ -108,17 +322,12 @@
       }
     }
 
-    // Recebe a URL do grupo e retorna um array com todos os nth/X/ válidos
     async function getAllGroupMedia(baseUrl) {
       const trimmed = baseUrl.trim();
       let media = [];
       let i = 0;
       while (true) {
         const testUrl = `${trimmed}nth/${i}/`;
-        // testa existência
-        // OBS: em alguns hosts o HEAD pode não responder corretamente; se der problema,
-        // pode-se usar GET com modo "no-cors" — mas isso complica. Vamos manter HEAD.
-        // Se precisar, eu ajusto.
         // eslint-disable-next-line no-await-in-loop
         const exists = await urlExists(testUrl);
         if (!exists) break;
@@ -142,31 +351,24 @@
 
         let slideCount = 0;
 
-        // percorre docs em série (necessário porque getAllGroupMedia é assíncrono)
         for (const doc of snapshot.docs) {
           const data = doc.data();
           const baseMedia = (data.media || '').trim();
 
           let mediaUrls = [];
           if (baseMedia.length > 0) {
-            // baseMedia pode ser um grupo; tenta extrair todas as nth
-            // se baseMedia já for uma lista separada por vírgula (URLs diretas), tenta dividir também
             if (baseMedia.includes(',')) {
-              // separadas por vírgula: usa cada item direto (trim)
               mediaUrls = baseMedia.split(',').map(s => s.trim()).filter(Boolean);
             } else {
-              // presumimos ser link do group -> pega nth/0..n
               // eslint-disable-next-line no-await-in-loop
               const found = await getAllGroupMedia(baseMedia);
               if (found.length > 0) mediaUrls = found;
-              else mediaUrls = [baseMedia]; // fallback: usa a própria base
+              else mediaUrls = [baseMedia];
             }
           }
 
-          // armazena lista de mídias desse slide
           mediaPerSlide.push(mediaUrls);
 
-          // cria HTML das miniaturas com data attributes para indexar slide e mídia
           const mediaThumbsHTML = mediaUrls.map((url, mIdx) => {
             const safeUrl = url.trim();
             const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}" data-url="${safeUrl}"`;
@@ -178,12 +380,20 @@
 
           const stars = '★'.repeat(data.rating || 0);
 
+          // <!-- ATUALIZADO: Estrutura do HTML do slide adaptada para o novo CSS -->
           const slideHtml = `
             <div class="carousel-item" data-slide-index="${slideCount}">
-              <p class="testimonial">"${(data.testimonial || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')}"</p>
-              <p class="stars">${stars}</p>
-              <p class="author">${(data.name || 'Anônimo')} (${(data.role || '')}) ${ data.childName ? 'da ' + data.childName : '' }</p>
-              <div class="media-thumbs">${mediaThumbsHTML}</div>
+              <div class="testimonial-card">
+                <div class="testimonial-content">
+                  <p class="testimonial">${(data.testimonial || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
+                  <p class="stars">${stars}</p>
+                  <div class="author">
+                    <div class="author-name">${(data.name || 'Anônimo')} ${(data.role || '')}${data.childName ? ' da' : ''}</div>
+                    <div class="author-role">${(data.childName || '')}</div>
+                  </div>
+                  ${mediaUrls.length > 0 ? `<div class="media-thumbs">${mediaThumbsHTML}</div>` : ''}
+                </div>
+              </div>
             </div>
           `;
 
@@ -192,11 +402,9 @@
         }
 
         totalItems = slideCount;
-        // garante que o carrossel mostre o primeiro slide
         showSlide(0);
-
-        // adiciona listeners agora que os elementos existem
         attachEventListeners();
+
 
       } catch (err) {
         console.error('Erro ao carregar depoimentos:', err);
@@ -238,7 +446,6 @@
       renderModal();
       modal.style.display = 'flex';
       modal.setAttribute('aria-hidden', 'false');
-      // pausar autoplay enquanto modal aberto
       stopAutoplay();
     }
 
@@ -246,22 +453,17 @@
       const list = mediaPerSlide[currentModalSlide] || [];
       if (!list || list.length === 0) return;
       const url = list[currentModalMedia];
-      // limpa
       modalInner.innerHTML = '';
       if (isVideoUrl(url)) {
         const v = document.createElement('video');
         v.src = url;
         v.controls = true;
         v.autoplay = true;
-        v.style.maxWidth = '100%';
-        v.style.maxHeight = '100%';
         modalInner.appendChild(v);
       } else {
         const img = document.createElement('img');
         img.src = url;
         img.alt = 'Mídia do depoimento';
-        img.style.maxWidth = '100%';
-        img.style.maxHeight = '100%';
         modalInner.appendChild(img);
       }
     }
@@ -275,28 +477,25 @@
 
     function nextModalMedia() {
       const list = mediaPerSlide[currentModalSlide];
-      if (!list || list.length === 0) return;
+      if (!list || list.length <= 1) return;
       currentModalMedia = (currentModalMedia + 1) % list.length;
       renderModal();
     }
     function prevModalMedia() {
       const list = mediaPerSlide[currentModalSlide];
-      if (!list || list.length === 0) return;
+      if (!list || list.length <= 1) return;
       currentModalMedia = (currentModalMedia - 1 + list.length) % list.length;
       renderModal();
     }
 
     // -------------------- Attach listeners (após DOM build) --------------------
     function attachEventListeners() {
-      // controles do carrossel
       nextBtn.addEventListener('click', () => { nextSlide(); startAutoplay(); });
       prevBtn.addEventListener('click', () => { prevSlide(); startAutoplay(); });
 
-      // pausa autoplay ao passar mouse e retoma ao sair
       carousel.addEventListener('mouseenter', stopAutoplay);
       carousel.addEventListener('mouseleave', startAutoplay);
 
-      // miniaturas: abrir modal (captura slide e media index via data-attrs)
       document.querySelectorAll('.media-thumbnail').forEach(thumb => {
         thumb.addEventListener('click', (ev) => {
           const slideIdx = parseInt(thumb.getAttribute('data-slide'), 10);
@@ -305,35 +504,30 @@
         });
       });
 
-      // modal buttons
       closeModalBtn.addEventListener('click', closeModal);
       nextMediaBtn.addEventListener('click', nextModalMedia);
       prevMediaBtn.addEventListener('click', prevModalMedia);
 
-      // fechar clicando fora do conteúdo
       modal.addEventListener('click', (e) => {
         if (e.target === modal) closeModal();
       });
 
-      // teclado (ESC fecha, setas navegam no modal)
       document.addEventListener('keydown', (e) => {
         if (modal.style.display === 'flex') {
           if (e.key === 'Escape') closeModal();
           if (e.key === 'ArrowRight') nextModalMedia();
           if (e.key === 'ArrowLeft') prevModalMedia();
-        } else {
-          // atalhos do carrossel quando modal fechado
+        } else if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
           if (e.key === 'ArrowRight') { nextSlide(); startAutoplay(); }
           if (e.key === 'ArrowLeft') { prevSlide(); startAutoplay(); }
         }
       });
 
-      // inicia autoplay após attach
       startAutoplay();
     }
 
-    // inicia tudo
     loadTestimonials();
   </script>
 </body>
 </html>
+
