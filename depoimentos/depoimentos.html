@@ -107,18 +107,43 @@
     }
 
     .author {
-      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       margin-top: 15px;
       line-height: 1.4;
+      gap: 15px;
     }
+
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .author-photo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--cor-primaria);
+    }
+
+    .author-details {
+        display: flex;
+        flex-direction: column;
+    }
+
     .author-name {
-      font-size: 1.1rem;
+      font-size: 1rem;
       color: #333;
-      font-weight: 800;
+      font-weight: 700;
     }
     .author-role {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       color: var(--cor-secundaria);
+      font-weight: 400;
     }
 
     .media-thumbs {
@@ -184,6 +209,39 @@
 
     #prevBtn { margin-left: -22px; }
     #nextBtn { margin-right: -22px; }
+    
+    .helpful-vote {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: #f8f9fe;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid #eef;
+    }
+
+    .like-btn {
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, color 0.2s ease;
+        user-select: none;
+        color: #cbd5e1;
+    }
+
+    .like-btn:hover {
+        transform: scale(1.15);
+    }
+
+    .like-btn.voted {
+        color: var(--cor-primaria);
+    }
+
+    .vote-count {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--cor-texto);
+        min-width: 12px;
+    }
 
     /* Modal */
     .modal {
@@ -270,7 +328,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import { getFirestore, collection, getDocs, orderBy, query, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
       // Sua configuração do Firebase aqui
@@ -379,8 +437,9 @@
           }).join('');
 
           const stars = '★'.repeat(data.rating || 0);
+          
+          const authorPhotoUrl = data.authorPhoto || `https://placehold.co/44x44/a2d2ff/ffffff?text=${(data.name || 'A').charAt(0).toUpperCase()}`;
 
-          // <!-- ATUALIZADO: Estrutura do HTML do slide adaptada para o novo CSS -->
           const slideHtml = `
             <div class="carousel-item" data-slide-index="${slideCount}">
               <div class="testimonial-card">
@@ -388,8 +447,17 @@
                   <p class="testimonial">${(data.testimonial || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
                   <p class="stars">${stars}</p>
                   <div class="author">
-                    <div class="author-name">${(data.name || 'Anônimo')} ${(data.role || '')}${data.childName ? ' da' : ''}</div>
-                    <div class="author-role">${(data.childName || '')}</div>
+                    <div class="author-info">
+                      <img src="${authorPhotoUrl}" alt="Foto de ${data.name || 'Anônimo'}" class="author-photo">
+                      <div class="author-details">
+                        <div class="author-name">${(data.name || 'Anônimo')} ${(data.role || '')}${data.childName ? ' da' : ''}</div>
+                        <div class="author-role">${(data.childName || '')}</div>
+                      </div>
+                    </div>
+                    <div class="helpful-vote">
+                      <span class="like-btn" data-id="${doc.id}">👍</span>
+                      <span class="vote-count" id="vote-count-${doc.id}">${data.helpfulVotes || 0}</span>
+                    </div>
                   </div>
                   ${mediaUrls.length > 0 ? `<div class="media-thumbs">${mediaThumbsHTML}</div>` : ''}
                 </div>
@@ -404,7 +472,6 @@
         totalItems = slideCount;
         showSlide(0);
         attachEventListeners();
-
 
       } catch (err) {
         console.error('Erro ao carregar depoimentos:', err);
@@ -502,6 +569,46 @@
           const mediaIdx = parseInt(thumb.getAttribute('data-media'), 10);
           openModalFor(slideIdx, mediaIdx);
         });
+      });
+      
+      const votedItems = JSON.parse(localStorage.getItem('votedTestimonials')) || [];
+      votedItems.forEach(docId => {
+          const likeBtn = document.querySelector(`.like-btn[data-id="${docId}"]`);
+          if (likeBtn) {
+              likeBtn.classList.add('voted');
+          }
+      });
+
+      carouselInner.addEventListener('click', async (e) => {
+          const likeBtn = e.target.closest('.like-btn');
+          if (!likeBtn) return;
+
+          const docId = likeBtn.dataset.id;
+          if (!docId) return;
+
+          const currentVotedItems = JSON.parse(localStorage.getItem('votedTestimonials')) || [];
+          if (currentVotedItems.includes(docId)) {
+              return;
+          }
+
+          currentVotedItems.push(docId);
+          localStorage.setItem('votedTestimonials', JSON.stringify(currentVotedItems));
+
+          likeBtn.classList.add('voted');
+          const countElement = document.getElementById(`vote-count-${docId}`);
+          if (countElement) {
+              const currentCount = parseInt(countElement.textContent, 10);
+              countElement.textContent = currentCount + 1;
+          }
+
+          try {
+              const docRef = doc(db, 'depoimentos', docId);
+              await updateDoc(docRef, {
+                  helpfulVotes: increment(1)
+              });
+          } catch (error) {
+              console.error("Erro ao atualizar o voto no Firestore:", error);
+          }
       });
 
       closeModalBtn.addEventListener('click', closeModal);
