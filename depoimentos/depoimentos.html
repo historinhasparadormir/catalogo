@@ -1,259 +1,339 @@
 ﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Depoimentos</title>
   <style>
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa, #e4ecf7);
-      margin: 0;
-      padding: 30px;
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: linear-gradient(135deg,#f5f7fa,#e4ecf7); margin:0; padding:30px; }
+    h1 { text-align:center; margin-bottom:30px; color:#333; }
+    .carousel { position:relative; max-width:700px; margin:0 auto; overflow:hidden; border-radius:16px; background:#fff; box-shadow:0 6px 20px rgba(0,0,0,0.15); }
+    .carousel-inner { display:flex; transition:transform .6s ease-in-out; }
+    .carousel-item { min-width:100%; box-sizing:border-box; padding:30px 20px; text-align:center; }
+    .testimonial { font-size:18px; font-style:italic; color:#444; margin-bottom:15px; }
+    .author { font-weight:bold; margin-top:10px; font-size:16px; color:#222; }
+    .stars { color:#f5c518; font-size:20px; margin:8px 0; }
+    .media-thumbs { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:12px; }
+    .media-thumbnail { width:100px; height:100px; border-radius:8px; box-shadow:0 3px 10px rgba(0,0,0,0.15); object-fit:cover; cursor:pointer; }
+    video.media-thumbnail { background:#000; display:block; }
+    .carousel-controls { position:absolute; top:50%; width:100%; display:flex; justify-content:space-between; transform:translateY(-50%); padding:0 15px; pointer-events:none; }
+    .control-btn { pointer-events:auto; background:rgba(0,0,0,0.5); color:white; border:none; padding:12px; cursor:pointer; border-radius:50%; font-size:18px; transition:background .3s; }
+    .control-btn:hover { background:rgba(0,0,0,0.8); }
+    /* Modal */
+    .modal { display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background-color:rgba(0,0,0,0.85); align-items:center; justify-content:center; }
+    .modal-inner { max-width:90%; max-height:86%; display:flex; align-items:center; justify-content:center; position:relative; }
+    .modal-inner img, .modal-inner video { max-width:100%; max-height:100%; border-radius:10px; }
+    .modal-close, .modal-prev, .modal-next { position:absolute; color:white; font-size:30px; background:rgba(0,0,0,0.4); border-radius:50%; padding:10px; cursor:pointer; user-select:none; }
+    .modal-close { right:4%; top:6%; transform:none; }
+    .modal-prev { left:4%; top:50%; transform:translateY(-50%); }
+    .modal-next { right:4%; top:50%; transform:translateY(-50%); }
+    @media (max-width:520px) {
+      .media-thumbnail { width:72px; height:72px; }
+      .control-btn { padding:8px; font-size:16px; }
     }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #333;
-    }
-
-    .carousel {
-      position: relative;
-      max-width: 700px;
-      margin: 0 auto;
-      overflow: hidden;
-      border-radius: 16px;
-      background: #fff;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    }
-
-    .carousel-inner {
-      display: flex;
-      transition: transform 0.6s ease-in-out;
-    }
-
-    .carousel-item {
-      min-width: 100%;
-      box-sizing: border-box;
-      padding: 30px 20px;
-      text-align: center;
-    }
-
-    .testimonial {
-      font-size: 18px;
-      font-style: italic;
-      color: #444;
-      margin-bottom: 15px;
-    }
-
-    .author {
-      font-weight: bold;
-      margin-top: 10px;
-      font-size: 16px;
-      color: #222;
-    }
-
-    .stars {
-      color: #f5c518;
-      font-size: 20px;
-      margin: 8px 0;
-    }
-
-    .media-thumbnail {
-      max-width: 100px;
-      max-height: 100px;
-      border-radius: 8px;
-      margin: 5px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-      object-fit: cover;
-      cursor: pointer;
-    }
-
-    video.media-thumbnail {
-      background: #000;
-    }
-
-    .carousel-controls {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-      padding: 0 15px;
-    }
-
-    .control-btn {
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: none;
-      padding: 12px;
-      cursor: pointer;
-      border-radius: 50%;
-      font-size: 18px;
-      transition: background 0.3s;
-    }
-
-    .control-btn:hover {
-      background: rgba(0,0,0,0.8);
-    }
-
-    /* Modal popup */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      padding-top: 50px;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background-color: rgba(0,0,0,0.8);
-    }
-
-    .modal-content {
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      max-width: 90%;
-      max-height: 80%;
-    }
-
-    .modal-content img, 
-    .modal-content video {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 10px;
-    }
-
-    .close, .prev, .next {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      color: white;
-      font-size: 32px;
-      font-weight: bold;
-      cursor: pointer;
-      padding: 10px;
-      background: rgba(0,0,0,0.4);
-      border-radius: 50%;
-    }
-
-    .close {
-      top: 10%;
-      right: 5%;
-      transform: none;
-    }
-
-    .prev { left: 5%; }
-    .next { right: 5%; }
   </style>
 </head>
 <body>
   <h1>Depoimentos dos Clientes</h1>
-  <div class="carousel" id="testimonialCarousel">
+
+  <div class="carousel" id="testimonialCarousel" aria-label="carrossel de depoimentos">
     <div class="carousel-inner" id="carouselInner"></div>
-    <div class="carousel-controls">
-      <button class="control-btn" id="prevBtn">&#8592;</button>
-      <button class="control-btn" id="nextBtn">&#8594;</button>
+
+    <div class="carousel-controls" aria-hidden="false">
+      <button class="control-btn" id="prevBtn" aria-label="Anterior">&#8592;</button>
+      <button class="control-btn" id="nextBtn" aria-label="Próximo">&#8594;</button>
     </div>
   </div>
 
   <!-- Modal -->
-  <div id="mediaModal" class="modal">
-    <span class="close" id="closeModal">&times;</span>
-    <span class="prev" id="prevMedia">&#10094;</span>
-    <div class="modal-content" id="modalContent"></div>
-    <span class="next" id="nextMedia">&#10095;</span>
+  <div id="mediaModal" class="modal" aria-hidden="true">
+    <div class="modal-inner" id="modalInner">
+      <!-- conteúdo inserido dinamicamente -->
+    </div>
+    <div class="modal-close" id="closeModal" title="Fechar">&times;</div>
+    <div class="modal-prev" id="prevMedia" title="Anterior">&#10094;</div>
+    <div class="modal-next" id="nextMedia" title="Próximo">&#10095;</div>
   </div>
 
- <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
-    authDomain: "meus-depoimentos.firebaseapp.com",
-    projectId: "meus-depoimentos",
-    storageBucket: "meus-depoimentos.appspot.com",
-    messagingSenderId: "781528550069",
-    appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
-    measurementId: "G-90MR5JQT0Z"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
+      authDomain: "meus-depoimentos.firebaseapp.com",
+      projectId: "meus-depoimentos",
+      storageBucket: "meus-depoimentos.appspot.com",
+      messagingSenderId: "781528550069",
+      appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
+      measurementId: "G-90MR5JQT0Z"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  const carouselInner = document.getElementById("carouselInner");
+    // Elementos
+    const carouselInner = document.getElementById('carouselInner');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const carousel = document.getElementById('testimonialCarousel');
 
-  async function urlExists(url) {
-    try {
-      const res = await fetch(url, { method: "HEAD" });
-      return res.ok;
-    } catch {
-      return false;
+    const modal = document.getElementById('mediaModal');
+    const modalInner = document.getElementById('modalInner');
+    const closeModalBtn = document.getElementById('closeModal');
+    const prevMediaBtn = document.getElementById('prevMedia');
+    const nextMediaBtn = document.getElementById('nextMedia');
+
+    // Estado do carrossel e modal
+    let currentIndex = 0;
+    let totalItems = 0;
+    let autoplayInterval = null;
+
+    // Guarda as mídias por slide: [ [url1, url2], [url1], ... ]
+    const mediaPerSlide = [];
+
+    // -------------------- Funções auxiliares --------------------
+    function isVideoUrl(url) {
+      const vExt = ['.mp4', '.mov', '.webm', '.ogg'];
+      return vExt.some(ext => url.toLowerCase().includes(ext));
     }
-  }
 
-  async function getAllGroupMedia(baseUrl) {
-    let media = [];
-    let index = 0;
-    let exists = true;
+    async function urlExists(url) {
+      try {
+        const res = await fetch(url, { method: 'HEAD' });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
 
-    while (exists) {
-      let testUrl = `${baseUrl}nth/${index}/`;
-      exists = await urlExists(testUrl);
-      if (exists) {
+    // Recebe a URL do grupo e retorna um array com todos os nth/X/ válidos
+    async function getAllGroupMedia(baseUrl) {
+      const trimmed = baseUrl.trim();
+      let media = [];
+      let i = 0;
+      while (true) {
+        const testUrl = `${trimmed}nth/${i}/`;
+        // testa existência
+        // OBS: em alguns hosts o HEAD pode não responder corretamente; se der problema,
+        // pode-se usar GET com modo "no-cors" — mas isso complica. Vamos manter HEAD.
+        // Se precisar, eu ajusto.
+        // eslint-disable-next-line no-await-in-loop
+        const exists = await urlExists(testUrl);
+        if (!exists) break;
         media.push(testUrl);
-        index++;
+        i++;
+      }
+      return media;
+    }
+
+    // -------------------- Carrega depoimentos --------------------
+    async function loadTestimonials() {
+      try {
+        const q = query(collection(db, 'depoimentos'), orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Nenhum depoimento disponível ainda.</p></div>';
+          totalItems = 1;
+          return;
+        }
+
+        let slideCount = 0;
+
+        // percorre docs em série (necessário porque getAllGroupMedia é assíncrono)
+        for (const doc of snapshot.docs) {
+          const data = doc.data();
+          const baseMedia = (data.media || '').trim();
+
+          let mediaUrls = [];
+          if (baseMedia.length > 0) {
+            // baseMedia pode ser um grupo; tenta extrair todas as nth
+            // se baseMedia já for uma lista separada por vírgula (URLs diretas), tenta dividir também
+            if (baseMedia.includes(',')) {
+              // separadas por vírgula: usa cada item direto (trim)
+              mediaUrls = baseMedia.split(',').map(s => s.trim()).filter(Boolean);
+            } else {
+              // presumimos ser link do group -> pega nth/0..n
+              // eslint-disable-next-line no-await-in-loop
+              const found = await getAllGroupMedia(baseMedia);
+              if (found.length > 0) mediaUrls = found;
+              else mediaUrls = [baseMedia]; // fallback: usa a própria base
+            }
+          }
+
+          // armazena lista de mídias desse slide
+          mediaPerSlide.push(mediaUrls);
+
+          // cria HTML das miniaturas com data attributes para indexar slide e mídia
+          const mediaThumbsHTML = mediaUrls.map((url, mIdx) => {
+            const safeUrl = url.trim();
+            const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}" data-url="${safeUrl}"`;
+            if (isVideoUrl(safeUrl)) {
+              return `<video ${dataAttrs} src="${safeUrl}" class="media-thumbnail" muted preload="metadata"></video>`;
+            }
+            return `<img ${dataAttrs} src="${safeUrl}" class="media-thumbnail" alt="Mídia do depoimento">`;
+          }).join('');
+
+          const stars = '★'.repeat(data.rating || 0);
+
+          const slideHtml = `
+            <div class="carousel-item" data-slide-index="${slideCount}">
+              <p class="testimonial">"${(data.testimonial || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')}"</p>
+              <p class="stars">${stars}</p>
+              <p class="author">${(data.name || 'Anônimo')} (${(data.role || '')}) ${ data.childName ? 'da ' + data.childName : '' }</p>
+              <div class="media-thumbs">${mediaThumbsHTML}</div>
+            </div>
+          `;
+
+          carouselInner.insertAdjacentHTML('beforeend', slideHtml);
+          slideCount++;
+        }
+
+        totalItems = slideCount;
+        // garante que o carrossel mostre o primeiro slide
+        showSlide(0);
+
+        // adiciona listeners agora que os elementos existem
+        attachEventListeners();
+
+      } catch (err) {
+        console.error('Erro ao carregar depoimentos:', err);
+        carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Erro ao carregar depoimentos.</p></div>';
       }
     }
-    return media;
-  }
 
-  async function loadTestimonials() {
-    const q = query(collection(db, "depoimentos"), orderBy("createdAt", "desc"));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      carouselInner.innerHTML = "<p style='text-align:center;'>Nenhum depoimento disponível ainda.</p>";
-      return;
+    // -------------------- Carrossel --------------------
+    function showSlide(index) {
+      if (!totalItems || totalItems <= 0) return;
+      currentIndex = (index + totalItems) % totalItems;
+      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
-    for (let doc of querySnapshot.docs) {
-      const data = doc.data();
-      let mediaHTML = '';
+    function nextSlide() { showSlide(currentIndex + 1); }
+    function prevSlide() { showSlide(currentIndex - 1); }
 
-      if (data.media) {
-        // pega todas as mídias do grupo
-        const mediaUrls = await getAllGroupMedia(data.media.trim());
-        mediaUrls.forEach(url => {
-          const isVideo = ['.mp4', '.mov', '.webm'].some(ext => url.toLowerCase().includes(ext));
-          mediaHTML += isVideo 
-            ? `<video src="${url}" class="media-thumbnail" controls></video>`
-            : `<img src="${url}" class="media-thumbnail" alt="Mídia do depoimento">`;
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayInterval = setInterval(() => {
+        if (totalItems > 1) nextSlide();
+      }, 5000);
+    }
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+
+    // -------------------- Modal / Galeria por slide --------------------
+    let currentModalSlide = 0;
+    let currentModalMedia = 0;
+
+    function openModalFor(slideIdx, mediaIdx) {
+      if (!mediaPerSlide[slideIdx] || mediaPerSlide[slideIdx].length === 0) return;
+      currentModalSlide = slideIdx;
+      currentModalMedia = mediaIdx;
+      renderModal();
+      modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
+      // pausar autoplay enquanto modal aberto
+      stopAutoplay();
+    }
+
+    function renderModal() {
+      const list = mediaPerSlide[currentModalSlide] || [];
+      if (!list || list.length === 0) return;
+      const url = list[currentModalMedia];
+      // limpa
+      modalInner.innerHTML = '';
+      if (isVideoUrl(url)) {
+        const v = document.createElement('video');
+        v.src = url;
+        v.controls = true;
+        v.autoplay = true;
+        v.style.maxWidth = '100%';
+        v.style.maxHeight = '100%';
+        modalInner.appendChild(v);
+      } else {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Mídia do depoimento';
+        img.style.maxWidth = '100%';
+        img.style.maxHeight = '100%';
+        modalInner.appendChild(img);
+      }
+    }
+
+    function closeModal() {
+      modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      modalInner.innerHTML = '';
+      startAutoplay();
+    }
+
+    function nextModalMedia() {
+      const list = mediaPerSlide[currentModalSlide];
+      if (!list || list.length === 0) return;
+      currentModalMedia = (currentModalMedia + 1) % list.length;
+      renderModal();
+    }
+    function prevModalMedia() {
+      const list = mediaPerSlide[currentModalSlide];
+      if (!list || list.length === 0) return;
+      currentModalMedia = (currentModalMedia - 1 + list.length) % list.length;
+      renderModal();
+    }
+
+    // -------------------- Attach listeners (após DOM build) --------------------
+    function attachEventListeners() {
+      // controles do carrossel
+      nextBtn.addEventListener('click', () => { nextSlide(); startAutoplay(); });
+      prevBtn.addEventListener('click', () => { prevSlide(); startAutoplay(); });
+
+      // pausa autoplay ao passar mouse e retoma ao sair
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+
+      // miniaturas: abrir modal (captura slide e media index via data-attrs)
+      document.querySelectorAll('.media-thumbnail').forEach(thumb => {
+        thumb.addEventListener('click', (ev) => {
+          const slideIdx = parseInt(thumb.getAttribute('data-slide'), 10);
+          const mediaIdx = parseInt(thumb.getAttribute('data-media'), 10);
+          openModalFor(slideIdx, mediaIdx);
         });
-      }
+      });
 
-      const stars = "★".repeat(data.rating || 0);
+      // modal buttons
+      closeModalBtn.addEventListener('click', closeModal);
+      nextMediaBtn.addEventListener('click', nextModalMedia);
+      prevMediaBtn.addEventListener('click', prevModalMedia);
 
-      const slide = `
-        <div class="carousel-item">
-          <p class="testimonial">"${data.testimonial}"</p>
-          <p class="stars">${stars}</p>
-          <p class="author">${data.name} (${data.role}) da ${data.childName}</p>
-          <div class="media-container">${mediaHTML}</div>
-        </div>
-      `;
-      carouselInner.innerHTML += slide;
+      // fechar clicando fora do conteúdo
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // teclado (ESC fecha, setas navegam no modal)
+      document.addEventListener('keydown', (e) => {
+        if (modal.style.display === 'flex') {
+          if (e.key === 'Escape') closeModal();
+          if (e.key === 'ArrowRight') nextModalMedia();
+          if (e.key === 'ArrowLeft') prevModalMedia();
+        } else {
+          // atalhos do carrossel quando modal fechado
+          if (e.key === 'ArrowRight') { nextSlide(); startAutoplay(); }
+          if (e.key === 'ArrowLeft') { prevSlide(); startAutoplay(); }
+        }
+      });
+
+      // inicia autoplay após attach
+      startAutoplay();
     }
-  }
 
-  loadTestimonials();
-</script>
-
+    // inicia tudo
+    loadTestimonials();
+  </script>
 </body>
 </html>
