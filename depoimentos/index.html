@@ -64,7 +64,6 @@
         }
         .submit-btn:disabled { background-image: none; background-color: #ccc; cursor: not-allowed; }
         
-        /* --- MENSAGEM DE SUCESSO E PRELOADER --- */
         #success-message { text-align: center; display: none; }
         #success-message p { color: var(--cor-texto); font-size: 1.1rem; }
         .view-testimonials-btn { margin-top: 20px; font-size: 1rem; }
@@ -104,12 +103,10 @@
 </head>
 <body>
     <div class="form-container">
-        <!-- INÍCIO DA ALTERAÇÃO: PRELOADER ADICIONADO -->
         <div id="preloader">
             <div class="moon"></div>
             <p id="preloader-text">Enviando seu depoimento...</p>
         </div>
-        <!-- FIM DA ALTERAÇÃO -->
 
         <form id="testimonialForm">
             <h1>Conte sua História! ✨</h1>
@@ -148,7 +145,7 @@
                     <span class="star" data-value="3">★</span> <span class="star" data-value="4">★</span>
                     <span class="star" data-value="5">★</span>
                 </div>
-                <input type="hidden" id="rating" required>
+                <input type="hidden" id="rating"> <!-- Required removido para validação manual -->
             </div>
             <div class="form-group">
                 <label>Envie uma foto ou vídeo (opcional):</label>
@@ -172,7 +169,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-        // SUAS CHAVES DO FIREBASE FORAM RESTAURADAS AQUI
         const firebaseConfig = {
             apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
             authDomain: "meus-depoimentos.firebaseapp.com",
@@ -220,8 +216,20 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
+
+            // --- INÍCIO DA CORREÇÃO: VALIDAÇÃO MANUAL ---
+            if (!document.getElementById('product').value) {
+                alert('Por favor, selecione qual produto você comprou.');
+                return; 
+            }
+            if (!ratingInput.value) {
+                alert('Por favor, selecione uma nota clicando nas estrelas.');
+                return;
+            }
+            // --- FIM DA CORREÇÃO ---
+
             submitBtn.disabled = true;
-            preloader.classList.add('visible'); // Mostra o preloader
+            preloader.classList.add('visible'); 
 
             if (!fileGroup) {
                  preloaderText.textContent = 'Salvando depoimento...';
@@ -238,20 +246,20 @@
                     childName: document.getElementById('childName').value,
                     productName: document.getElementById('product').value,
                     testimonial: document.getElementById('testimonial').value,
-                    rating: parseInt(ratingInput.value) || 0, // Garante que a nota seja um número
+                    rating: parseInt(ratingInput.value), // O valor já foi validado, então está seguro
                     media: mediaUrls,
                     createdAt: serverTimestamp()
                 };
 
                 try {
                     await addDoc(collection(db, "depoimentos"), newTestimonial);
-                    preloader.classList.remove('visible'); // Esconde o preloader
                     form.style.display = 'none';
+                    preloader.style.display = 'none'; // Esconde o preloader também
                     successMessage.style.display = 'block';
                 } catch (error) {
                     console.error("Erro ao adicionar o documento: ", error);
-                    alert("Ocorreu um erro. Tente novamente.");
-                    preloader.classList.remove('visible'); // Esconde o preloader no erro
+                    alert("Ocorreu um erro ao salvar seu depoimento. Por favor, tente novamente.");
+                    preloader.classList.remove('visible');
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Enviar Depoimento';
                 }
