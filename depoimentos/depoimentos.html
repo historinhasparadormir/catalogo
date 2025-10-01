@@ -319,11 +319,11 @@
                     mediaPerSlide.push(mediaUrls);
 
                     const mediaThumbsHTML = mediaUrls.map((url, mIdx) => {
-                        const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}" data-url="${url}"`;
+                        const dataAttrs = `data-slide="${slideCount}nth/0/" data-media="${mIdx}" data-url="${url}"`;
                         if (isVideoUrl(url)) {
-                            return `<video ${dataAttrs} src="${url}" class="media-thumbnail" muted preload="metadata"></video>`;
+                            return `<video ${dataAttrs} src="${url}nth/0/" class="media-thumbnail" muted preload="metadata"></video>`;
                         }
-                        return `<img ${dataAttrs} src="${url}" class="media-thumbnail" alt="Mídia do depoimento">`;
+                        return `<img ${dataAttrs} src="${url}nth/0/" class="media-thumbnail" alt="Mídia do depoimento">`;
                     }).join('');
 
                     const stars = '★'.repeat(data.rating || 0) + '☆'.repeat(5 - (data.rating || 0));
