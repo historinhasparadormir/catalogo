@@ -61,12 +61,13 @@
     }
 
     .media-thumbnail {
-      max-width: 90%;
-      max-height: 280px;
-      border-radius: 10px;
-      margin-top: 15px;
+      max-width: 100px;
+      max-height: 100px;
+      border-radius: 8px;
+      margin: 5px;
       box-shadow: 0 3px 10px rgba(0,0,0,0.15);
       object-fit: cover;
+      cursor: pointer;
     }
 
     video.media-thumbnail {
@@ -97,6 +98,58 @@
     .control-btn:hover {
       background: rgba(0,0,0,0.8);
     }
+
+    /* Modal popup */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: rgba(0,0,0,0.8);
+    }
+
+    .modal-content {
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 90%;
+      max-height: 80%;
+    }
+
+    .modal-content img, 
+    .modal-content video {
+      max-width: 100%;
+      max-height: 100%;
+      border-radius: 10px;
+    }
+
+    .close, .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 32px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 10px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 50%;
+    }
+
+    .close {
+      top: 10%;
+      right: 5%;
+      transform: none;
+    }
+
+    .prev { left: 5%; }
+    .next { right: 5%; }
   </style>
 </head>
 <body>
@@ -107,6 +160,14 @@
       <button class="control-btn" id="prevBtn">&#8592;</button>
       <button class="control-btn" id="nextBtn">&#8594;</button>
     </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="mediaModal" class="modal">
+    <span class="close" id="closeModal">&times;</span>
+    <span class="prev" id="prevMedia">&#10094;</span>
+    <div class="modal-content" id="modalContent"></div>
+    <span class="next" id="nextMedia">&#10095;</span>
   </div>
 
   <script type="module">
@@ -127,8 +188,12 @@
     const db = getFirestore(app);
 
     const carouselInner = document.getElementById("carouselInner");
+    const modal = document.getElementById("mediaModal");
+    const modalContent = document.getElementById("modalContent");
     let currentIndex = 0;
     let totalItems = 0;
+    let mediaList = [];
+    let currentMediaIndex = 0;
 
     async function loadTestimonials() {
       const q = query(collection(db, "depoimentos"), orderBy("createdAt", "desc"));
@@ -148,8 +213,8 @@
           mediaUrls.forEach(url => {
             const isVideo = ['.mp4', '.mov', '.webm'].some(ext => url.toLowerCase().includes(ext));
             mediaHTML += isVideo 
-              ? `<video src="${url}nth/0/" class="media-thumbnail" controls></video>`
-              : `<img src="${url}nth/0/" alt="Mídia do depoimento" class="media-thumbnail">`;
+              ? `<video src="${url.trim()}nth/0/" class="media-thumbnail" data-url="${url.trim()}" muted></video>`
+              : `<img src="${url.trim()}nth/0/" alt="Mídia do depoimento" class="media-thumbnail" data-url="${url.trim()}">`;
           });
         }
 
@@ -159,14 +224,20 @@
           <div class="carousel-item">
             <p class="testimonial">"${data.testimonial}"</p>
             <p class="stars">${stars}</p>
-            <p class="author">- ${data.name} (${data.role})</p>
-            ${mediaHTML}
+            <p class="author">${data.name} (${data.role}) da ${data.childName}</p>
+            <div class="media-container">${mediaHTML}</div>
           </div>
         `;
         carouselInner.innerHTML += slide;
       });
 
       totalItems = document.querySelectorAll(".carousel-item").length;
+
+      // evento de abrir popup ao clicar
+      document.querySelectorAll(".media-thumbnail").forEach((thumb, index) => {
+        thumb.addEventListener("click", () => openModal(index));
+        mediaList.push({ url: thumb.dataset.url, isVideo: thumb.tagName === "VIDEO" });
+      });
     }
 
     loadTestimonials();
@@ -185,13 +256,48 @@
       showSlide(currentIndex);
     });
 
-    // autoplay a cada 5 segundos
+    // autoplay
     setInterval(() => {
       if (totalItems > 0) {
         currentIndex = (currentIndex + 1) % totalItems;
         showSlide(currentIndex);
       }
     }, 5000);
+
+    // modal
+    function openModal(index) {
+      currentMediaIndex = index;
+      showMedia(index);
+      modal.style.display = "block";
+    }
+
+    function showMedia(index) {
+      modalContent.innerHTML = "";
+      const media = mediaList[index];
+      if (media.isVideo) {
+        modalContent.innerHTML = `<video src="${media.url}" controls autoplay></video>`;
+      } else {
+        modalContent.innerHTML = `<img src="${media.url}" alt="mídia">`;
+      }
+    }
+
+    document.getElementById("closeModal").addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+
+    document.getElementById("nextMedia").addEventListener("click", () => {
+      currentMediaIndex = (currentMediaIndex + 1) % mediaList.length;
+      showMedia(currentMediaIndex);
+    });
+
+    document.getElementById("prevMedia").addEventListener("click", () => {
+      currentMediaIndex = (currentMediaIndex - 1 + mediaList.length) % mediaList.length;
+      showMedia(currentMediaIndex);
+    });
+
+    window.addEventListener("click", (e) => {
+      if (e.target == modal) modal.style.display = "none";
+    });
   </script>
 </body>
 </html>
