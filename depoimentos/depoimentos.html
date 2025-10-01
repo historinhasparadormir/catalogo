@@ -131,7 +131,7 @@
             const isVideo = ['.mp4', '.mov', '.webm'].some(ext => url.toLowerCase().includes(ext));
             mediaHTML += isVideo 
               ? `<video src="${url}" class="media-thumbnail" controls></video>`
-              : `<img src="${url}" alt="Mídia do depoimento" class="media-thumbnail">`;
+              : `<img src="${url}nth/0/" alt="Mídia do depoimento" class="media-thumbnail">`;
           });
         }
 
