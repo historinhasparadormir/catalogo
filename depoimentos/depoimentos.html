@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depoimentos - Historinhas para Dormir</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --cor-primaria: #a2d2ff;
+            --cor-secundaria: #ffafcc;
+            --cor-texto: #555;
+            --fonte-principal: 'Nunito', sans-serif;
+        }
+        body {
+            font-family: var(--fonte-principal);
+            background-color: #fdf4f5;
+            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+            margin: 0;
+            padding: 20px;
+        }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 2.8rem; font-weight: 800; color: var(--cor-primaria); margin: 0; }
+        .header p { font-size: 1.2rem; color: var(--cor-texto); }
+        #testimonials-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .testimonial-card {
+            background-color: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            padding: 25px; display: flex; flex-direction: column; gap: 15px;
+        }
+        .author-info { font-weight: 800; }
+        .author-name { font-size: 1.2rem; color: #333; }
+        .author-role { font-size: 1rem; color: var(--cor-secundaria); }
+        .testimonial-text {
+            font-size: 1rem; color: var(--cor-texto); line-height: 1.6; font-style: italic;
+            border-left: 4px solid var(--cor-primaria); padding-left: 15px;
+        }
+        .star-rating { color: #ffdd57; font-size: 1.2rem; }
+        .media-gallery { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+        .media-thumbnail {
+            width: 60px; height: 60px; border-radius: 10px;
+            object-fit: cover; cursor: pointer; transition: transform 0.2s;
+        }
+        .media-thumbnail:hover { transform: scale(1.1); }
+        #loading-state { text-align: center; font-size: 1.2rem; color: var(--cor-texto); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Mundo Mágico de Depoimentos</h1>
+        <p>Veja o que as famílias estão dizendo sobre nossos livrinhos!</p>
+    </div>
+
+    <div id="testimonials-container"></div>
+    <p id="loading-state">Carregando depoimentos...</p>
+
+    <script src="https://cdn.jsdelivr.net/npm/basiclightbox@5.0.4/dist/basicLightbox.min.js"></script>
+    
+    <script type="module">
+        // Importa as funções necessárias do SDK do Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Sua configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
+            authDomain: "meus-depoimentos.firebaseapp.com",
+            projectId: "meus-depoimentos",
+            storageBucket: "meus-depoimentos.appspot.com",
+            messagingSenderId: "781528550069",
+            appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
+            measurementId: "G-90MR5JQT0Z"
+        };
+
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        const container = document.getElementById('testimonials-container');
+        const loadingState = document.getElementById('loading-state');
+
+        // Busca os depoimentos no Firestore com a nova sintaxe
+        async function fetchTestimonials() {
+            try {
+                const testimonialsCol = collection(db, "depoimentos");
+                const q = query(testimonialsCol, orderBy("createdAt", "desc"));
+                const querySnapshot = await getDocs(q);
+
+                loadingState.style.display = 'none';
+                
+                if (querySnapshot.empty) {
+                    container.innerHTML = "<p>Ainda não há depoimentos. Seja o primeiro!</p>";
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+
+                    let starsHTML = '';
+                    for (let i = 0; i < 5; i++) {
+                        starsHTML += i < data.rating ? '★' : '☆';
+                    }
+
+                    let mediaHTML = '';
+                    if (data.media && data.media.length > 0) {
+                        data.media.forEach(url => {
+                            if (url.includes('.mp4') || url.includes('.mov')) {
+                                mediaHTML += `<video src="${url}" class="media-thumbnail"></video>`;
+                            } else {
+                                mediaHTML += `<img src="${url}" alt="Mídia do depoimento" class="media-thumbnail">`;
+                            }
+                        });
+                    }
+                    
+                    const card = document.createElement('div');
+                    card.className = 'testimonial-card';
+                    card.innerHTML = `
+                        <div class="author-info">
+                            <div class="author-name">${data.name}</div>
+                            <div class="author-role">${data.role} do(a) ${data.childName}</div>
+                        </div>
+                        <div class="star-rating">${starsHTML}</div>
+                        <p class="testimonial-text">"${data.testimonial}"</p>
+                        <div class="media-gallery">${mediaHTML}</div>
+                    `;
+                    
+                    container.appendChild(card);
+                });
+
+                container.querySelectorAll('.media-thumbnail').forEach(thumb => {
+                    thumb.addEventListener('click', () => {
+                        if(thumb.tagName === 'IMG') {
+                            basicLightbox.create(`<img src="${thumb.src}">`).show();
+                        } else if (thumb.tagName === 'VIDEO') {
+                            basicLightbox.create(`<video src="${thumb.src}" controls autoplay></video>`).show();
+                        }
+                    });
+                });
+
+            } catch (error) {
+                console.error("Erro ao buscar depoimentos: ", error);
+                loadingState.textContent = "Não foi possível carregar os depoimentos.";
+            }
+        }
+        
+        fetchTestimonials();
+    </script>
+</body>
+</html>

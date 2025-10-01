@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deixe seu Depoimento - Historinhas para Dormir</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cor-primaria: #a2d2ff; /* Azul bebê */
+            --cor-secundaria: #ffafcc; /* Rosa suave */
+            --cor-texto: #555;
+            --fonte-principal: 'Nunito', sans-serif;
+        }
+        body {
+            font-family: var(--fonte-principal);
+            background-color: #fdf4f5;
+            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: var(--cor-primaria);
+            text-align: center;
+            font-weight: 800;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 700;
+            color: var(--cor-texto);
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: var(--fonte-principal);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+        }
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        .star-rating {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        .star {
+            font-size: 2.5rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .star:hover, .star.selected {
+            color: #ffdd57;
+            transform: scale(1.2);
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background-image: linear-gradient(45deg, var(--cor-primaria), var(--cor-secundaria));
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(162, 210, 255, 0.5);
+        }
+        #success-message {
+            text-align: center;
+            color: #2a9d8f;
+            font-weight: 700;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Conte sua História! ✨</h1>
+        <form id="testimonialForm">
+            <div class="form-group">
+                <label for="name">Seu nome completo:</label>
+                <input type="text" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Você é o pai ou a mãe?</label>
+                <select id="role" required>
+                    <option value="Pai">Pai</option>
+                    <option value="Mãe">Mãe</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="childName">Nome do(a) seu(sua) filho(a):</label>
+                <input type="text" id="childName" required>
+            </div>
+            <div class="form-group">
+                <label for="testimonial">Seu depoimento (máx. 200 caracteres):</label>
+                <textarea id="testimonial" maxlength="200" required></textarea>
+            </div>
+            <div class="form-group">
+                <label>Sua nota:</label>
+                <div class="star-rating">
+                    <span class="star" data-value="1">★</span>
+                    <span class="star" data-value="2">★</span>
+                    <span class="star" data-value="3">★</span>
+                    <span class="star" data-value="4">★</span>
+                    <span class="star" data-value="5">★</span>
+                </div>
+                <input type="hidden" id="rating" required>
+            </div>
+            <div class="form-group">
+                <label>Envie uma foto ou vídeo (opcional):</label>
+                <input type="hidden" role="uploadcare-uploader" data-multiple="true" data-multiple-max="5" />
+            </div>
+            <button type="submit" class="submit-btn">Enviar Depoimento</button>
+        </form>
+        <p id="success-message">Obrigado! Seu depoimento foi enviado com sucesso!</p>
+    </div>
+
+    <!-- Script do Widget do Uploadcare -->
+    <script>
+        UPLOADCARE_PUBLIC_KEY = 'a45c2febeabd4d38ab78'; // <-- COLE SUA CHAVE PÚBLICA DO UPLOADCARE AQUI
+    </script>
+    <script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+
+    <!-- Script do Firebase (VERSÃO ATUALIZADA) -->
+    <script type="module">
+        // Importa as funções necessárias do SDK do Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Sua configuração do Firebase que você copiou
+        const firebaseConfig = {
+            apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
+            authDomain: "meus-depoimentos.firebaseapp.com",
+            projectId: "meus-depoimentos",
+            storageBucket: "meus-depoimentos.appspot.com",
+            messagingSenderId: "781528550069",
+            appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
+            measurementId: "G-90MR5JQT0Z"
+        };
+
+        // Inicializa o Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Lógica das estrelas
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('rating');
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const value = star.getAttribute('data-value');
+                ratingInput.value = value;
+                stars.forEach(s => {
+                    s.classList.remove('selected');
+                    if (s.getAttribute('data-value') <= value) {
+                        s.classList.add('selected');
+                    }
+                });
+            });
+        });
+
+        // Lógica do formulário
+        const form = document.getElementById('testimonialForm');
+        const successMessage = document.getElementById('success-message');
+        const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            form.querySelector('.submit-btn').disabled = true;
+            form.querySelector('.submit-btn').textContent = 'Enviando...';
+
+            widget.value().done(async function(fileInfo) {
+                const mediaUrls = fileInfo ? fileInfo.files().map(file => file.cdnUrl) : [];
+                
+                const newTestimonial = {
+                    name: document.getElementById('name').value,
+                    role: document.getElementById('role').value,
+                    childName: document.getElementById('childName').value,
+                    testimonial: document.getElementById('testimonial').value,
+                    rating: parseInt(ratingInput.value),
+                    media: mediaUrls,
+                    createdAt: serverTimestamp()
+                };
+
+                try {
+                    // Salva os dados no Firestore com a nova sintaxe
+                    await addDoc(collection(db, "depoimentos"), newTestimonial);
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                } catch (error) {
+                    console.error("Erro ao adicionar o documento: ", error);
+                    alert("Ocorreu um erro. Tente novamente.");
+                    form.querySelector('.submit-btn').disabled = false;
+                    form.querySelector('.submit-btn').textContent = 'Enviar Depoimento';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
