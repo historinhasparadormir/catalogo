@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -32,8 +33,8 @@
             padding: 30px 40px;
             max-width: 500px;
             width: 100%;
-            position: relative; /* Adicionado para o preloader */
-            overflow: hidden; /* Adicionado para o preloader */
+            position: relative;
+            overflow: hidden;
         }
         h1, h2 {
             color: var(--cor-primaria);
@@ -52,13 +53,13 @@
         .star-rating { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
         .star { font-size: 2.5rem; color: #ddd; cursor: pointer; transition: color 0.2s, transform 0.2s; }
         .star:hover, .star.selected { color: #ffdd57; transform: scale(1.2); }
-        .submit-btn, .view-testimonials-btn {
+        .submit-btn, .view-testimonials-btn, .retry-btn {
             width: 100%; padding: 15px; border: none; border-radius: 10px;
             background-image: linear-gradient(45deg, var(--cor-primaria), var(--cor-secundaria));
             color: white; font-size: 1.2rem; font-weight: 800; cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; display: inline-block;
         }
-        .submit-btn:hover, .view-testimonials-btn:hover {
+        .submit-btn:hover, .view-testimonials-btn:hover, .retry-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(162, 210, 255, 0.5);
         }
@@ -69,36 +70,24 @@
         .view-testimonials-btn { margin-top: 20px; font-size: 1rem; }
         
         #preloader {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(5px);
-            z-index: 10;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
+            z-index: 10; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        #preloader.visible {
-            opacity: 1;
-            visibility: visible;
-        }
+        #preloader.visible { opacity: 1; visibility: visible; }
         .moon {
-            width: 80px; height: 80px; border-radius: 50%;
-            background-color: #ffdd57;
-            box-shadow: 0 0 40px #ffdd57;
-            animation: pulse 2s infinite ease-in-out;
+            width: 80px; height: 80px; border-radius: 50%; background-color: #ffdd57;
+            box-shadow: 0 0 40px #ffdd57; animation: pulse 2s infinite ease-in-out;
         }
-        #preloader-text {
-            margin-top: 20px; font-weight: 700; color: var(--cor-texto); font-size: 1.1rem;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.8; }
-            50% { transform: scale(1.1); opacity: 1; }
-        }
+        #preloader-text { margin-top: 20px; font-weight: 700; color: var(--cor-texto); font-size: 1.1rem; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
+        
+        /* --- INÍCIO DA ALTERAÇÃO: FEEDBACK DE ERRO --- */
+        #error-feedback { display: none; text-align: center; }
+        #error-feedback p { color: #d9534f; font-weight: 700; }
+        .retry-btn { margin-top: 15px; font-size: 1rem; background-image: linear-gradient(45deg, #ffc75f, #ff9671); }
+        /* --- FIM DA ALTERAÇÃO --- */
     </style>
 </head>
 <body>
@@ -106,6 +95,13 @@
         <div id="preloader">
             <div class="moon"></div>
             <p id="preloader-text">Enviando seu depoimento...</p>
+            <!-- INÍCIO DA ALTERAÇÃO: MENSAGEM DE ERRO VISUAL -->
+            <div id="error-feedback">
+                <h2>Oops! Algo deu errado.</h2>
+                <p>Não foi possível salvar seu depoimento. Por favor, verifique sua conexão com a internet ou tente novamente.</p>
+                <button id="retry-btn" class="retry-btn">Tentar Novamente</button>
+            </div>
+            <!-- FIM DA ALTERAÇÃO -->
         </div>
 
         <form id="testimonialForm">
@@ -116,10 +112,7 @@
             </div>
             <div class="form-group">
                 <label for="role">Você é o pai ou a mãe?</label>
-                <select id="role" required>
-                    <option value="Pai">Pai</option>
-                    <option value="Mãe">Mãe</option>
-                </select>
+                <select id="role" required> <option value="Pai">Pai</option> <option value="Mãe">Mãe</option> </select>
             </div>
             <div class="form-group">
                 <label for="childName">Nome do(a) seu(sua) filho(a):</label>
@@ -145,11 +138,11 @@
                     <span class="star" data-value="3">★</span> <span class="star" data-value="4">★</span>
                     <span class="star" data-value="5">★</span>
                 </div>
-                <input type="hidden" id="rating"> <!-- Required removido para validação manual -->
+                <input type="hidden" id="rating">
             </div>
             <div class="form-group">
                 <label>Envie uma foto ou vídeo (opcional):</label>
-                <input type="hidden" role="uploadcare-uploader" data-multiple="true" data-multiple-max="5" />
+                <input type="hidden" role="uploadcare-uploader" data-multiple="true" data-multiple-max="5" data-image-shrink="1920x1920 80%" />
             </div>
             <button type="submit" class="submit-btn">Enviar Depoimento</button>
         </form>
@@ -169,6 +162,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+        // SUAS CHAVES DO FIREBASE FORAM RESTAURADAS AQUI
         const firebaseConfig = {
             apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
             authDomain: "meus-depoimentos.firebaseapp.com",
@@ -186,12 +180,8 @@
         const ratingInput = document.getElementById('rating');
         stars.forEach(star => {
             star.addEventListener('click', () => {
-                const value = star.getAttribute('data-value');
-                ratingInput.value = value;
-                stars.forEach(s => {
-                    s.classList.remove('selected');
-                    if (s.getAttribute('data-value') <= value) s.classList.add('selected');
-                });
+                ratingInput.value = star.dataset.value;
+                stars.forEach(s => s.classList.toggle('selected', s.dataset.value <= ratingInput.value));
             });
         });
 
@@ -201,43 +191,30 @@
         const submitBtn = form.querySelector('.submit-btn');
         const preloader = document.getElementById('preloader');
         const preloaderText = document.getElementById('preloader-text');
+        const errorFeedback = document.getElementById('error-feedback');
+        const retryBtn = document.getElementById('retry-btn');
+        const moonAnimation = preloader.querySelector('.moon');
         
-        let fileGroup = null;
-
-        widget.onChange(function(group) {
-            fileGroup = group;
+        widget.onChange(group => {
             if (group) {
-                group.progress(info => {
-                    const progress = Math.round(info.progress * 100);
-                    preloaderText.textContent = `Enviando Mídia... (${progress}%)`;
-                });
+                group.progress(info => preloaderText.textContent = `Enviando Mídia... (${Math.round(info.progress * 100)}%)`);
             }
         });
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-
-            // --- INÍCIO DA CORREÇÃO: VALIDAÇÃO MANUAL ---
-            if (!document.getElementById('product').value) {
-                alert('Por favor, selecione qual produto você comprou.');
+            if (!document.getElementById('product').value || !ratingInput.value) {
+                alert('Por favor, selecione o produto e dê uma nota clicando nas estrelas.');
                 return; 
             }
-            if (!ratingInput.value) {
-                alert('Por favor, selecione uma nota clicando nas estrelas.');
-                return;
-            }
-            // --- FIM DA CORREÇÃO ---
-
             submitBtn.disabled = true;
             preloader.classList.add('visible'); 
-
-            if (!fileGroup) {
-                 preloaderText.textContent = 'Salvando depoimento...';
-            }
+            moonAnimation.style.display = 'block';
+            errorFeedback.style.display = 'none';
+            preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
 
             widget.value().done(async function(fileInfo) {
                 preloaderText.textContent = 'Salvando depoimento...';
-
                 const mediaUrls = fileInfo ? fileInfo.files().map(file => file.cdnUrl) : [];
                 
                 const newTestimonial = {
@@ -246,24 +223,30 @@
                     childName: document.getElementById('childName').value,
                     productName: document.getElementById('product').value,
                     testimonial: document.getElementById('testimonial').value,
-                    rating: parseInt(ratingInput.value), // O valor já foi validado, então está seguro
+                    rating: parseInt(ratingInput.value),
                     media: mediaUrls,
                     createdAt: serverTimestamp()
                 };
 
                 try {
                     await addDoc(collection(db, "depoimentos"), newTestimonial);
+                    preloader.classList.remove('visible');
                     form.style.display = 'none';
-                    preloader.style.display = 'none'; // Esconde o preloader também
                     successMessage.style.display = 'block';
                 } catch (error) {
-                    console.error("Erro ao adicionar o documento: ", error);
-                    alert("Ocorreu um erro ao salvar seu depoimento. Por favor, tente novamente.");
-                    preloader.classList.remove('visible');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Enviar Depoimento';
+                    console.error("Firebase Error: ", error);
+                    // --- INÍCIO DA CORREÇÃO: MOSTRA ERRO VISUAL ---
+                    moonAnimation.style.display = 'none';
+                    preloaderText.textContent = '';
+                    errorFeedback.style.display = 'block';
+                    // --- FIM DA CORREÇÃO ---
                 }
             });
+        });
+
+        retryBtn.addEventListener('click', () => {
+            preloader.classList.remove('visible');
+            submitBtn.disabled = false;
         });
     </script>
 </body>
