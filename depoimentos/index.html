@@ -153,104 +153,113 @@
     </script>
     <script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+   <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+    const firebaseConfig = {
+        apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
+        authDomain: "meus-depoimentos.firebaseapp.com",
+        projectId: "meus-depoimentos",
+        storageBucket: "meus-depoimentos.appspot.com",
+        messagingSenderId: "781528550069",
+        appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
+        measurementId: "G-90MR5JQT0Z"
+    };
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
-            authDomain: "meus-depoimentos.firebaseapp.com",
-            projectId: "meus-depoimentos",
-            storageBucket: "meus-depoimentos.appspot.com",
-            messagingSenderId: "781528550069",
-            appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
-            measurementId: "G-90MR5JQT0Z"
-        };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('rating');
+    stars.forEach(star => {
+        star.addEventListener('click', () => {
+            ratingInput.value = star.dataset.value;
+            stars.forEach(s => s.classList.toggle('selected', s.dataset.value <= ratingInput.value));
+        });
+    });
 
-        const stars = document.querySelectorAll('.star');
-        const ratingInput = document.getElementById('rating');
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                ratingInput.value = star.dataset.value;
-                stars.forEach(s => s.classList.toggle('selected', s.dataset.value <= ratingInput.value));
+    const form = document.getElementById('testimonialForm');
+    const successMessage = document.getElementById('success-message');
+    const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+    const submitBtn = form.querySelector('.submit-btn');
+    const preloader = document.getElementById('preloader');
+    const preloaderText = document.getElementById('preloader-text');
+    const errorFeedback = document.getElementById('error-feedback');
+    const retryBtn = document.getElementById('retry-btn');
+    const moonAnimation = preloader.querySelector('.moon');
+    
+    widget.onChange(group => {
+        if (group) {
+            group.progress(info => {
+                preloaderText.textContent = `Enviando Mídia... (${Math.round(info.progress * 100)}%)`;
             });
-        });
+        }
+    });
 
-        const form = document.getElementById('testimonialForm');
-        const successMessage = document.getElementById('success-message');
-        const widget = uploadcare.Widget('[role=uploadcare-uploader]');
-        const submitBtn = form.querySelector('.submit-btn');
-        const preloader = document.getElementById('preloader');
-        const preloaderText = document.getElementById('preloader-text');
-        const errorFeedback = document.getElementById('error-feedback');
-        const retryBtn = document.getElementById('retry-btn');
-        const moonAnimation = preloader.querySelector('.moon');
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        if (!document.getElementById('product').value || !ratingInput.value) {
+            alert('Por favor, selecione o produto e dê uma nota clicando nas estrelas.');
+            return; 
+        }
         
-        widget.onChange(group => {
-            if (group) {
-                group.progress(info => preloaderText.textContent = `Enviando Mídia... (${Math.round(info.progress * 100)}%)`);
-            }
-        });
+        submitBtn.disabled = true;
+        preloader.classList.add('visible'); 
+        moonAnimation.style.display = 'block';
+        errorFeedback.style.display = 'none';
+        preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
 
-        form.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            if (!document.getElementById('product').value || !ratingInput.value) {
-                alert('Por favor, selecione o produto e dê uma nota clicando nas estrelas.');
-                return; 
-            }
-            
-            submitBtn.disabled = true;
-            preloader.classList.add('visible'); 
-            moonAnimation.style.display = 'block';
-            errorFeedback.style.display = 'none';
-            preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
+        try {
+            // ETAPA 1: Lidar com upload corretamente
+            let mediaUrlsString = '';
+            const upload = widget.value();
 
-            try {
-                // ETAPA 1: Lidar com o upload de forma 100% segura
-                let mediaUrlsString = '';
-                const upload = widget.value();
-                if (upload) {
-                    // Espera o upload ser concluído
-                    const fileInfo = await upload;
+            if (upload) {
+                const fileInfo = await upload.promise();
+
+                if (fileInfo.files) {
+                    // Vários arquivos
                     mediaUrlsString = fileInfo.files().map(file => file.cdnUrl).join(',');
+                } else {
+                    // Apenas um arquivo
+                    mediaUrlsString = fileInfo.cdnUrl;
                 }
-
-                // ETAPA 2: Salvar no Firebase
-                preloaderText.textContent = 'Salvando depoimento...';
-                const newTestimonial = {
-                    name: document.getElementById('name').value,
-                    role: document.getElementById('role').value,
-                    childName: document.getElementById('childName').value,
-                    productName: document.getElementById('product').value,
-                    testimonial: document.getElementById('testimonial').value,
-                    rating: parseInt(ratingInput.value),
-                    media: mediaUrlsString,
-                    createdAt: serverTimestamp()
-                };
-                await addDoc(collection(db, "depoimentos"), newTestimonial);
-
-                // ETAPA 3: Sucesso
-                preloader.classList.remove('visible');
-                form.style.display = 'none';
-                successMessage.style.display = 'block';
-
-            } catch (error) {
-                // ETAPA 4: Captura de qualquer erro
-                console.error("Ocorreu um erro no envio: ", error);
-                moonAnimation.style.display = 'none';
-                preloaderText.textContent = '';
-                errorFeedback.style.display = 'block';
             }
-        });
 
-        retryBtn.addEventListener('click', () => {
+            // ETAPA 2: Salvar no Firebase
+            preloaderText.textContent = 'Salvando depoimento...';
+            const newTestimonial = {
+                name: document.getElementById('name').value,
+                role: document.getElementById('role').value,
+                childName: document.getElementById('childName').value,
+                productName: document.getElementById('product').value,
+                testimonial: document.getElementById('testimonial').value,
+                rating: parseInt(ratingInput.value),
+                media: mediaUrlsString,
+                createdAt: serverTimestamp()
+            };
+            await addDoc(collection(db, "depoimentos"), newTestimonial);
+
+            // ETAPA 3: Sucesso
             preloader.classList.remove('visible');
-            submitBtn.disabled = false;
-        });
-    </script>
+            form.style.display = 'none';
+            successMessage.style.display = 'block';
+
+        } catch (error) {
+            // ETAPA 4: Captura de qualquer erro
+            console.error("Ocorreu um erro no envio: ", error);
+            moonAnimation.style.display = 'none';
+            preloaderText.textContent = '';
+            errorFeedback.style.display = 'block';
+        }
+    });
+
+    retryBtn.addEventListener('click', () => {
+        preloader.classList.remove('visible');
+        submitBtn.disabled = false;
+    });
+</script>
+
 </body>
 </html>
