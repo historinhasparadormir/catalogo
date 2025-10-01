@@ -210,20 +210,16 @@
             preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
 
             try {
-                // --- INÍCIO DA CORREÇÃO DEFINITIVA ---
-                // Transforma o processo de upload em uma promessa real que o "await" pode esperar
-                const fileInfo = await new Promise((resolve, reject) => {
-                    const upload = widget.value();
-                    if (upload) {
-                        upload.done(info => resolve(info)).fail((_, error) => reject(error));
-                    } else {
-                        resolve(null); // Resolve como nulo se não houver arquivos
-                    }
-                });
-                // --- FIM DA CORREÇÃO DEFINITIVA ---
+                // ETAPA 1: Lidar com o upload de forma 100% segura
+                let mediaUrlsString = '';
+                const upload = widget.value();
+                if (upload) {
+                    // Espera o upload ser concluído
+                    const fileInfo = await upload;
+                    mediaUrlsString = fileInfo.files().map(file => file.cdnUrl).join(',');
+                }
 
-                const mediaUrlsString = fileInfo ? fileInfo.files().map(file => file.cdnUrl).join(',') : '';
-
+                // ETAPA 2: Salvar no Firebase
                 preloaderText.textContent = 'Salvando depoimento...';
                 const newTestimonial = {
                     name: document.getElementById('name').value,
@@ -237,11 +233,13 @@
                 };
                 await addDoc(collection(db, "depoimentos"), newTestimonial);
 
+                // ETAPA 3: Sucesso
                 preloader.classList.remove('visible');
                 form.style.display = 'none';
                 successMessage.style.display = 'block';
 
             } catch (error) {
+                // ETAPA 4: Captura de qualquer erro
                 console.error("Ocorreu um erro no envio: ", error);
                 moonAnimation.style.display = 'none';
                 preloaderText.textContent = '';
@@ -256,4 +254,3 @@
     </script>
 </body>
 </html>
-
