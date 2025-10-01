@@ -305,7 +305,7 @@
   </style>
 </head>
 <body>
-  <h1>Depoimentos dos Clientes</h1>
+  <h1>&nbsp;</h1>
 
   <div class="carousel" id="testimonialCarousel" aria-label="carrossel de depoimentos">
     <div class="carousel-inner" id="carouselInner"></div>
@@ -326,7 +326,7 @@
     <span class="modal-next" id="nextMedia" title="Próximo">&#10095;</span>
   </div>
 
-  <script type="module">
+<script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, getDocs, orderBy, query, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -454,15 +454,16 @@
                         <div class="author-role">${(data.childName || '')}</div>
                       </div>
                     </div>
-                    <div class="helpful-vote">
+              
+                  </div>
+				      
+                  ${mediaUrls.length > 0 ? `<div class="media-thumbs">${mediaThumbsHTML}</div>` : ''}
+                </div>
+                <div class="helpful-vote">
                       <span class="like-btn" data-id="${doc.id}">👍</span>
                       <span class="vote-count" id="vote-count-${doc.id}">${data.helpfulVotes || 0}</span>
 					  <span> pessoas acharam útil</span>
-                    </div>
-                  </div>
-                  ${mediaUrls.length > 0 ? `<div class="media-thumbs">${mediaThumbsHTML}</div>` : ''}
-                </div>
-              </div>
+                    </div></div>
             </div>
           `;
 
