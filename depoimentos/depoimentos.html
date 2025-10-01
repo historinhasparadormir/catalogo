@@ -6,59 +6,71 @@
   <title>Depoimentos</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa, #e4ecf7);
       margin: 0;
-      padding: 20px;
+      padding: 30px;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      color: #333;
     }
 
     .carousel {
       position: relative;
-      max-width: 600px;
-      margin: 20px auto;
+      max-width: 700px;
+      margin: 0 auto;
       overflow: hidden;
-      border-radius: 12px;
-      background: white;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     }
 
     .carousel-inner {
       display: flex;
-      transition: transform 0.5s ease-in-out;
+      transition: transform 0.6s ease-in-out;
     }
 
     .carousel-item {
       min-width: 100%;
       box-sizing: border-box;
-      padding: 20px;
+      padding: 30px 20px;
       text-align: center;
     }
 
     .testimonial {
-      font-size: 16px;
-      margin-bottom: 10px;
+      font-size: 18px;
+      font-style: italic;
+      color: #444;
+      margin-bottom: 15px;
     }
 
     .author {
       font-weight: bold;
-      margin-top: 5px;
+      margin-top: 10px;
+      font-size: 16px;
+      color: #222;
     }
 
     .stars {
-      color: gold;
-      margin: 5px 0;
+      color: #f5c518;
+      font-size: 20px;
+      margin: 8px 0;
     }
 
     .media-thumbnail {
-      max-width: 100%;
-      max-height: 200px;
-      border-radius: 8px;
-      margin-top: 10px;
+      max-width: 90%;
+      max-height: 280px;
+      border-radius: 10px;
+      margin-top: 15px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      object-fit: cover;
+    }
+
+    video.media-thumbnail {
+      background: #000;
     }
 
     .carousel-controls {
@@ -68,16 +80,22 @@
       display: flex;
       justify-content: space-between;
       transform: translateY(-50%);
+      padding: 0 15px;
     }
 
     .control-btn {
       background: rgba(0,0,0,0.5);
       color: white;
       border: none;
-      padding: 10px;
+      padding: 12px;
       cursor: pointer;
       border-radius: 50%;
       font-size: 18px;
+      transition: background 0.3s;
+    }
+
+    .control-btn:hover {
+      background: rgba(0,0,0,0.8);
     }
   </style>
 </head>
@@ -110,6 +128,7 @@
 
     const carouselInner = document.getElementById("carouselInner");
     let currentIndex = 0;
+    let totalItems = 0;
 
     async function loadTestimonials() {
       const q = query(collection(db, "depoimentos"), orderBy("createdAt", "desc"));
@@ -123,14 +142,13 @@
       querySnapshot.forEach((doc) => {
         const data = doc.data();
 
-        // Corrigido: transforma string em array
         let mediaHTML = '';
         if (data.media && data.media.length > 0) {
           const mediaUrls = data.media.split(',');
           mediaUrls.forEach(url => {
             const isVideo = ['.mp4', '.mov', '.webm'].some(ext => url.toLowerCase().includes(ext));
             mediaHTML += isVideo 
-              ? `<video src="${url}" class="media-thumbnail" controls></video>`
+              ? `<video src="${url}nth/0/" class="media-thumbnail" controls></video>`
               : `<img src="${url}nth/0/" alt="Mídia do depoimento" class="media-thumbnail">`;
           });
         }
@@ -147,22 +165,33 @@
         `;
         carouselInner.innerHTML += slide;
       });
+
+      totalItems = document.querySelectorAll(".carousel-item").length;
     }
 
     loadTestimonials();
 
-    // Controles do carrossel
+    function showSlide(index) {
+      carouselInner.style.transform = `translateX(-${index * 100}%)`;
+    }
+
     document.getElementById("nextBtn").addEventListener("click", () => {
-      const totalItems = document.querySelectorAll(".carousel-item").length;
       currentIndex = (currentIndex + 1) % totalItems;
-      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+      showSlide(currentIndex);
     });
 
     document.getElementById("prevBtn").addEventListener("click", () => {
-      const totalItems = document.querySelectorAll(".carousel-item").length;
       currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-      carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
+      showSlide(currentIndex);
     });
+
+    // autoplay a cada 5 segundos
+    setInterval(() => {
+      if (totalItems > 0) {
+        currentIndex = (currentIndex + 1) % totalItems;
+        showSlide(currentIndex);
+      }
+    }, 5000);
   </script>
 </body>
 </html>
