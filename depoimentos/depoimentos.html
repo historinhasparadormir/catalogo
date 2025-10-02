@@ -461,7 +461,8 @@
                 </div>
                 <div class="helpful-vote">
                       <span class="like-btn" data-id="${doc.id}">👍</span>
-                      <span class="vote-count" id="vote-count-${doc.id}">${data.helpfulVotes || 0}</span>
+                      <span class="vote-count" id="vote-count-${doc.id}">${data.helpfulVotes ?? 0}</span>
+
 					  <span> pessoas acharam útil</span>
                     </div></div>
             </div>
