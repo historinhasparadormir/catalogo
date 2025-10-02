@@ -592,7 +592,8 @@ const q = query(
           }
       });
 
-  carouselInner.addEventListener('click', async (e) => {
+ 
+carouselInner.addEventListener('click', async (e) => {
   const likeBtn = e.target.closest('.like-btn');
   if (!likeBtn) return;
 
@@ -602,7 +603,7 @@ const q = query(
     return;
   }
 
-  // evita cliques rápidos duplicados no mesmo botão
+  // evita cliques rápidos duplicados
   if (likeBtn.dataset.processing === '1') return;
   likeBtn.dataset.processing = '1';
 
@@ -610,31 +611,32 @@ const q = query(
   let currentVotedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
   if (currentVotedItems.includes(docId)) {
     likeBtn.dataset.processing = '0';
-    return;
+    return; // já votou nesse depoimento
   }
 
-  // Marca como votado (prevenção contra re-clique)
+  // Marca como votado (previne voto duplo)
   currentVotedItems.push(docId);
   localStorage.setItem(storageKey, JSON.stringify(currentVotedItems));
   likeBtn.classList.add('voted');
 
-  // Atualiza contador na UI de forma otimista
+  // Atualiza contador na tela de forma otimista
   const countElement = document.getElementById(`vote-count-${docId}`);
   const previousCount = countElement ? (parseInt(countElement.textContent, 10) || 0) : 0;
   if (countElement) countElement.textContent = previousCount + 1;
 
   try {
     const docRef = doc(db, 'depoimentos', docId);
-    // incremento atômico no Firestore
-    await updateDoc(docRef, { helpfulVotes: increment(1) });
-    // Sucesso — nada mais a fazer (UI já atualizada)
+    await updateDoc(docRef, {
+      helpfulVotes: increment(1) // <- incrementa no Firestore
+    });
   } catch (err) {
     console.error('Erro ao atualizar o voto no Firestore:', err);
-    // Reverte UI e localStorage se der erro
+
+    // Reverte UI se falhar
     if (countElement) countElement.textContent = previousCount;
     likeBtn.classList.remove('voted');
 
-    // remove docId do localStorage
+    // Remove docId do localStorage
     currentVotedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
     const idx = currentVotedItems.indexOf(docId);
     if (idx > -1) {
