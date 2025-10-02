@@ -398,7 +398,16 @@
     // -------------------- Carrega depoimentos --------------------
     async function loadTestimonials() {
       try {
-        const q = query(collection(db, 'depoimentos'), orderBy('createdAt', 'desc'));
+       // Produto específico desta página
+const currentProduct = "Livrinho 32 Historinhas para Dormir"; // <- alterar por página
+
+// Consulta filtrando pelo produto
+const q = query(
+    collection(db, 'depoimentos'),
+    where("productName", "==", currentProduct), // <- usa o campo do produto já cadastrado
+    orderBy('createdAt', 'desc')
+);
+
         const snapshot = await getDocs(q);
 
         if (snapshot.empty) {
