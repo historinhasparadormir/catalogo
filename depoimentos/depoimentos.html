@@ -592,37 +592,62 @@ const q = query(
           }
       });
 
-      carouselInner.addEventListener('click', async (e) => {
-          const likeBtn = e.target.closest('.like-btn');
-          if (!likeBtn) return;
+  carouselInner.addEventListener('click', async (e) => {
+  const likeBtn = e.target.closest('.like-btn');
+  if (!likeBtn) return;
 
-          const docId = likeBtn.dataset.id;
-          if (!docId) return;
+  const docId = likeBtn.dataset.id;
+  if (!docId) {
+    console.warn('Like: docId ausente');
+    return;
+  }
 
-          const currentVotedItems = JSON.parse(localStorage.getItem('votedTestimonials')) || [];
-          if (currentVotedItems.includes(docId)) {
-              return;
-          }
+  // evita cliques rápidos duplicados no mesmo botão
+  if (likeBtn.dataset.processing === '1') return;
+  likeBtn.dataset.processing = '1';
 
-          currentVotedItems.push(docId);
-          localStorage.setItem('votedTestimonials', JSON.stringify(currentVotedItems));
+  const storageKey = 'votedTestimonials';
+  let currentVotedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+  if (currentVotedItems.includes(docId)) {
+    likeBtn.dataset.processing = '0';
+    return;
+  }
 
-          likeBtn.classList.add('voted');
-          const countElement = document.getElementById(`vote-count-${docId}`);
-          if (countElement) {
-              const currentCount = parseInt(countElement.textContent, 10);
-              countElement.textContent = currentCount + 1;
-          }
+  // Marca como votado (prevenção contra re-clique)
+  currentVotedItems.push(docId);
+  localStorage.setItem(storageKey, JSON.stringify(currentVotedItems));
+  likeBtn.classList.add('voted');
 
-          try {
-              const docRef = doc(db, 'depoimentos', docId);
-              await updateDoc(docRef, {
-                  helpfulVotes: increment(1)
-              });
-          } catch (error) {
-              console.error("Erro ao atualizar o voto no Firestore:", error);
-          }
-      });
+  // Atualiza contador na UI de forma otimista
+  const countElement = document.getElementById(`vote-count-${docId}`);
+  const previousCount = countElement ? (parseInt(countElement.textContent, 10) || 0) : 0;
+  if (countElement) countElement.textContent = previousCount + 1;
+
+  try {
+    const docRef = doc(db, 'depoimentos', docId);
+    // incremento atômico no Firestore
+    await updateDoc(docRef, { helpfulVotes: increment(1) });
+    // Sucesso — nada mais a fazer (UI já atualizada)
+  } catch (err) {
+    console.error('Erro ao atualizar o voto no Firestore:', err);
+    // Reverte UI e localStorage se der erro
+    if (countElement) countElement.textContent = previousCount;
+    likeBtn.classList.remove('voted');
+
+    // remove docId do localStorage
+    currentVotedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const idx = currentVotedItems.indexOf(docId);
+    if (idx > -1) {
+      currentVotedItems.splice(idx, 1);
+      localStorage.setItem(storageKey, JSON.stringify(currentVotedItems));
+    }
+
+    alert('Não foi possível registrar seu voto. Tente novamente.');
+  } finally {
+    likeBtn.dataset.processing = '0';
+  }
+});
+
 
       closeModalBtn.addEventListener('click', closeModal);
       nextMediaBtn.addEventListener('click', nextModalMedia);
@@ -648,6 +673,8 @@ const q = query(
 
     loadTestimonials();
   </script>
+  
+
 </body>
 </html>
 
