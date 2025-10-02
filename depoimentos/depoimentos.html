@@ -325,7 +325,7 @@
     <span class="modal-prev" id="prevMedia" title="Anterior">&#10094;</span>
     <span class="modal-next" id="nextMedia" title="Próximo">&#10095;</span>
   </div>
-
+<script>import { updateDoc, doc, increment } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";</script>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
  import { getFirestore, collection, getDocs, orderBy, query, where, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -679,4 +679,5 @@ carouselInner.addEventListener('click', async (e) => {
 
 </body>
 </html>
+
 
