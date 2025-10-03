@@ -675,9 +675,42 @@ carouselInner.addEventListener('click', async (e) => {
 
     loadTestimonials();
   </script>
-  
+  <script type="module">
+  import { getFirestore, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const db = getFirestore();
+
+  // função de votar
+  async function votarUtil(id) {
+    try {
+      const docRef = doc(db, "depoimentos", id);
+
+      // só incrementa o campo helpfulVote
+      await updateDoc(docRef, {
+        helpfulVote: increment(1)
+      });
+
+      alert("Obrigado pelo seu voto!");
+    } catch (error) {
+      console.error("Erro ao votar:", error);
+      alert("Não foi possível registrar seu voto. Tente novamente.");
+    }
+  }
+
+  // exemplo de como ligar no botão
+  document.addEventListener("click", (e) => {
+    const likeBtn = e.target.closest(".like-btn");
+    if (!likeBtn) return;
+
+    const docId = likeBtn.dataset.id;
+    if (docId) {
+      votarUtil(docId);
+    }
+  });
+  </script>
 
 </body>
 </html>
+
 
 
