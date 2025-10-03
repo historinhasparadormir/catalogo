@@ -8,348 +8,303 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <style>
-        /* Variáveis de cores e fontes */
-        :root {
-            --cor-primaria: #a2d2ff; /* Azul bebê */
-            --cor-secundaria: #ffafcc; /* Rosa suave */
-            --cor-texto: #5c5c7b;
-            --cor-estrelas: #ffdd57;
-            --fonte-principal: 'Nunito', sans-serif;
-        }
+    :root {
+      --cor-primaria: #a2d2ff; /* Azul bebê */
+      --cor-secundaria: #ffafcc; /* Rosa suave */
+      --cor-texto: #5c5c7b;
+      --cor-estrelas: #ffdd57;
+      --fonte-principal: 'Nunito', sans-serif;
+    }
 
-        /* Estilos globais e do body */
-        body {
-            font-family: var(--fonte-principal);
-            background-color: #f8f9fe;
-            background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-            margin: 0;
-            padding: 0; /* Removido padding para evitar espaçamentos indesejados nas bordas */
-            color: var(--cor-texto);
+    body {
+      font-family: var(--fonte-principal);
+      background-color: #f8f9fe;
+      background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+      margin: 0;
+      padding: 0px 0px;
+      color: var(--cor-texto);
+    }
 
-            /* ESTILOS PARA ALINHAR AO TOPO E FINAL DA PÁGINA */
-            min-height: 100vh; /* Garante que o body ocupe a altura total da viewport */
-            display: flex; /* Habilita o modelo de layout flexbox */
-            flex-direction: column; /* Organiza os filhos diretos (h1, .carousel) em uma coluna */
-            /* justify-content: space-between;  -> Use este se tiver um rodapé e quiser empurrar o carrossel para o meio/final
-               justify-content: flex-start;  -> Use este se quiser que tudo comece no topo e o espaço extra fique no final */
-            justify-content: center; /* Centraliza todo o conteúdo (h1 e carrossel) verticalmente na página */
-        }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--cor-primaria);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
 
-        /* Estilo do título principal */
-        h1 {
-            text-align: center;
-            /* margin-bottom: 30px; -> Removido pois o flexbox do body e carousel gerenciarão melhor o espaço */
-            margin-top: 0; /* Remove a margem superior padrão */
-            margin-bottom: 30px; /* Mantém um espaçamento abaixo do H1 */
-            padding-top: 20px; /* Adiciona um padding para espaçar do topo da página */
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--cor-primaria);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-        }
+    .carousel {
+      position: relative;
+      max-width: 420px;
+      margin: 0;
+	  margin-top:0;
+	  margin-bottom:0;
+      overflow: hidden;
+    }
 
-        /* Estilo do contêiner do carrossel */
-        .carousel {
-            position: relative;
-            max-width: 550px;
-            width: 90%; /* Adicionado para responsividade em telas menores */
-            margin: 0 auto; /* Centraliza o carrossel horizontalmente */
-            overflow: hidden;
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
 
-            /* ESTILOS PARA O CARROSSEL OCUPAR O ESPAÇO RESTANTE */
-            flex-grow: 1; /* Faz com que o carrossel ocupe todo o espaço flexível disponível */
-            display: flex; /* Habilita flexbox para o conteúdo DENTRO do carrossel */
-            flex-direction: column; /* Organiza o conteúdo interno do carrossel em coluna */
-            justify-content: center; /* Centraliza verticalmente o conteúdo interno do carrossel */
-            align-items: center; /* Centraliza horizontalmente o conteúdo interno do carrossel */
-        }
+    .carousel-item {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+    }
 
-        .carousel-inner {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            width: 100%; /* Garante que o inner ocupe 100% do carousel */
-            align-items: center; /* Alinha os itens do carrossel ao centro verticalmente */
-            justify-content: center; /* Alinha os itens do carrossel ao centro horizontalmente */
-        }
+    .testimonial-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 35px rgba(150, 170, 200, 0.2);
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+    }
 
-        .carousel-item {
-            min-width: 100%;
-            box-sizing: border-box;
-            padding: 20px;
-            display: flex; /* Adicionado para que o card possa ser centralizado dentro do item */
-            justify-content: center;
-            align-items: center;
-        }
+    .testimonial-card::before {
+      content: '“';
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 6rem;
+      font-weight: 800;
+      color: rgba(162, 210, 255, 0.2);
+      z-index: 1;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
 
-        /* Estilo do card de depoimento */
-        .testimonial-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 35px rgba(150, 170, 200, 0.2);
-            position: relative;
-            text-align: center;
-            overflow: hidden;
-            width: 100%; /* Ocupa a largura total disponível no carousel-item */
-            max-width: 500px; /* Limita a largura máxima do card */
-            display: flex; /* Habilita flexbox para o conteúdo do card */
-            flex-direction: column; /* Organiza o conteúdo do card em coluna */
-            justify-content: space-between; /* Distribui o conteúdo verticalmente */
-            min-height: 300px; /* Altura mínima para o card ter um visual consistente */
-        }
+    .testimonial-card::after {
+      content: '”';
+      position: absolute;
+      bottom: 0;
+      right: 20px;
+      font-size: 6rem;
+      font-weight: 800;
+      color: rgba(162, 210, 255, 0.2);
+      z-index: 1;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
 
-        /* Aspas decorativas */
-        .testimonial-card::before {
-            content: '“';
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            font-size: 6rem;
-            font-weight: 800;
-            color: rgba(162, 210, 255, 0.2);
-            z-index: 1;
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
+    .testimonial-content {
+      position: relative;
+      z-index: 2;
+    }
 
-        .testimonial-card::after {
-            content: '”';
-            position: absolute;
-            bottom: 0;
-            right: 20px;
-            font-size: 6rem;
-            font-weight: 800;
-            color: rgba(162, 210, 255, 0.2);
-            z-index: 1;
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
+    .testimonial {
+      font-size: 1.1rem;
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
 
-        .testimonial-content {
-            position: relative;
-            z-index: 2;
-            flex-grow: 1; /* Permite que o conteúdo do depoimento cresça */
-            display: flex;
-            flex-direction: column;
-            justify-content: center; /* Centraliza o conteúdo (texto, estrelas, autor) */
-        }
+    .stars {
+      color: var(--cor-estrelas);
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
 
-        .testimonial {
-            font-size: 1.1rem;
-            font-style: italic;
-            line-height: 1.7;
-            margin-bottom: 20px;
-        }
+    .author {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      line-height: 1.4;
+      gap: 15px;
+    }
 
-        .stars {
-            color: var(--cor-estrelas);
-            font-size: 1.3rem;
-            margin-bottom: 15px;
-        }
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
 
-        .author {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            line-height: 1.4;
-            gap: 15px;
-        }
+    .author-photo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--cor-primaria);
+    }
 
-        .author-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-align: left;
-        }
+    .author-details {
+        display: flex;
+        flex-direction: column;
+    }
 
-        .author-photo {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--cor-primaria);
-        }
+    .author-name {
+      font-size: 1rem;
+      color: #333;
+      font-weight: 700;
+    }
+    .author-role {
+      font-size: 0.9rem;
+      color: var(--cor-secundaria);
+      font-weight: 400;
+    }
 
-        .author-details {
-            display: flex;
-            flex-direction: column;
-        }
+    .media-thumbs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #f0f0f0;
+    }
 
-        .author-name {
-            font-size: 1rem;
-            color: #333;
-            font-weight: 700;
-        }
-        .author-role {
-            font-size: 0.9rem;
-            color: var(--cor-secundaria);
-            font-weight: 400;
-        }
+    .media-thumbnail {
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid #eee;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .media-thumbnail:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(162, 210, 255, 0.5);
+    }
+    video.media-thumbnail {
+      background: #000;
+    }
 
-        .media-thumbs {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #f0f0f0;
-        }
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
 
-        .media-thumbnail {
-            width: 70px;
-            height: 70px;
-            border-radius: 12px;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid #eee;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-        .media-thumbnail:hover {
-            transform: scale(1.1);
-            box-shadow: 0 5px 15px rgba(162, 210, 255, 0.5);
-        }
-        video.media-thumbnail {
-            background: #000;
-        }
+    .control-btn {
+      pointer-events: auto;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--cor-primaria);
+      border: none;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 24px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-        /* Controles do carrossel */
-        .carousel-controls {
-            position: absolute;
-            top: 50%;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            transform: translateY(-50%);
-            padding: 0;
-            pointer-events: none;
-            z-index: 10;
-        }
+    .control-btn:hover {
+      background: var(--cor-primaria);
+      color: white;
+    }
 
-        .control-btn {
-            pointer-events: auto;
-            background: rgba(255, 255, 255, 0.8);
-            color: var(--cor-primaria);
-            border: none;
-            width: 45px;
-            height: 45px;
-            cursor: pointer;
-            border-radius: 50%;
-            font-size: 24px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+    #prevBtn { margin-left: -22px; }
+    #nextBtn { margin-right: -22px; }
+    
+    .helpful-vote {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: #f8f9fe;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid #eef;
+    }
 
-        .control-btn:hover {
-            background: var(--cor-primaria);
-            color: white;
-        }
+    .like-btn {
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, color 0.2s ease;
+        user-select: none;
+        color: #cbd5e1;
+    }
 
-        #prevBtn { margin-left: -22px; }
-        #nextBtn { margin-right: -22px; }
-        
-        /* Seção de Votação (Útil) */
-        .helpful-vote {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background-color: #f8f9fe;
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid #eef;
-            margin-top: 20px; /* Espaçamento da parte de cima */
-            justify-content: center; /* Centraliza a votação no card */
-        }
+    .like-btn:hover {
+        transform: scale(1.15);
+    }
 
-        .like-btn {
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.2s ease, color 0.2s ease;
-            user-select: none;
-            color: #cbd5e1;
-        }
+    .like-btn.voted {
+        color: var(--cor-primaria);
+    }
 
-        .like-btn:hover {
-            transform: scale(1.15);
-        }
+    .vote-count {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--cor-texto);
+        min-width: 12px;
+    }
 
-        .like-btn.voted {
-            color: var(--cor-primaria);
-        }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
 
-        .vote-count {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--cor-texto);
-            min-width: 12px;
-        }
+    .modal-inner {
+      position: relative;
+      max-width: 380px;
+      width: 90%;
+    }
 
-        /* Modal de Mídia */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.85);
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-        }
+    .modal-inner img, .modal-inner video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
 
-        .modal-inner {
-            position: relative;
-            max-width: 380px; /* Mantém a largura máxima para o conteúdo da mídia */
-            width: 90%;
-        }
+    .modal-close, .modal-prev, .modal-next {
+      position: absolute;
+      color: white;
+      font-size: 2rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+    }
+    .modal-close:hover, .modal-prev:hover, .modal-next:hover {
+      background: rgba(0,0,0,0.6);
+    }
 
-        .modal-inner img, .modal-inner video {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        }
+    .modal-close { top: -50px; right: 0; }
+    .modal-prev { left: -60px; top: 50%; transform: translateY(-50%); }
+    .modal-next { right: -60px; top: 50%; transform: translateY(-50%); }
 
-        /* Controles do Modal */
-        .modal-close, .modal-prev, .modal-next {
-            position: absolute;
-            color: white;
-            font-size: 2rem;
-            background: rgba(0,0,0,0.3);
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            cursor: pointer;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background-color 0.2s;
-        }
-        .modal-close:hover, .modal-prev:hover, .modal-next:hover {
-            background: rgba(0,0,0,0.6);
-        }
-
-        .modal-close { top: -50px; right: 0; }
-        .modal-prev { left: -60px; top: 50%; transform: translateY(-50%); }
-        .modal-next { right: -60px; top: 50%; transform: translateY(-50%); }
-
-        /* Responsividade */
-        @media (max-width: 600px) {
-            h1 { font-size: 2rem; }
-            .modal-prev { left: 10px; transform: translateY(-50%); }
-            .modal-next { right: 10px; transform: translateY(-50%); }
-            #prevBtn { margin-left: -10px; }
-            #nextBtn { margin-right: -10px; }
-        }
-    </style>
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .modal-prev { left: 10px; transform: translateY(-50%); }
+      .modal-next { right: 10px; transform: translateY(-50%); }
+      #prevBtn { margin-left: -10px; }
+      #nextBtn { margin-right: -10px; }
+    }
+  </style>
 </head>
 <body>
   <h1>&nbsp;</h1>
