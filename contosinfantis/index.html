@@ -1,31 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" translate="no">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bedtime Stories</title>
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Contos Infantis Para Dormir</title>
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6L0EHGEC85"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
+
         gtag('config', 'G-6L0EHGEC85');
     </script>
-    
+
     <style>
-        /* --- ESTILOS GERAIS E DE LAYOUT --- */
+        /* Estilos gerais */
         body {
             margin: 0;
             font-family: Arial, sans-serif;
             background-color: #C8E6C9;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
+            align-items: center;
             min-height: 100vh;
-            padding: 0px 0;
-            box-sizing: border-box;
         }
 
         .container {
@@ -43,520 +41,1062 @@
             display: block;
         }
 
-        /* --- PLAYER DE MÚSICA DE FUNDO --- */
+        /* ----- ESTILOS DO NOVO PLAYER DE ÁUDIO ----- */
+        .audio-player-wrapper {
+            background-color: #f7f7f7; /* Fundo leve para o player */
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px auto; /* Adicionado margin-top e margin-bottom */
+            max-width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: #333;
+            text-align: left;
+        }
+
+        .audio-player-wrapper h3 {
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #4f8058;
+            text-align: center;
+        }
+
+        .current-song-info {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #4f8058;
+            border-radius: 5px;
+        }
+
+        .time-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75em;
+            color: #777;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        .playback-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .playback-buttons button, .volume-controls button, .repeat-button {
+            background-color: #4f8058;
+            border: none;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .playback-buttons button:hover, .volume-controls button:hover, .repeat-button:hover {
+            background-color: #6a9f73;
+        }
+
+        .playback-buttons button svg, .volume-controls button svg, .repeat-button svg {
+            fill: white;
+            width: 18px;
+            height: 18px;
+        }
+
+        .playback-buttons .main-play-pause {
+            width: 45px;
+            height: 45px;
+        }
+        .playback-buttons .main-play-pause svg {
+              width: 22px;
+            height: 22px;
+        }
+
+        .repeat-button {
+            background-color: #a0a0a0;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px; /* Estilo para botão de repetição */
+        }
+        .repeat-button.active {
+            background-color: #4f8058; /* Cor quando ativo */
+        }
+        .repeat-button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .volume-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .volume-controls input[type="range"] {
+            -webkit-appearance: none;
+            width: 120px;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            outline: none;
+            transition: opacity .2s;
+        }
+
+        .volume-controls input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #4f8058;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
+
+        .volume-controls input[type="range"]::-moz-range-thumb {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #4f8058;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0,0,0,0.3);
+        }
+
+        .playlist-container {
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
+            text-align: left;
+        }
+
+        .playlist-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .playlist-item:hover {
+            background-color: #e6f3e6;
+        }
+
+        .playlist-item.active-song {
+            background-color: #d1ead1;
+            font-weight: bold;
+            color: #4f8058;
+        }
+
+        .playlist-item-index {
+            margin-right: 10px;
+            font-size: 0.85em;
+            color: #777;
+        }
+        .playlist-item.active-song .playlist-item-index {
+            color: #4f8058;
+        }
+
+        .playlist-item-title {
+            font-size: 0.9em;
+            flex-grow: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        /* ----- FIM DOS ESTILOS DO NOVO PLAYER DE ÁUDIO ----- */
+
+        /* ----- ESTILOS DA NOVA LISTA DE HISTÓRIAS PREMIUM ----- */
+        .premium-stories-list {
+            background-color: #f0f8f0; /* Um fundo suave para diferenciar */
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 90%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: left;
+            max-height: 250px; /* Altura máxima para o scrolling */
+            overflow-y: auto; /* Adiciona a barra de rolagem vertical */
+            border: 1px solid #d1ead1;
+        }
+
+        .premium-stories-list h4 {
+            font-size: 1.1em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #4f8058;
+            text-align: center;
+        }
+
+        .premium-stories-list ul {
+            list-style: none; /* Remove os marcadores de lista padrão */
+            padding: 0;
+            margin: 0;
+        }
+
+        .premium-stories-list li {
+            padding: 8px 10px;
+            font-size: 0.9em;
+            color: #555;
+            border-bottom: 1px dashed #e6f3e6; /* Linha tracejada para separar os itens */
+        }
+
+        .premium-stories-list li:last-child {
+            border-bottom: none; /* Remove a linha do último item */
+        }
+        /* ----- FIM DOS ESTILOS DA NOVA LISTA DE HISTÓRIAS PREMIUM ----- */
+
+
+        /* Estilos do seletor */
+        .select-container {
+            margin: 20px auto;
+            width: 90%;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #B0D0B0;
+            background-color: #C8E6C9;
+            outline: none;
+        }
+
+        /* Estilos do boto COMPRAR */
+        .buy-btn {
+            background-color: #FF7F50;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 90%;
+            margin-bottom: 20px;
+        }
+
+        .buy-btn:hover {
+            background-color: #E66E45;
+        }
+
+        /* Estilos do slider */
+        .slideshow-container {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            aspect-ratio: 4 / 3;
+        }
+
+        .slides {
+            display: flex;
+            width: 600%; /* Corrigido para 6 slides */
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            width: 16.666%; /* Corrigido para 6 slides (100% / 6) */
+            height: 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .slideshow-container input {
+            display: none;
+        }
+
+        /* Navegao do slider */
+        .navigation {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .navigation label {
+            display: none;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            padding: 15px;
+            background-color: rgba(143, 188, 143, 0.7);
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            user-select: none;
+            transition: background-color 0.3s ease;
+            pointer-events: auto;
+        }
+
+        .navigation label.prev {
+            left: 0;
+            border-radius: 0 50px 50px 0;
+        }
+
+        .navigation label.next {
+            right: 0;
+            border-radius: 50px 0 0 50px;
+        }
+
+        .navigation label:hover {
+            background-color: rgba(119, 157, 119, 1);
+        }
+
+        /* Lgica do slider */
+        #slide1:checked ~ .slides { transform: translateX(0%); }
+        #slide2:checked ~ .slides { transform: translateX(-16.666%); } /* Corrigido */
+        #slide3:checked ~ .slides { transform: translateX(-33.333%); } /* Corrigido */
+        #slide4:checked ~ .slides { transform: translateX(-50%); } /* Corrigido */
+        #slide5:checked ~ .slides { transform: translateX(-66.666%); } /* Corrigido */
+        #slide6:checked ~ .slides { transform: translateX(-83.333%); } /* Adicionado */
+
+        #slide1:checked ~ .navigation .next[for="slide2"],
+        #slide1:checked ~ .navigation .prev[for="slide6"] { display: block; }
+
+        #slide2:checked ~ .navigation .next[for="slide3"],
+        #slide2:checked ~ .navigation .prev[for="slide1"] { display: block; }
+
+        #slide3:checked ~ .navigation .next[for="slide4"],
+        #slide3:checked ~ .navigation .prev[for="slide2"] { display: block; }
+
+        #slide4:checked ~ .navigation .next[for="slide5"],
+        #slide4:checked ~ .navigation .prev[for="slide3"] { display: block; }
+
+        #slide5:checked ~ .navigation .next[for="slide6"],
+        #slide5:checked ~ .navigation .prev[for="slide4"] { display: block; }
+
+        #slide6:checked ~ .navigation .next[for="slide1"],
+        #slide6:checked ~ .navigation .prev[for="slide5"] { display: block; }
+
+        /* ----- ESTILOS DO PLAYER DE MÚSICA DE FUNDO ORIGINAL ----- */
         #music-player-container {
             position: fixed;
             top: 15px;
-            left: 15px;
+            left: 50px;
             background-color: rgba(255, 255, 255, 0.9);
+            /* TAMANHO GERAL REDUZIDO (padding menor) */
             padding: 5px 12px;
             border-radius: 50px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
             z-index: 1000;
+            transition: all 0.3s ease;
         }
-        #play-pause-button {
-            background: #4CAF50; border: none; border-radius: 50%; cursor: pointer;
-            padding: 7px; display: flex; align-items: center; justify-content: center;
-            outline: none; margin-right: 8px;
-        }
-        #play-pause-button svg { fill: white; width: 15px; height: 15px; }
-        .material-symbols-outlined { color: inherit; }
-        #music-player-container .pause-icon { display: none; }
-        #music-player-container.playing .music-icon { display: none; }
-        #music-player-container.playing .pause-icon { display: block; }
-        #music-title { font-size: 0.8em; color: #333; font-weight: 500; }
 
-        /* --- PLAYER DE ÁUDIO PRINCIPAL (AMOSTRAS) --- */
-        .audio-player-wrapper {
-            background-color: #f7f7f7; border-radius: 15px; padding: 15px;
-            margin: 20px auto; max-width: 90%; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            color: #333; text-align: left;
+        #play-pause-button {
+            background: #4CAF50;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            /* TAMANHO DO BOTÃO REDUZIDO (padding menor) */
+            padding: 7px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            outline: none;
+            margin-right: 8px; /* Margem reduzida */
         }
-        .audio-player-wrapper h3, .audio-player-wrapper h4 {
-            font-size: 1.1em; margin-top: 0; margin-bottom: 10px; color: #4f8058; text-align: center;
+
+        #play-pause-button svg {
+            fill: white;
+            /* TAMANHO DOS ÍCONES REDUZIDO */
+            width: 15px;
+            height: 15px;
         }
-        .current-song-info {
-            font-size: 0.9em; color: #555; margin-bottom: 10px; white-space: nowrap;
-            overflow: hidden; text-overflow: ellipsis; text-align: center;
+
+        /* Esconde o ícone de pause por padrão */
+        .pause-icon {
+            display: none;
         }
-        .progress-container {
-            width: 100%; height: 8px; background-color: #e0e0e0; border-radius: 5px;
-            margin-bottom: 15px; cursor: pointer; position: relative;
+
+        /* Nova regra para o ícone de música (quando pausado) */
+        #music-player-container.playing .music-icon {
+            display: none;
         }
-        .progress-bar { height: 100%; width: 0%; background-color: #4f8058; border-radius: 5px; }
-        .time-info {
-            display: flex; justify-content: space-between; font-size: 0.75em;
-            color: #777; margin-top: 5px; margin-bottom: 15px;
+
+        /* Quando estiver tocando, mostra o ícone de pause */
+        #music-player-container.playing .pause-icon {
+            display: block;
         }
-        .playback-buttons {
-            display: flex; justify-content: center; align-items: center;
-            gap: 15px; margin-bottom: 15px;
+
+        #music-title {
+            /* FONTE REDUZIDA */
+            font-size: 0.8em;
+            color: #333;
+            font-weight: 500;
         }
-        .playback-buttons button, .volume-controls button, .repeat-button {
-            background-color: #4f8058; border: none; border-radius: 50%;
-            width: 35px; height: 35px; display: flex; justify-content: center;
-            align-items: center; cursor: pointer; outline: none; transition: background-color 0.2s ease;
+ .material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 20;
+  /* Adicione esta linha para garantir que a cor seja herdada do botão */
+  color: inherit; 
+ }
+ .login-button-container {
+            text-align: center;
+            padding: 20px; /* Também diminui o padding do container se quiser */
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
         }
-        .playback-buttons button:hover, .volume-controls button:hover, .repeat-button:hover { background-color: #6a9f73; }
-        .playback-buttons button svg, .volume-controls button svg, .repeat-button svg { fill: white; width: 18px; height: 18px; }
-        .playback-buttons .main-play-pause { width: 45px; height: 45px; }
-        .playback-buttons .main-play-pause svg { width: 22px; height: 22px; }
-        .repeat-button { background-color: #a0a0a0; width: 30px; height: 30px; border-radius: 5px; }
-        .repeat-button.active { background-color: #4f8058; }
-        .repeat-button svg { width: 16px; height: 16px; }
-        .volume-controls { display: flex; align-items: center; justify-content: center; margin-bottom: 20px; gap: 10px; }
-        .volume-controls input[type="range"] {
-            -webkit-appearance: none; width: 120px; height: 6px; background: #e0e0e0;
-            border-radius: 5px; outline: none;
-        }
-        .volume-controls input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none; appearance: none; width: 16px; height: 16px;
-            border-radius: 50%; background: #4f8058; cursor: pointer; box-shadow: 0 0 2px rgba(0,0,0,0.3);
-        }
-        .playlist-container {
-            border-top: 1px solid #eee; padding-top: 15px; max-height: 150px; overflow-y: auto; text-align: left;
-        }
-        .playlist-item {
-            display: flex; align-items: center; padding: 8px 10px;
-            cursor: pointer; border-radius: 8px; transition: background-color 0.2s ease;
-        }
-        .playlist-item:hover { background-color: #e6f3e6; }
-        .playlist-item.active-song { background-color: #d1ead1; font-weight: bold; color: #4f8058; }
-        .playlist-item-index { margin-right: 10px; font-size: 0.85em; color: #777; }
-        .playlist-item.active-song .playlist-item-index { color: #4f8058; }
-        .playlist-item-title {
-            font-size: 0.9em; flex-grow: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .login-button-container { text-align: center; padding: 10px 0; }
+
+        /* Botão Temático */
         .login-btn {
             background-image: linear-gradient(to right, #ff9a8d 0%, #ff6e7f 50%, #bfe9ff 100%);
-            border: none; color: white; padding: 10px 25px; font-size: 16px; text-align: center;
-            text-decoration: none; display: inline-block; font-weight: bold;
-            cursor: pointer; border-radius: 50px; box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease; letter-spacing: 1px; text-transform: uppercase;
-        }
-        .login-btn:hover { background-position: right center; box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); transform: translateY(-3px); }
+            border: none;
+            color: white;
+            
+            /* --- ALTERAÇÕES AQUI PARA DIMINUIR O BOTÃO --- */
+            padding: 10px 25px; /* Altura e largura (topo/baixo 10px, lados 25px) */
+            font-size: 18px;   /* Tamanho da fonte */
+            /* --- FIM DAS ALTERAÇÕES --- */
 
-        /* --- LISTA DE HISTÓRIAS PREMIUM --- */
-        .premium-stories-list {
-            background-color: #f0f8f0; border-radius: 15px; padding: 15px; margin: 20px auto;
-            max-width: 90%; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); text-align: left;
-            max-height: 250px; overflow-y: auto; border: 1px solid #d1ead1;
-        }
-        .premium-stories-list ul { list-style: none; padding: 0; margin: 0; }
-        .premium-stories-list li {
-            padding: 8px 10px; font-size: 0.9em; color: #555; border-bottom: 1px dashed #e6f3e6;
-        }
-        .premium-stories-list li:last-child { border-bottom: none; }
-
-        /* --- SLIDER E COMPRA --- */
-        .select-container { margin: 20px auto; width: 90%; }
-        select {
-            width: 100%; padding: 12px; font-size: 1rem; border-radius: 8px;
-            border: 1px solid #B0D0B0; background-color: #C8E6C9; outline: none;
-        }
-        .buy-btn {
-            background-color: #FF7F50; color: white; font-size: 1.2rem; font-weight: bold;
-            border: none; padding: 15px; border-radius: 8px; cursor: pointer;
-            width: 90%; margin-bottom: 20px;
-        }
-        .buy-btn:hover { background-color: #E66E45; }
-        .slideshow-container {
-            width: 100%; max-width: 420px; position: relative; margin: auto; overflow: hidden;
-            border-radius: 15px; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); aspect-ratio: 4 / 3;
-        }
-        .slides { display: flex; width: 600%; height: 100%; transition: transform 0.5s ease-in-out; }
-        .slide { width: 16.666%; height: 100%; }
-        .slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .slideshow-container input { display: none; }
-        .navigation { position: absolute; top: 50%; width: 100%; transform: translateY(-50%); pointer-events: none; }
-        .navigation label {
-            display: none; cursor: pointer; position: absolute; top: 0; padding: 15px;
-            background-color: rgba(143, 188, 143, 0.7); color: white; font-size: 24px;
-            font-weight: bold; user-select: none; transition: background-color 0.3s ease; pointer-events: auto;
-        }
-        .navigation label.prev { left: 0; border-radius: 0 50px 50px 0; }
-        .navigation label.next { right: 0; border-radius: 50px 0 0 50px; }
-        .navigation label:hover { background-color: rgba(119, 157, 119, 1); }
-        #slide1:checked ~ .slides { transform: translateX(0%); }
-        #slide2:checked ~ .slides { transform: translateX(-16.666%); }
-        #slide3:checked ~ .slides { transform: translateX(-33.333%); }
-        #slide4:checked ~ .slides { transform: translateX(-50%); }
-        #slide5:checked ~ .slides { transform: translateX(-66.666%); }
-        #slide6:checked ~ .slides { transform: translateX(-83.333%); }
-        #slide1:checked ~ .navigation .next[for="slide2"], #slide1:checked ~ .navigation .prev[for="slide6"] { display: block; }
-        #slide2:checked ~ .navigation .next[for="slide3"], #slide2:checked ~ .navigation .prev[for="slide1"] { display: block; }
-        #slide3:checked ~ .navigation .next[for="slide4"], #slide3:checked ~ .navigation .prev[for="slide2"] { display: block; }
-        #slide4:checked ~ .navigation .next[for="slide5"], #slide4:checked ~ .navigation .prev[for="slide3"] { display: block; }
-        #slide5:checked ~ .navigation .next[for="slide6"], #slide5:checked ~ .navigation .prev[for="slide4"] { display: block; }
-        #slide6:checked ~ .navigation .next[for="slide1"], #slide6:checked ~ .navigation .prev[for="slide5"] { display: block; }
-
-        /* --- RODAPÉ --- */
-        .footer-table {
-            width: 100%;
-            background-color: #438346;
-            padding: 15px 0;
-            border-spacing: 0;
-        }
-        .footer-table td {
             text-align: center;
-            padding: 5px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            margin: 15px 0; /* Margem ajustada um pouco */
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
+
+        .login-btn:hover {
+            background-position: right center;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .login-btn:active {
+            transform: translateY(1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Ícone de Estrela (opcional, para um toque extra) */
+        .login-btn::before {
+            content: '✨';
+            position: absolute;
+            
+            /* --- ALTERAÇÕES AQUI PARA AJUSTAR A ESTRELA --- */
+            left: 10px; /* Posição da estrela, ajustada para menor padding */
+            font-size: 16px; /* Tamanho da estrela */
+            /* --- FIM DAS ALTERAÇÕES --- */
+
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        .login-btn:hover::before {
+            opacity: 1;
+        }
+
+        /* Decorações temáticas de fundo (para deixar o ambiente mágico) */
+        .star {
+            position: absolute;
+            background-color: gold;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: twinkle 4s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .star:nth-child(1) { top: 10%; left: 15%; width: 15px; height: 15px; animation-delay: 0s; }
+        .star:nth-child(2) { top: 80%; left: 25%; width: 10px; height: 10px; animation-delay: 1s; }
+        .star:nth-child(3) { top: 30%; left: 70%; width: 20px; height: 20px; animation-delay: 2s; }
+        .star:nth-child(4) { top: 60%; left: 85%; width: 12px; height: 12px; animation-delay: 3s; }
+        .star:nth-child(5) { top: 5%; left: 50%; width: 8px; height: 8px; animation-delay: 0.5s; }
+        .star:nth-child(6) { top: 90%; left: 5%; width: 18px; height: 18px; animation-delay: 2.5s; }
+
+        @keyframes twinkle {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.3); opacity: 1; }
+        }
+
+        .cloud {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 20s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .cloud:nth-child(1) { top: 20%; left: -10%; width: 100px; height: 60px; animation-delay: 0s; }
+        .cloud:nth-child(2) { top: 70%; right: -10%; width: 120px; height: 70px; animation-delay: 10s; }
+        .cloud:nth-child(3) { top: 45%; left: -5%; width: 80px; height: 50px; animation-delay: 5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(50px); }
+        }
+
+ 
     </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
 <div id="music-player-container">
-    <audio id="background-music" src="../cancaocontoinfantil.mp3" loop></audio>
-    <button id="play-pause-button" title="Play Music">
-        <span class="material-symbols-outlined music-icon">headset_mic</span>
+    <audio id="background-music" src="cancaocontoinfantil.mp3" loop></audio>
+
+    <button id="play-pause-button" title="Tocar música">
+        <span class="material-symbols-outlined music-icon">
+            headset_mic
+        </span>
         <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20px" height="20px">
             <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
         </svg>
     </button>
-    <span id="music-title">Listen</span>
+    <span id="music-title">Tocar</span>
 </div>
+<center>
+    <div class="container">
+        <img src="LandpageHistorinha.jpg" alt="Historinhas para Dormir" class="header-img">
 
-<div class="container">
-    <img src="LandpageHistorinha.jpg" alt="Bedtime Stories" class="header-img">
-    <br>
+        <br>
 
-    <div class="audio-player-wrapper">
-        <h3>Enchant Yourself with Our Little Stories!</h3>
-        <audio id="free-audio-player" src="" type="audio/mp3"></audio>
-        <div class="current-song-info" id="current-song-title">Select a little story to start</div>
-        <div class="progress-container" id="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
-        </div>
-        <div class="time-info">
-            <span id="current-time">0:00</span>
-            <span id="duration">0:00</span>
-        </div>
-        <div class="playback-buttons">
-            <button id="prev-btn" title="Previous"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
-            <button id="play-pause-btn" class="main-play-pause" title="Play/Pause">
-                <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                <svg class="pause-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-            <button id="next-btn" title="Next"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm9-12v12h2V6h-2z"/></svg></button>
-            <button id="repeat-btn" class="repeat-button" title="Repeat">
-                <svg class="repeat-all-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
-                <svg class="repeat-one-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/></svg>
-            </button>
-        </div>
-        <div class="volume-controls">
-            <button id="mute-btn" title="Mute"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg></button>
-            <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
-        </div>
-        <h4>Sample Playlist:</h4>
-        <div class="playlist-container" id="playlist-container"></div>
-        <p style="font-size: 0.8em; margin-top: 15px; text-align: center; color: #777;">
-            Did you like it? Get full access to 40 more little stories!
-        </p>
-        <div class="login-button-container">
-            <a href="../acesso_ao_player/index.html" class="login-btn">Login - Stories Area</a>
-        </div>
+        <div class="audio-player-wrapper">
+            <h3>Encante-se com Nossas Historinhas!</h3>
+            <audio id="free-audio-player" src="" type="audio/mp3"></audio>
+
+            <div class="current-song-info" id="current-song-title">Selecione uma historinha para começar</div>
+
+            <div class="progress-container" id="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <div class="time-info">
+                <span id="current-time">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+
+            <div class="playback-buttons">
+                <button id="prev-btn" title="Anterior">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                </button>
+                <button id="play-pause-btn" class="main-play-pause" title="Reproduzir/Pausar">
+                    <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    <svg class="pause-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+                <button id="next-btn" title="Próxima">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm9-12v12h2V6h-2z"/></svg>
+                </button>
+                <button id="repeat-btn" class="repeat-button" title="Repetir">
+                     <svg class="repeat-all-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg>
+                     <svg class="repeat-one-icon" style="display:none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z"/></svg>
+                </button>
+            </div>
+
+            <div class="volume-controls">
+                <button id="mute-btn" title="Mudo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                </button>
+                <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
+            </div>
+
+            <h4>Playlist de Amostras:</h4>
+            <div class="playlist-container" id="playlist-container">
+          </div>
+            <p style="font-size: 0.8em; margin-top: 15px; text-align: center; color: #777;">
+                Gostou? Adquira acesso completo a mais 40 historinhas!
+                  <br>
+                   <div class="login-button-container">
+        <a href="acesso_ao_player/index.html" class="login-btn">
+            Login - Área dos Contos
+        </a>
     </div>
 
-    <div class="premium-stories-list">
-        <h4>Monthly Plan 40 Little Stories - ($4.99/month):</h4>
-        <ul>
-            <li>1- Sleeping Beauty</li><li>2- Beauty and the Beast</li><li>3- The Ant and the Grasshopper</li><li>4- The Party in the Sky</li><li>5- The Enchanted Flute</li><li>6- The Little Ant and the Snow</li><li>7- The Little Ant and the Dove</li><li>8- The Cinderella Cat</li><li>9- The Hare and the Tortoise</li><li>10- Aladdin and the Wonderful Lamp</li><li>11- Snow White and the Seven Dwarfs</li><li>12- Fight in the Henhouse</li><li>13- Mrs. Little Cockroach</li><li>14- Mrs. Hen and Her Chicks</li><li>15- The Snowman</li><li>16- The Little Donkey and the Salt</li><li>17- The Little Donkey Tro-lo-lo</li><li>18- The Donkey and the Cricket</li><li>19- The Goat Kid</li><li>20- The Oak and the Reed</li><li>21- Little Red Riding Hood</li><li>22- The Vain Swan</li><li>23- Puss in Boots</li><li>24- The Dolphin and the Lion</li><li>25- The Lion and the Little Mouse</li><li>26- The Wolf and the Three Little Goats</li><li>27- The Monkey and the Old Woman</li><li>28- The Ugly Duckling</li><li>29- Tom Thumb</li><li>30- The Tin Soldier</li><li>31- The Three Little Pigs</li><li>32- The Four Heroes</li><li>33- The Two Frogs</li><li>34- Peter and the Wolf</li><li>35- Pinocchio</li><li>36- Rapunzel</li><li>37- Saci Pererê</li><li>38- The Jaws of Hell 1</li><li>39- The Story of the Little Cockroach</li><li>40- Hansel and Gretel</li>
-        </ul>
-    </div>
-
-    <div class="slideshow-container">
-        <input type="radio" name="slider" id="slide1" checked>
-        <input type="radio" name="slider" id="slide2"><input type="radio" name="slider" id="slide3">
-        <input type="radio" name="slider" id="slide4"><input type="radio" name="slider" id="slide5">
-        <input type="radio" name="slider" id="slide6">
-        <div class="slides">
-            <div class="slide"><img   src="../livrohistorinhasparadormir1.jpg" alt="Book page 1"></div>
-            <div class="slide"><img src="../livrohistorinhasparadormir2.jpg" alt="Book page 2"></div>
-            <div class="slide"><img src="../livrohistorinhasparadormir3.jpg" alt="Book page 3"></div>
-            <div class="slide"><img src="../livrohistorinhasparadormir4.jpg" alt="Book page 4"></div>
-            <div class="slide"><img src="../livrohistorinhasparadormir5.jpg" alt="Book page 5"></div>
-            <div class="slide"><img src="../livrohistorinhasparadormir6.jpg" alt="Book page 6"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+    <div class="cloud"></div>
+            </p>
         </div>
-        <div class="navigation">
-            <label for="slide6" class="prev">&#10094;</label><label for="slide5" class="prev">&#10094;</label>
-            <label for="slide4" class="prev">&#10094;</label><label for="slide3" class="prev">&#10094;</label>
-            <label for="slide2" class="prev">&#10094;</label><label for="slide1" class="prev">&#10094;</label>
-            <label for="slide2" class="next">&#10095;</label><label for="slide3" class="next">&#10095;</label>
-            <label for="slide4" class="next">&#10095;</label><label for="slide5" class="next">&#10095;</label>
-            <label for="slide6" class="next">&#10095;</label><label for="slide1" class="next">&#10095;</label>
+
+        <div class="premium-stories-list">
+            <h4>Plano Mensal 40 Historinhas - (R$5,99/mês):</h4>
+            <ul>
+                <li>1- A Bela Adormecida</li>
+                <li>2- A Bela e a Fera</li>
+                <li>3- A Cigarra e a Formiga</li>
+                <li>4- A Festa no Céu</li>
+                <li>5- A Flautinha Encantada</li>
+                <li>6- A Formiguinha e a Neve</li>
+                <li>7- A Formiguinha e a Pomba</li>
+                <li>8- A Gata Borralheira</li>
+                <li>9- A Lebre e a Tartaruga</li>
+                <li>10- Aladim e a Lâmpada Maravilhosa</li>
+                <li>11- Branca de Neve e os Sete Anões</li>
+                <li>12- Briga no Galinheiro</li>
+                <li>13- Dona Baratinha</li>
+                <li>14- Dona Galinha e seus Pintinhos</li>
+                <li>15- O Bonequinho de Neve</li>
+                <li>16- O Burrinho e o Sal</li>
+                <li>17- O Burrinho Tró-ló-ló</li>
+                <li>18- O Burro e o Grilo</li>
+                <li>19- O Cabra Cabrez</li>
+                <li>20- O Carvalho e o Junco</li>
+                <li>21- O Chapeuzinho Vermelho</li>
+                <li>22- O Cisne Vaidoso</li>
+                <li>23- O Gato de Botas</li>
+                <li>24- O Golfinho e o Leão</li>
+                <li>25- O Leão e o Ratinho</li>
+                <li>26- O Lobo e os 3 Cabritinhos</li>
+                <li>27- O Macaco e a Velha</li>
+                <li>28- O Patinho Feio</li>
+                <li>29- O Pequeno Polegar</li>
+                <li>30- O Soldadinho De Chumbo</li>
+                <li>31- Os 3 Porquinhos</li>
+                <li>32- Os 4 Heróis</li>
+                <li>33- Os Dois Sapos</li>
+                <li>34- Pedro e o Lobo</li>
+                <li>35- Pinóquio</li>
+                <li>36- Rapunzel</li>
+                <li>37- Saci Pererê</li>
+                <li>38- A Goela do Inferno 1</li>
+                <li>39- Estória Da Baratinha</li>
+                <li>40- João Maria</li>
+            </ul>
         </div>
+        <div class="slideshow-container">
+            <input type="radio" name="slider" id="slide1" checked>
+            <input type="radio" name="slider" id="slide2">
+            <input type="radio" name="slider" id="slide3">
+            <input type="radio" name="slider" id="slide4">
+            <input type="radio" name="slider" id="slide5">
+            <input type="radio" name="slider" id="slide6">
+
+            <div class="slides">
+                <div class="slide">
+                    <img src="livrohistorinhasparadormir1.jpg" alt="Página do livro 1">
+                </div>
+                <div class="slide">
+                    <img src="livrohistorinhasparadormir2.jpg" alt="Página do livro 2">
+                </div>
+                <div class="slide">
+                    <img src="livrohistorinhasparadormir3.jpg" alt="Página do livro 3">
+                </div>
+                <div class="slide">
+                    <img src="livrohistorinhasparadormir4.jpg" alt="Página do livro 4">
+                </div>
+                <div class="slide">
+                    <img src="livrohistorinhasparadormir5.jpg" alt="Página do livro 5">
+                </div>
+                    <div class="slide">
+                    <img src="livrohistorinhasparadormir6.jpg" alt="Página do livro 6">
+                </div>
+            </div>
+
+            <div class="navigation">
+                <label for="slide6" class="prev">&#10094;</label>
+                <label for="slide5" class="prev">&#10094;</label>
+                <label for="slide4" class="prev">&#10094;</label>
+                <label for="slide3" class="prev">&#10094;</label>
+                <label for="slide2" class="prev">&#10094;</label>
+                <label for="slide1" class="prev">&#10094;</label>
+
+                <label for="slide2" class="next">&#10095;</label>
+                <label for="slide3" class="next">&#10095;</label>
+                <label for="slide4" class="next">&#10095;</label>
+                <label for="slide5" class="next">&#10095;</label>
+                <label for="slide6" class="next">&#10095;</label>
+                <label for="slide1" class="next">&#10095;</label>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="select-container">
+            <select id="versao">
+                <option value="" disabled selected>Selecionar versão</option>
+                <option value="tradicional">Tradicional (66 páginas) - 73,29</option>
+                <option value="premium">Premium Miolo Colorido(66 paginas) - 49,99</option>
+                 <option value="premiumpb">Premium Miolo Preto e Branco(66 paginas) - 45,99</option>
+                <option value="assinatura">Assinatura Audio Historinhas - 5,99</option>
+            </select>
+        </div>
+
+        <button class="buy-btn" onclick="comprar()">SAIBA MAIS</button>
+
+        <br><br>
+
+        <table id="Table_01" width="100%" height="*" bgcolor="438346" border="0" cellpadding="0" cellspacing="0">
+            <tr><td>&nbsp;</td></tr>
+            <tr align="center"><td colspan="4"><img src="pagamentos.jpg" width="100%" height="*" alt=""></td></tr>
+            <tr>
+                <td><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="livrinhoparacolorir_03.jpg" width="50" height="*" alt="Instagram"></a></td>
+                <td><a href="https://wa.me/5519991950005" target="blank"><img src="livrinhoparacolorir_05.jpg" width="50" height="*" alt="Whatsapp"></a></td>
+                <td><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="livrinhoparacolorir_09.jpg" width="50" height="*" alt="Kwai"></a></td>
+                <td><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="livrinhoparacolorir_07.jpg" width="50" height="*" alt="TikTok"></td>
+            </tr>
+            <tr align="center"><td colspan="4"><img src="direitos.jpg" width="70%" height="*" alt=""></td></tr>
+        </table>
     </div>
-    <div id="depoimentos">  
-<iframe src="../depoimentos/depoimentoscontos.html" width="100%" height="495px" scrolling="no" frameborder="0"></iframe>
-    </div>
-    
-    <div class="select-container">
-        <select id="versao">
-            <option value="" disabled selected>Select Version</option>
-            <option value="tradicional">Traditional Soft Cover (66 pág.) - $14,80</option>
-            <option value="premium">Premium (66 pag.) - $15,99</option>
-            <option value="assinatura">Audio Subscription (View Portuguêse) - $4,99</option>
-        </select>
-    </div>
-    <button class="buy-btn" onclick="comprar()">LEARN MORE</button>
-    <br><br>
+</center>
+    <script>
+        // Lógica do slider automático
+        document.addEventListener('DOMContentLoaded', function() {
+            const slideInterval = 3000;
+            let autoSlideTimer;
+            const sliderContainer = document.querySelector('.slideshow-container');
+            const totalSlides = 6;
+            const radioButtons = document.querySelectorAll('.slideshow-container input[type="radio"][name="slider"]');
 
-    <table class="footer-table" border="0" cellpadding="0">
-        <tr>
-            <td colspan="4"><img src="pagamentos.jpg" width="100%" height="auto" alt="Payment methods"></td>
-        </tr>
-        <tr>
-            <td><a href="https://www.instagram.com/adamo.felipe/" target="blank"><img src="../livrinhoparacolorir_03.jpg" width="50" height="auto" alt="Instagram"></a></td>
-            <td><a href="https://wa.me/5519991950005" target="blank"><img src="../livrinhoparacolorir_05.jpg" width="50" height="auto" alt="Whatsapp"></a></td>
-            <td><a href="https://www.kwai.com/adamo.felpe/" target="blank"><img src="../livrinhoparacolorir_09.jpg" width="50" height="auto" alt="Kwai"></a></td>
-            <td><a href="https://www.tiktok.com/adamofelipe/" target="blank"><img src="../livrinhoparacolorir_07.jpg" width="50" height="auto" alt="TikTok"></a></td>
-        </tr>
-        <tr>
-            <td colspan="4" style="padding: 10px 0;"><img src="../direitos.jpg" width="70%" height="auto" alt="Copyright"></td>
-        </tr>
-    </table>
-</div>
-
-<script>
-    // Função de compra (global para ser acessada pelo HTML)
-    function comprar() {
-        const versao = document.getElementById('versao').value;
-        if (!versao) {
-            alert("Please select a version before purchasing.");
-            return;
-        }
-        gtag('event', 'clique', {
-            'event_category': 'compra',
-            'event_label': 'compra_contos_infantis_' + versao
-        });
-        if (versao === "tradicional") {
-            window.location.href = "descricaoprodingama.html";
-        } else if (versao === "premium") {
-            window.location.href = "descricaoproding.html";
-        } else if (versao === "assinatura") {
-            window.location.href = "descricaoprodassinatura.html";
-        }
-    }
-
-    // Lógica principal da página
-    document.addEventListener('DOMContentLoaded', function() {
-        // --- LÓGICA DO PLAYER DE MÚSICA DE FUNDO ---
-        const backgroundMusic = document.getElementById('background-music');
-        const bgMusicPlayerContainer = document.getElementById('music-player-container');
-        const bgPlayPauseButton = document.getElementById('play-pause-button');
-        
-        // --- LÓGICA DO PLAYER DE ÁUDIO DE AMOSTRAS ---
-        const audioPlayer = document.getElementById('free-audio-player');
-        const playPauseBtn = document.getElementById('play-pause-btn');
-        const prevBtn = document.getElementById('prev-btn');
-        const nextBtn = document.getElementById('next-btn');
-        const repeatBtn = document.getElementById('repeat-btn');
-        const muteBtn = document.getElementById('mute-btn');
-        const volumeSlider = document.getElementById('volume-slider');
-        const progressBarContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
-        const currentTimeSpan = document.getElementById('current-time');
-        const durationSpan = document.getElementById('duration');
-        const currentSongTitle = document.getElementById('current-song-title');
-        const playlistContainer = document.getElementById('playlist-container');
-        const playIcon = playPauseBtn.querySelector('.play-icon');
-        const pauseIcon = playPauseBtn.querySelector('.pause-icon');
-        const repeatAllIcon = repeatBtn.querySelector('.repeat-all-icon');
-        const repeatOneIcon = repeatBtn.querySelector('.repeat-one-icon');
-
-        const audioFiles = [
-            "disquinho - The Ant and the Grasshopper.mp3",
-            "disquinho - The Hare and the Tortoise.mp3",
-        ];
-        const audioPath = "../amostra_historinha/";
-
-        let currentTrackIndex = 0;
-        const REPEAT_NONE = 0, REPEAT_ALL = 1, REPEAT_ONE = 2;
-        let repeatMode = REPEAT_ALL;
-
-        function formatTime(seconds) {
-            const min = Math.floor(seconds / 60);
-            const sec = Math.floor(seconds % 60);
-            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
-        }
-
-        function loadTrack(index) {
-            if (index >= 0 && index < audioFiles.length) {
-                currentTrackIndex = index;
-                audioPlayer.src = audioPath + audioFiles[currentTrackIndex];
-                currentSongTitle.textContent = audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "");
-                audioPlayer.load();
-                updatePlaylistHighlight();
+            function startAutoSlider() {
+                clearInterval(autoSlideTimer); // Limpa qualquer timer anterior
+                autoSlideTimer = setInterval(() => {
+                    const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
+                    let currentIndex = parseInt(currentRadio.id.replace('slide', '')) - 1;
+                    let nextIndex = (currentIndex + 1) % totalSlides;
+                    radioButtons[nextIndex].checked = true;
+                }, slideInterval);
             }
-        }
 
-        function playTrack() {
-            if (!backgroundMusic.paused) {
-                backgroundMusic.pause();
-                bgMusicPlayerContainer.classList.remove('playing');
-            }
-            audioPlayer.play();
-            playIcon.style.display = 'none';
-            pauseIcon.style.display = 'block';
-            gtag('event', 'play_audio', {
-                'event_category': 'player_amostras',
-                'event_label': audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "")
+            // Reinicia o slider quando um botão de navegação é clicado
+            document.querySelectorAll('.navigation label').forEach(label => {
+                label.addEventListener('click', () => {
+                    clearInterval(autoSlideTimer); // Para o auto-slide imediatamente
+                    // Pequeno delay para permitir que o usuário veja a transição manual
+                    // e depois reinicia o auto-slide após um curto período
+                    setTimeout(startAutoSlider, slideInterval * 2);
+                });
             });
+
+            // Reinicia o slider ao clicar em qualquer input de rádio diretamente
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    clearInterval(autoSlideTimer); // Para o auto-slide imediatamente
+                    setTimeout(startAutoSlider, slideInterval * 2);
+                });
+            });
+
+            startAutoSlider(); // Inicia o slider automaticamente na carga da página
+        });
+
+        // Lógica do botão COMPRAR
+        function comprar() {
+            const versao = document.getElementById('versao').value;
+            if (!versao) {
+                alert("Por favor, selecione uma versão antes de comprar.");
+                return;
+            }
+
+            // Rastreia o clique no Google Analytics
+            gtag('event', 'clique', {
+                'event_category': 'compra',
+                'event_label': 'compra_contos_infantis_' + versao
+            });
+
+            if (versao === "tradicional") {
+                window.location.href = "https://loja.uiclap.com/titulo/ua113287";
+            } else if (versao === "premium") {
+                window.location.href = "descricaoprod.html";
+            } else if (versao === "assinatura") {
+               window.location.href = "descricaoprodassinatura.html";
+            }else if (versao === "premiumpb") {
+               window.location.href = "descricaoprodpb.html";
+            }
         }
 
-        function pauseTrack() {
-            audioPlayer.pause();
-            playIcon.style.display = 'block';
-            pauseIcon.style.display = 'none';
-        }
+        // NOVO PLAYER DE ÁUDIO - LÓGICA JAVASCRIPT
+        document.addEventListener('DOMContentLoaded', function() {
+            const audioPlayer = document.getElementById('free-audio-player');
+            const playPauseBtn = document.getElementById('play-pause-btn');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const repeatBtn = document.getElementById('repeat-btn');
+            const muteBtn = document.getElementById('mute-btn');
+            const volumeSlider = document.getElementById('volume-slider');
+            const progressBarContainer = document.getElementById('progress-container');
+            const progressBar = document.getElementById('progress-bar');
+            const currentTimeSpan = document.getElementById('current-time');
+            const durationSpan = document.getElementById('duration');
+            const currentSongTitle = document.getElementById('current-song-title');
+            const playlistContainer = document.getElementById('playlist-container');
+            const playIcon = playPauseBtn.querySelector('.play-icon');
+            const pauseIcon = playPauseBtn.querySelector('.pause-icon');
+            const repeatAllIcon = repeatBtn.querySelector('.repeat-all-icon');
+            const repeatOneIcon = repeatBtn.querySelector('.repeat-one-icon');
 
-        function togglePlayPause() {
-            if (audioPlayer.paused) { playTrack(); } else { pauseTrack(); }
-        }
+            // Player de música de fundo
+            const backgroundMusic = document.getElementById('background-music');
+            const bgMusicPlayerContainer = document.getElementById('music-player-container');
+            const bgPlayPauseButton = document.getElementById('play-pause-button'); // Este já está lá em cima
+            
+            // 🚨🚨🚨 IMPORTANTE: LISTE AQUI OS NOMES DOS SEUS ARQUIVOS DE ÁUDIO 🚨🚨🚨
+            // Certifique-se de que os nomes correspondem exatamente aos arquivos na pasta 'amostra_historinha'
+            const audioFiles = [
+                "disquinho - A Cigarra e a Formiga.mp3",
+                "disquinho - A Lebre e a Tartaruga.mp3",
+            ];
+            const audioPath = "amostra_historinha/"; // Caminho para sua pasta de áudios
 
-        function nextTrack() {
-            let nextIndex = (currentTrackIndex + 1) % audioFiles.length;
-            loadTrack(nextIndex);
-            playTrack();
-        }
+            let currentTrackIndex = 0;
+            const REPEAT_NONE = 0;
+            const REPEAT_ALL = 1;
+            const REPEAT_ONE = 2;
+            let repeatMode = REPEAT_ALL; // Inicia com repetição de todos
 
-        function prevTrack() {
-            let prevIndex = (currentTrackIndex - 1 + audioFiles.length) % audioFiles.length;
-            loadTrack(prevIndex);
-            playTrack();
-        }
+            function formatTime(seconds) {
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+            }
 
-        function updateProgressBar() {
-            if(audioPlayer.duration) {
+            function loadTrack(index) {
+                if (index >= 0 && index < audioFiles.length) {
+                    currentTrackIndex = index;
+                    audioPlayer.src = audioPath + audioFiles[currentTrackIndex];
+                    currentSongTitle.textContent = audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", ""); // Remove prefixo e extensão
+                    audioPlayer.load(); // Carrega o áudio
+                    updatePlaylistHighlight();
+                }
+            }
+
+            function playTrack() {
+                // Pausa o player de música de fundo se estiver tocando
+                if (!backgroundMusic.paused) {
+                    backgroundMusic.pause();
+                    bgMusicPlayerContainer.classList.remove('playing');
+                }
+
+                audioPlayer.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+                // Rastreamento do Google Analytics para play
+                gtag('event', 'play_audio', {
+                    'event_category': 'player_amostras',
+                    'event_label': audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "")
+                });
+            }
+
+            function pauseTrack() {
+                audioPlayer.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+
+            function togglePlayPause() {
+                if (audioPlayer.paused) {
+                    playTrack();
+                } else {
+                    pauseTrack();
+                }
+            }
+
+            function nextTrack() {
+                let nextIndex = currentTrackIndex + 1;
+                if (nextIndex >= audioFiles.length) {
+                    nextIndex = 0; // Volta para o início se for a última
+                }
+                loadTrack(nextIndex);
+                playTrack();
+            }
+
+            function prevTrack() {
+                let prevIndex = currentTrackIndex - 1;
+                if (prevIndex < 0) {
+                    prevIndex = audioFiles.length - 1; // Volta para o final se for a primeira
+                }
+                loadTrack(prevIndex);
+                playTrack();
+            }
+
+            function updateProgressBar() {
                 const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
-                progressBar.style.width = `${progress}%`;
+                progressBar.style.width = progress + '%';
                 currentTimeSpan.textContent = formatTime(audioPlayer.currentTime);
             }
-        }
 
-        function setProgressBar(e) {
-            const width = this.clientWidth;
-            const clickX = e.offsetX;
-            audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
-        }
-        
-        function updateVolume() { audioPlayer.volume = volumeSlider.value; }
-
-        function toggleMute() {
-            audioPlayer.muted = !audioPlayer.muted;
-            muteBtn.title = audioPlayer.muted ? "Unmute" : "Mute";
-        }
-
-        function toggleRepeatMode() {
-            repeatMode = (repeatMode + 1) % 3;
-            updateRepeatButton();
-        }
-
-        function updateRepeatButton() {
-            repeatBtn.classList.remove('active');
-            repeatAllIcon.style.display = 'none';
-            repeatOneIcon.style.display = 'none';
-            if (repeatMode === REPEAT_ALL) {
-                repeatAllIcon.style.display = 'block';
-                repeatBtn.title = "Repeat Playlist";
-                repeatBtn.classList.add('active');
-            } else if (repeatMode === REPEAT_ONE) {
-                repeatOneIcon.style.display = 'block';
-                repeatBtn.title = "Repeat One Track";
-                repeatBtn.classList.add('active');
-            } else {
-                repeatAllIcon.style.display = 'block';
-                repeatBtn.title = "Repeat Off";
+            function setProgressBar(e) {
+                const width = progressBarContainer.clientWidth;
+                const clickX = e.offsetX;
+                audioPlayer.currentTime = (clickX / width) * audioPlayer.duration;
             }
-        }
 
-        function handleTrackEnd() {
-            gtag('event', 'audio_ended', {
-                'event_category': 'player_amostras',
-                'event_label': audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "")
+            function updateVolume() {
+                audioPlayer.volume = volumeSlider.value;
+            }
+
+            function toggleMute() {
+                audioPlayer.muted = !audioPlayer.muted;
+                muteBtn.title = audioPlayer.muted ? "Desmutar" : "Mudo";
+                // Você pode adicionar um ícone de mudo/desmudo aqui se quiser
+            }
+
+            function toggleRepeatMode() {
+                repeatMode = (repeatMode + 1) % 3; // 0 -> 1 -> 2 -> 0 (NONE -> ALL -> ONE)
+                updateRepeatButton();
+            }
+
+            function updateRepeatButton() {
+                repeatBtn.classList.remove('active');
+                repeatAllIcon.style.display = 'none';
+                repeatOneIcon.style.display = 'none';
+
+                if (repeatMode === REPEAT_ALL) {
+                    repeatAllIcon.style.display = 'block';
+                    repeatBtn.title = "Repetir Playlist (todas)";
+                    repeatBtn.classList.add('active');
+                } else if (repeatMode === REPEAT_ONE) {
+                    repeatOneIcon.style.display = 'block';
+                    repeatBtn.title = "Repetir Uma Faixa";
+                    repeatBtn.classList.add('active');
+                } else { // REPEAT_NONE
+                    repeatAllIcon.style.display = 'block'; // Mostra o ícone de 'repetir todas' mas sem o estado 'ativo'
+                    repeatBtn.title = "Não Repetir (parar ao final)";
+                }
+            }
+
+
+            function handleTrackEnd() {
+                // Rastreamento do Google Analytics para fim de audio
+                gtag('event', 'audio_ended', {
+                    'event_category': 'player_amostras',
+                    'event_label': audioFiles[currentTrackIndex].replace("disquinho - ", "").replace(".mp3", "")
+                });
+
+                if (repeatMode === REPEAT_ONE) {
+                    playTrack(); // Repete a mesma faixa
+                } else if (repeatMode === REPEAT_ALL) {
+                    nextTrack(); // Vai para a próxima
+                } else { // REPEAT_NONE
+                    if (currentTrackIndex < audioFiles.length - 1) {
+                        nextTrack(); // Vai para a próxima, se não for a última
+                    } else {
+                        // Última música, parar
+                        pauseTrack();
+                        audioPlayer.currentTime = 0;
+                        progressBar.style.width = '0%';
+                        currentTimeSpan.textContent = formatTime(0);
+                    }
+                }
+            }
+
+
+            function populatePlaylist() {
+                playlistContainer.innerHTML = ''; // Limpa a playlist existente
+                audioFiles.forEach((file, index) => {
+                    const div = document.createElement('div');
+                    div.classList.add('playlist-item');
+                    div.dataset.index = index;
+                    div.innerHTML = `
+                        <span class="playlist-item-index">${index + 1}.</span>
+                        <span class="playlist-item-title">${file.replace("disquinho - ", "").replace(".mp3", "")}</span>
+                    `;
+                    div.addEventListener('click', () => {
+                        loadTrack(index);
+                        playTrack();
+                    });
+                    playlistContainer.appendChild(div);
+                });
+                updatePlaylistHighlight();
+            }
+
+            function updatePlaylistHighlight() {
+                document.querySelectorAll('.playlist-item').forEach(item => {
+                    item.classList.remove('active-song');
+                });
+                const activeItem = document.querySelector(`.playlist-item[data-index="${currentTrackIndex}"]`);
+                if (activeItem) {
+                    activeItem.classList.add('active-song');
+                    // Rola para a música ativa, se necessário
+                    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+
+
+            // Event Listeners para o player de historinhas
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            prevBtn.addEventListener('click', prevTrack);
+            nextBtn.addEventListener('click', nextTrack);
+            repeatBtn.addEventListener('click', toggleRepeatMode);
+            muteBtn.addEventListener('click', toggleMute);
+            volumeSlider.addEventListener('input', updateVolume);
+            progressBarContainer.addEventListener('click', setProgressBar);
+            audioPlayer.addEventListener('timeupdate', updateProgressBar);
+            audioPlayer.addEventListener('loadedmetadata', () => {
+                durationSpan.textContent = formatTime(audioPlayer.duration);
+                updateProgressBar(); // Garante que a barra de progresso e o tempo inicial sejam atualizados
             });
-            if (repeatMode === REPEAT_ONE) {
-                playTrack();
-            } else if (repeatMode === REPEAT_ALL) {
-                nextTrack();
-            } else if (currentTrackIndex < audioFiles.length - 1) {
-                nextTrack();
-            } else {
-                pauseTrack();
-                audioPlayer.currentTime = 0;
-            }
-        }
+            audioPlayer.addEventListener('ended', handleTrackEnd);
 
-        function populatePlaylist() {
-            playlistContainer.innerHTML = '';
-            audioFiles.forEach((file, index) => {
-                const div = document.createElement('div');
-                div.className = 'playlist-item';
-                div.dataset.index = index;
-                div.innerHTML = `<span class="playlist-item-index">${index + 1}.</span><span class="playlist-item-title">${file.replace("disquinho - ", "").replace(".mp3", "")}</span>`;
-                div.addEventListener('click', () => { loadTrack(index); playTrack(); });
-                playlistContainer.appendChild(div);
+            // Inicialização do player de historinhas
+            populatePlaylist();
+            loadTrack(currentTrackIndex);
+            updateRepeatButton(); // Configura o ícone inicial do botão de repetição
+
+
+            // Lógica do PLAYER DE MÚSICA DE FUNDO ORIGINAL (O SEU PLAYER PADRÃO)
+            bgPlayPauseButton.addEventListener('click', function() {
+                if (backgroundMusic.paused) {
+                    // Pausa o player de historinhas se estiver tocando
+                    if (!audioPlayer.paused) {
+                        pauseTrack();
+                    }
+                    backgroundMusic.play();
+                    bgMusicPlayerContainer.classList.add('playing');
+                } else {
+                    backgroundMusic.pause();
+                    bgMusicPlayerContainer.classList.remove('playing');
+                }
             });
-            updatePlaylistHighlight();
-        }
-
-        function updatePlaylistHighlight() {
-            document.querySelectorAll('.playlist-item').forEach(item => item.classList.remove('active-song'));
-            const activeItem = document.querySelector(`.playlist-item[data-index="${currentTrackIndex}"]`);
-            if (activeItem) {
-                activeItem.classList.add('active-song');
-                activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        }
-
-        playPauseBtn.addEventListener('click', togglePlayPause);
-        prevBtn.addEventListener('click', prevTrack);
-        nextBtn.addEventListener('click', nextTrack);
-        repeatBtn.addEventListener('click', toggleRepeatMode);
-        muteBtn.addEventListener('click', toggleMute);
-        volumeSlider.addEventListener('input', updateVolume);
-        progressBarContainer.addEventListener('click', setProgressBar);
-        audioPlayer.addEventListener('timeupdate', updateProgressBar);
-        audioPlayer.addEventListener('loadedmetadata', () => { durationSpan.textContent = formatTime(audioPlayer.duration); });
-        audioPlayer.addEventListener('ended', handleTrackEnd);
-        
-        populatePlaylist();
-        loadTrack(currentTrackIndex);
-        updateRepeatButton();
-
-        bgPlayPauseButton.addEventListener('click', function() {
-            if (backgroundMusic.paused) {
-                if (!audioPlayer.paused) { pauseTrack(); }
-                backgroundMusic.play();
-                bgMusicPlayerContainer.classList.add('playing');
-            } else {
-                backgroundMusic.pause();
-                bgMusicPlayerContainer.classList.remove('playing');
-            }
         });
-
-        // Lógica do slider automático
-        const slideInterval = 3000;
-        let autoSlideTimer;
-        const sliderContainer = document.querySelector('.slideshow-container');
-        const radioButtons = document.querySelectorAll('.slideshow-container input[type="radio"][name="slider"]');
-        function startAutoSlider() {
-            clearInterval(autoSlideTimer);
-            autoSlideTimer = setInterval(() => {
-                const currentRadio = document.querySelector('.slideshow-container input[type="radio"]:checked');
-                let currentIndex = Array.from(radioButtons).indexOf(currentRadio);
-                let nextIndex = (currentIndex + 1) % radioButtons.length;
-                radioButtons[nextIndex].checked = true;
-            }, slideInterval);
-        }
-        sliderContainer.addEventListener('click', () => {
-            clearInterval(autoSlideTimer);
-            setTimeout(startAutoSlider, slideInterval * 2);
-        });
-        startAutoSlider();
-    });
-</script>
+    </script>
 </body>
 </html>
