@@ -106,12 +106,12 @@
                 <input type="text" id="name" required>
             </div>
             <div class="form-group">
-    <label>Sua foto (opcional):</label>
-    <input type="hidden" role="uploadcare-uploader" id="authorPhotoUploader" data-images-only="true" data-crop="1:1" />
-</div>
+                <label>Sua foto (opcional):</label>
+                <input type="hidden" role="uploadcare-uploader" id="authorPhotoUploader" data-images-only="true" data-crop="1:1" />
+            </div>
             <div class="form-group">
                 <label for="role">Você é o pai ou a mãe?</label>
-                <select id="role" required> <option value="Pai">Pai</option> <option value="Mãe">Mãe</option>  <option value="Tio/Tia">Tio / Tia</option> <option value="Avô/Avó">Avô / Avó </option></select>
+                <select id="role" required> <option value="Pai">Pai</option> <option value="Mãe">Mãe</option> <option value="Tio/Tia">Tio / Tia</option> <option value="Avô/Avó">Avô / Avó </option></select>
             </div>
             <div class="form-group">
                 <label for="childName">Nome do(a) seu(sua) filho(a):</label>
@@ -142,20 +142,19 @@
             <div class="form-group">
                 <label>Envie uma foto ou vídeo (opcional):</label>
                 <input type="hidden" id="mediaUploader" role="uploadcare-uploader" data-multiple="true" data-multiple-max="5" data-image-shrink="1920x1920 80%" /><input type="hidden" id="helpfulVotes" value="0">
-
             </div>
             <button type="submit" class="submit-btn">Enviar Depoimento</button>
         </form>
         <div id="success-message">
             <h2>Obrigado! ✨</h2>
             <p>Seu depoimento foi enviado com sucesso e logo aparecerá na nossa página!</p>
-            <a a href="https://historinhasparadormir.github.io/catalogo/historinhasparadormir/index.html#depoimentos" class="view-testimonials-btn">Ver todos os depoimentos</a>
+            <a href="#" class="view-testimonials-btn">Ver todos os depoimentos</a>
         </div>
     </div>
- <script>
+<script>
         UPLOADCARE_PUBLIC_KEY = 'a45c2febeabd4d38ab78';
-    </script>
-    <script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+</script>
+<script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -173,7 +172,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ===== ESTRELAS =====
     const stars = document.querySelectorAll('.star');
     const ratingInput = document.getElementById('rating');
     stars.forEach(star => {
@@ -183,11 +181,10 @@
         });
     });
 
-    // ===== FORMULÁRIO =====
     const form = document.getElementById('testimonialForm');
     const successMessage = document.getElementById('success-message');
-    const widget = uploadcare.Widget('#mediaUploader'); // Upload de fotos/vídeos depoimento
-    const authorPhotoWidget = uploadcare.Widget('#authorPhotoUploader'); // Upload da foto do autor
+    const widget = uploadcare.Widget('#mediaUploader');
+    const authorPhotoWidget = uploadcare.Widget('#authorPhotoUploader');
     const submitBtn = form.querySelector('.submit-btn');
     const preloader = document.getElementById('preloader');
     const preloaderText = document.getElementById('preloader-text');
@@ -195,7 +192,6 @@
     const retryBtn = document.getElementById('retry-btn');
     const moonAnimation = preloader.querySelector('.moon');
 
-    // ===== MONITORAR UPLOAD =====
     widget.onChange(group => {
         if (group) {
             group.progress(info => {
@@ -211,8 +207,14 @@
             });
         }
     });
+    
+    // Mapeamento de produtos para os links correspondentes
+    const productLinks = {
+        "Livrinho 32 Historinhas para Dormir": "https://historinhasparadormir.github.io/catalogo/historinhasparadormir/index.html#depoimentos",
+        "32 Contos de Fadas Infantil": "https://historinhasparadormir.github.io/catalogo/contosinfantis/index.html#depoimentos",
+        "Livrinho para Colorir Mundo Fofinho": "https://historinhasparadormir.github.io/catalogo/desenhosparacolorir/index.html#depoimentos"
+    };
 
-    // ===== SALVAR DEPOIMENTO =====
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
         if (!document.getElementById('product').value || !ratingInput.value) {
@@ -227,59 +229,62 @@
         preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
 
         try {
-            // === ETAPA 1: Lidar com upload da mídia (fotos/vídeos do depoimento) ===
             let mediaUrlsString = '';
             const upload = widget.value();
-
             if (upload) {
                 const fileInfo = await upload.promise();
                 if (fileInfo.files) {
-                    // Vários arquivos
                     const files = await fileInfo.files();
                     mediaUrlsString = files.map(file => file.cdnUrl).join(',');
                 } else {
-                    // Apenas um arquivo
                     mediaUrlsString = fileInfo.cdnUrl;
                 }
             }
 
-            // === ETAPA 2: Lidar com upload da foto do autor ===
             let authorPhoto = '';
             const authorUpload = authorPhotoWidget.value();
             if (authorUpload) {
                 const authorInfo = await authorUpload.promise();
                 if (authorInfo.files) {
                     const files = await authorInfo.files();
-                    authorPhoto = files[0].cdnUrl; // pega só a primeira foto
+                    authorPhoto = files[0].cdnUrl;
                 } else {
                     authorPhoto = authorInfo.cdnUrl;
                 }
             }
 
-            // === ETAPA 3: Salvar no Firebase ===
             preloaderText.textContent = 'Salvando depoimento...';
+            const productName = document.getElementById('product').value;
             const newTestimonial = {
                 name: document.getElementById('name').value,
                 role: document.getElementById('role').value,
                 childName: document.getElementById('childName').value,
-                productName: document.getElementById('product').value,
+                productName: productName,
                 testimonial: document.getElementById('testimonial').value,
                 rating: parseInt(ratingInput.value),
                 media: mediaUrlsString || "",
                 authorPhoto: authorPhoto || "",
                 createdAt: serverTimestamp(),
-				helpfulVotes: 0  // <- adicione esta linha aqui
+                helpfulVotes: 0
             };
 
             await addDoc(collection(db, "depoimentos"), newTestimonial);
 
-            // === ETAPA 4: Sucesso ===
+            // ATUALIZA O LINK DO BOTÃO ANTES DE MOSTRAR A MENSAGEM
+            const viewButton = document.querySelector('#success-message .view-testimonials-btn');
+            const targetUrl = productLinks[productName];
+            if (targetUrl) {
+                viewButton.href = targetUrl;
+            } else {
+                // Link padrão caso algo dê errado
+                viewButton.href = "https://historinhasparadormir.github.io/catalogo/historinhasparadormir/index.html#depoimentos";
+            }
+
             preloader.classList.remove('visible');
             form.style.display = 'none';
             successMessage.style.display = 'block';
 
         } catch (error) {
-            // === ETAPA 5: Erro ===
             console.error("🔥 Erro ao enviar depoimento: ", error);
             moonAnimation.style.display = 'none';
             preloaderText.textContent = '';
@@ -292,8 +297,6 @@
         submitBtn.disabled = false;
     });
 </script>
-
-
-
 </body>
 </html>
+
