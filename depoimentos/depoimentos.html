@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -8,173 +8,551 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <style>
-    :root { --cor-primaria: #a2d2ff; --cor-secundaria: #ffafcc; --cor-texto: #5c5c7b; --cor-estrelas: #ffdd57; --fonte-principal: 'Nunito', sans-serif; }
-    body { font-family: var(--fonte-principal); background-color: #f8f9fe; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); margin: 0; padding: -5px 15px; color: var(--cor-texto); }
-    h1 { text-align: center; margin-bottom: 3px; font-size: 1.0rem; font-weight: 500; color: var(--cor-primaria); text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
-    .carousel { position: relative; max-width: 550px; margin: 0 auto; overflow: hidden; }
-    .carousel-inner { display: flex; transition: transform 0.5s ease-in-out; }
-    .carousel-item { min-width: 100%; box-sizing: border-box; padding: 20px; }
-    .testimonial-card { background: #fff; border-radius: 20px; padding: 30px; box-shadow: 0 10px 35px rgba(150, 170, 200, 0.2); position: relative; text-align: center; overflow: hidden; }
-    .testimonial-card::before { content: '“'; position: absolute; top: 10px; left: 20px; font-size: 6rem; font-weight: 800; color: rgba(162, 210, 255, 0.2); z-index: 1; font-family: Georgia, serif; line-height: 1; }
-    .testimonial-card::after { content: '”'; position: absolute; bottom: 0; right: 20px; font-size: 6rem; font-weight: 800; color: rgba(162, 210, 255, 0.2); z-index: 1; font-family: Georgia, serif; line-height: 1; }
-    .testimonial-content { position: relative; z-index: 2; }
-    .testimonial { font-size: 1.1rem; font-style: italic; line-height: 1.7; margin-bottom: 20px; }
-    .stars { color: var(--cor-estrelas); font-size: 1.3rem; margin-bottom: 15px; }
-    .author { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; line-height: 1.4; gap: 15px; }
-    .author-info { display: flex; align-items: center; gap: 12px; text-align: left; }
-    .author-photo { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid var(--cor-primaria); }
-    .author-details { display: flex; flex-direction: column; }
-    .author-name { font-size: 1rem; color: #333; font-weight: 700; }
-    .author-role { font-size: 0.9rem; color: var(--cor-secundaria); font-weight: 400; }
-    .media-thumbs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #f0f0f0; }
-    .media-thumbnail { width: 70px; height: 70px; border-radius: 12px; object-fit: cover; cursor: pointer; border: 2px solid #eee; transition: transform 0.2s ease, box-shadow 0.2s ease; }
-    .media-thumbnail:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(162, 210, 255, 0.5); }
-    video.media-thumbnail { background: #000; }
-    .carousel-controls { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; transform: translateY(-50%); padding: 0; pointer-events: none; z-index: 10; }
-    .control-btn { pointer-events: auto; background: rgba(255, 255, 255, 0.8); color: var(--cor-primaria); border: none; width: 45px; height: 45px; cursor: pointer; border-radius: 50%; font-size: 24px; transition: all 0.3s; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-    .control-btn:hover { background: var(--cor-primaria); color: white; }
+    :root {
+      --cor-primaria: #a2d2ff; /* Azul bebê */
+      --cor-secundaria: #ffafcc; /* Rosa suave */
+      --cor-texto: #5c5c7b;
+      --cor-estrelas: #ffdd57;
+      --fonte-principal: 'Nunito', sans-serif;
+    }
+
+    body {
+      font-family: var(--fonte-principal);
+      background-color: #f8f9fe;
+      background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+      margin: 0;
+      padding: 0px 0px;
+      color: var(--cor-texto);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--cor-primaria);
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .carousel {
+      position: relative;
+      max-width: 420px;
+      margin: 0;
+	  margin-top:0;
+	  margin-bottom:0;
+      overflow: hidden;
+    }
+
+    .carousel-inner {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-item {
+      min-width: 100%;
+      box-sizing: border-box;
+      padding: 20px;
+    }
+
+    .testimonial-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 35px rgba(150, 170, 200, 0.2);
+      position: relative;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .testimonial-card::before {
+      content: '“';
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 6rem;
+      font-weight: 800;
+      color: rgba(162, 210, 255, 0.2);
+      z-index: 1;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .testimonial-card::after {
+      content: '”';
+      position: absolute;
+      bottom: 0;
+      right: 20px;
+      font-size: 6rem;
+      font-weight: 800;
+      color: rgba(162, 210, 255, 0.2);
+      z-index: 1;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .testimonial-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .testimonial {
+      font-size: 1.1rem;
+      font-style: italic;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .stars {
+      color: var(--cor-estrelas);
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+    }
+
+    .author {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 15px;
+      line-height: 1.4;
+      gap: 15px;
+    }
+
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .author-photo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--cor-primaria);
+    }
+
+    .author-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .author-name {
+      font-size: 1rem;
+      color: #333;
+      font-weight: 700;
+    }
+    .author-role {
+      font-size: 0.9rem;
+      color: var(--cor-secundaria);
+      font-weight: 400;
+    }
+
+    .media-thumbs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #f0f0f0;
+    }
+
+    .media-thumbnail {
+      width: 70px;
+      height: 70px;
+      border-radius: 12px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid #eee;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .media-thumbnail:hover {
+      transform: scale(1.1);
+      box-shadow: 0 5px 15px rgba(162, 210, 255, 0.5);
+    }
+    video.media-thumbnail {
+      background: #000;
+    }
+
+    .carousel-controls {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+      padding: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .control-btn {
+      pointer-events: auto;
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--cor-primaria);
+      border: none;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      border-radius: 50%;
+      font-size: 24px;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .control-btn:hover {
+      background: var(--cor-primaria);
+      color: white;
+    }
+
     #prevBtn { margin-left: -22px; }
     #nextBtn { margin-right: -22px; }
-    .helpful-vote { display: flex; justify-content: center; align-items: center; gap: 8px; background-color: #f8f9fe; padding: 6px 12px; border-radius: 20px; border: 1px solid #eef; margin-top: 20px; }
-    .like-btn { font-size: 1.2rem; cursor: pointer; transition: transform 0.2s ease, color 0.2s ease; user-select: none; color: #cbd5e1; }
-    .like-btn:hover { transform: scale(1.15); }
-    .like-btn.voted { color: var(--cor-primaria); cursor: default; }
-    .vote-count { font-size: 0.95rem; font-weight: 700; color: var(--cor-texto); min-width: 12px; }
-    .helpful-text { font-size: 0.9rem; }
-    .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); align-items: center; justify-content: center; backdrop-filter: blur(5px); }
-    .modal-inner { position: relative; max-width: 380px; width: 90%; }
-    .modal-inner img, .modal-inner video { width: 100%; height: auto; display: block; border-radius: 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-    .modal-close, .modal-prev, .modal-next { position: absolute; color: white; font-size: 2rem; background: rgba(0,0,0,0.3); border-radius: 50%; width: 45px; height: 45px; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
-    .modal-close:hover, .modal-prev:hover, .modal-next:hover { background: rgba(0,0,0,0.6); }
+    
+    .helpful-vote {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background-color: #f8f9fe;
+        padding: 6px 12px;
+        border-radius: 20px;
+        border: 1px solid #eef;
+    }
+
+    .like-btn {
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: transform 0.2s ease, color 0.2s ease;
+        user-select: none;
+        color: #cbd5e1;
+    }
+
+    .like-btn:hover {
+        transform: scale(1.15);
+    }
+
+    .like-btn.voted {
+        color: var(--cor-primaria);
+    }
+
+    .vote-count {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--cor-texto);
+        min-width: 12px;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-inner {
+      position: relative;
+      max-width: 380px;
+      width: 90%;
+    }
+
+    .modal-inner img, .modal-inner video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    }
+
+    .modal-close, .modal-prev, .modal-next {
+      position: absolute;
+      color: white;
+      font-size: 2rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.2s;
+    }
+    .modal-close:hover, .modal-prev:hover, .modal-next:hover {
+      background: rgba(0,0,0,0.6);
+    }
+
     .modal-close { top: -50px; right: 0; }
-    .modal-prev { left: 0px; top: 30%; transform: translateY(-30%); }
-    .modal-next { right: 00px; top: 30%; transform: translateY(-30%); }
-    @media (max-width: 600px) { h1 { font-size: 1.5rem; } .modal-prev { left: 15px; } .modal-next { right: 15px; } #prevBtn { margin-left: 5px; } #nextBtn { margin-right: 5px; } }
+    .modal-prev { left: -60px; top: 50%; transform: translateY(-50%); }
+    .modal-next { right: -60px; top: 50%; transform: translateY(-50%); }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .modal-prev { left: 10px; transform: translateY(-50%); }
+      .modal-next { right: 10px; transform: translateY(-50%); }
+      #prevBtn { margin-left: -10px; }
+      #nextBtn { margin-right: -10px; }
+    }
   </style>
 </head>
 <body>
-  <h1>O que nossos clientes dizem</h1>
-  <div class="carousel" id="testimonialCarousel">
-    <div class="carousel-inner" id="carouselInner">
-        <div class="carousel-item"><p style="text-align:center">Carregando depoimentos...</p></div>
-    </div>
-    <div class="carousel-controls">
+
+  <div class="carousel" id="testimonialCarousel" aria-label="carrossel de depoimentos">
+    <div class="carousel-inner" id="carouselInner"></div>
+
+    <div class="carousel-controls" aria-hidden="false">
       <button class="control-btn" id="prevBtn" aria-label="Anterior">&#8592;</button>
       <button class="control-btn" id="nextBtn" aria-label="Próximo">&#8594;</button>
     </div>
   </div>
-  <div id="mediaModal" class="modal">
-    <div class="modal-inner" id="modalInner"></div>
+
+  <!-- Modal -->
+  <div id="mediaModal" class="modal" aria-hidden="true">
+    <div class="modal-inner" id="modalInner">
+      <!-- conteúdo inserido dinamicamente -->
+    </div>
     <span class="modal-close" id="closeModal" title="Fechar">&times;</span>
     <span class="modal-prev" id="prevMedia" title="Anterior">&#10094;</span>
     <span class="modal-next" id="nextMedia" title="Próximo">&#10095;</span>
   </div>
-<script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJIYlZetHftO3sb41tA6cBpGQEB3bhnbl2bgBxRZ2B-bneR-T_ZGWo5BxPdIqhOAvE/exec";
 
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+ import { getFirestore, collection, getDocs, orderBy, query, where, doc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+    const firebaseConfig = {
+      // Sua configuração do Firebase aqui
+      apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
+      authDomain: "meus-depoimentos.firebaseapp.com",
+      projectId: "meus-depoimentos",
+      storageBucket: "meus-depoimentos.appspot.com",
+      messagingSenderId: "781528550069",
+      appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
+      measurementId: "G-90MR5JQT0Z"
+    };
+
+    // Inicializa Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Elementos
     const carouselInner = document.getElementById('carouselInner');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
+    const carousel = document.getElementById('testimonialCarousel');
+
     const modal = document.getElementById('mediaModal');
     const modalInner = document.getElementById('modalInner');
     const closeModalBtn = document.getElementById('closeModal');
     const prevMediaBtn = document.getElementById('prevMedia');
     const nextMediaBtn = document.getElementById('nextMedia');
+
+    // Estado do carrossel e modal
     let currentIndex = 0;
     let totalItems = 0;
     let autoplayInterval = null;
+
+    // Guarda as mídias por slide: [ [url1, url2], [url1], ... ]
     const mediaPerSlide = [];
 
-    function isVideoUrl(url) { return /\.(mp4|mov|webm|ogg)$/i.test(url); }
+    // -------------------- Funções auxiliares --------------------
+    function isVideoUrl(url) {
+      const vExt = ['.mp4', '.mov', '.webm', '.ogg'];
+      return vExt.some(ext => url.toLowerCase().includes(ext));
+    }
 
+    async function urlExists(url) {
+      try {
+        const res = await fetch(url, { method: 'HEAD' });
+        return res.ok;
+      } catch {
+        return false;
+      }
+    }
+
+    async function getAllGroupMedia(baseUrl) {
+      const trimmed = baseUrl.trim();
+      let media = [];
+      let i = 0;
+      while (true) {
+        const testUrl = `${trimmed}nth/${i}/`;
+        // eslint-disable-next-line no-await-in-loop
+        const exists = await urlExists(testUrl);
+        if (!exists) break;
+        media.push(testUrl);
+        i++;
+      }
+      return media;
+    }
+
+    // -------------------- Carrega depoimentos --------------------
     async function loadTestimonials() {
       try {
-        const response = await fetch(SCRIPT_URL);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const testimonials = await response.json();
-        
-        const currentProduct = "Livrinho 32 Historinhas para Dormir";
-        const filteredTestimonials = testimonials.filter(t => t.productName === currentProduct);
+       // Produto específico desta página
+const currentProduct = "Livrinho 32 Historinhas para Dormir"; // <- alterar por página
 
-        if (filteredTestimonials.length === 0) {
-          carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Nenhum depoimento para este produto ainda.</p></div>';
+// Consulta filtrando pelo produto
+const q = query(
+    collection(db, 'depoimentos'),
+    where("productName", "==", currentProduct), // <- usa o campo do produto já cadastrado
+    orderBy('createdAt', 'desc')
+);
+
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+          carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Nenhum depoimento disponível ainda.</p></div>';
+          totalItems = 1;
           return;
         }
-        
-        carouselInner.innerHTML = '';
 
-        filteredTestimonials.forEach((data, slideCount) => {
-          const mediaUrls = data.media ? data.media.split(',').filter(Boolean) : [];
+        let slideCount = 0;
+
+        for (const doc of snapshot.docs) {
+          const data = doc.data();
+          const baseMedia = (data.media || '').trim();
+
+          let mediaUrls = [];
+          if (baseMedia.length > 0) {
+            if (baseMedia.includes(',')) {
+              mediaUrls = baseMedia.split(',').map(s => s.trim()).filter(Boolean);
+            } else {
+              // eslint-disable-next-line no-await-in-loop
+              const found = await getAllGroupMedia(baseMedia);
+              if (found.length > 0) mediaUrls = found;
+              else mediaUrls = [baseMedia];
+            }
+          }
+
           mediaPerSlide.push(mediaUrls);
 
           const mediaThumbsHTML = mediaUrls.map((url, mIdx) => {
-            const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}"`;
-            return isVideoUrl(url) ? `<video ${dataAttrs} src="${url}" class="media-thumbnail" muted preload="metadata"></video>`
-                                  : `<img ${dataAttrs} src="${url}" class="media-thumbnail" alt="Mídia do depoimento">`;
+            const safeUrl = url.trim();
+            const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}" data-url="${safeUrl}"`;
+            if (isVideoUrl(safeUrl)) {
+              return `<video ${dataAttrs} src="${safeUrl}" class="media-thumbnail" muted preload="metadata"></video>`;
+            }
+            return `<img ${dataAttrs} src="${safeUrl}" class="media-thumbnail" alt="Mídia do depoimento">`;
           }).join('');
 
           const stars = '★'.repeat(data.rating || 0);
+          
           const authorPhotoUrl = data.authorPhoto || `https://placehold.co/44x44/a2d2ff/ffffff?text=${(data.name || 'A').charAt(0).toUpperCase()}`;
 
           const slideHtml = `
             <div class="carousel-item" data-slide-index="${slideCount}">
               <div class="testimonial-card">
                 <div class="testimonial-content">
-                  <p class="testimonial">${data.testimonial || ''}</p>
+                  <p class="testimonial">${(data.testimonial || '').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</p>
                   <p class="stars">${stars}</p>
                   <div class="author">
                     <div class="author-info">
-                      <img src="${authorPhotoUrl}" alt="Foto de ${data.name}" class="author-photo">
+                      <img src="${authorPhotoUrl}" alt="Foto de ${data.name || 'Anônimo'}" class="author-photo">
                       <div class="author-details">
-                        <div class="author-name">${data.name || 'Anônimo'} ${data.role || ''}${data.childName ? ' da' : ''}</div>
-                        <div class="author-role">${data.childName || ''}</div>
+                        <div class="author-name">${(data.name || 'Anônimo')} ${(data.role || '')}${data.childName ? ' da' : ''}</div>
+                        <div class="author-role">${(data.childName || '')}</div>
                       </div>
                     </div>
+              
                   </div>
+				      
                   ${mediaUrls.length > 0 ? `<div class="media-thumbs">${mediaThumbsHTML}</div>` : ''}
-                   <div class="helpful-vote">
-                      <span class="like-btn" data-id="${data.id}">👍</span>
-                      <span class="vote-count" id="vote-count-${data.id}">${data.helpfulVotes ?? 0}</span>
-					  <span class="helpful-text">pessoas acharam útil</span>
-                   </div>
                 </div>
-              </div>
-            </div>`;
-          carouselInner.insertAdjacentHTML('beforeend', slideHtml);
-        });
+                <div class="helpful-vote">
+                      <span class="like-btn" data-id="${doc.id}">👍</span>
+                      <span class="vote-count" id="vote-count-${doc.id}">${data.helpfulVotes ?? 0}</span>
 
-        totalItems = filteredTestimonials.length;
-        attachEventListeners();
+					  <span> pessoas acharam útil</span>
+                    </div></div>
+            </div>
+          `;
+
+          carouselInner.insertAdjacentHTML('beforeend', slideHtml);
+          slideCount++;
+        }
+
+        totalItems = slideCount;
         showSlide(0);
+        attachEventListeners();
+
       } catch (err) {
         console.error('Erro ao carregar depoimentos:', err);
-        carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Não foi possível carregar os depoimentos.</p></div>';
+        carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Erro ao carregar depoimentos.</p></div>';
       }
     }
 
+    // -------------------- Carrossel --------------------
     function showSlide(index) {
-      if (totalItems <= 0) return;
+      if (!totalItems || totalItems <= 0) return;
       currentIndex = (index + totalItems) % totalItems;
       carouselInner.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
 
-    let currentModalSlide = 0, currentModalMedia = 0;
+    function nextSlide() { showSlide(currentIndex + 1); }
+    function prevSlide() { showSlide(currentIndex - 1); }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplayInterval = setInterval(() => {
+        if (totalItems > 1) nextSlide();
+      }, 5000);
+    }
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+
+    // -------------------- Modal / Galeria por slide --------------------
+    let currentModalSlide = 0;
+    let currentModalMedia = 0;
+
     function openModalFor(slideIdx, mediaIdx) {
       if (!mediaPerSlide[slideIdx] || mediaPerSlide[slideIdx].length === 0) return;
       currentModalSlide = slideIdx;
       currentModalMedia = mediaIdx;
       renderModal();
       modal.style.display = 'flex';
+      modal.setAttribute('aria-hidden', 'false');
       stopAutoplay();
     }
 
     function renderModal() {
-      const url = mediaPerSlide[currentModalSlide][currentModalMedia];
-      modalInner.innerHTML = isVideoUrl(url) ? `<video src="${url}" controls autoplay style="max-width:100%; max-height:100%;"></video>` : `<img src="${url}" alt="Mídia do depoimento" style="max-width:100%; max-height:100%;">`;
+      const list = mediaPerSlide[currentModalSlide] || [];
+      if (!list || list.length === 0) return;
+      const url = list[currentModalMedia];
+      modalInner.innerHTML = '';
+      if (isVideoUrl(url)) {
+        const v = document.createElement('video');
+        v.src = url;
+        v.controls = true;
+        v.autoplay = true;
+        modalInner.appendChild(v);
+      } else {
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = 'Mídia do depoimento';
+        modalInner.appendChild(img);
+      }
     }
 
     function closeModal() {
       modal.style.display = 'none';
+      modal.setAttribute('aria-hidden', 'true');
+      modalInner.innerHTML = '';
       startAutoplay();
     }
 
@@ -184,72 +562,120 @@
       currentModalMedia = (currentModalMedia + 1) % list.length;
       renderModal();
     }
-
     function prevModalMedia() {
-        const list = mediaPerSlide[currentModalSlide];
-        if (!list || list.length <= 1) return;
-        currentModalMedia = (currentModalMedia - 1 + list.length) % list.length;
-        renderModal();
-    }
-    
-    function startAutoplay() {
-        stopAutoplay();
-        autoplayInterval = setInterval(() => showSlide(currentIndex + 1), 5000);
-    }
-    function stopAutoplay() {
-        clearInterval(autoplayInterval);
+      const list = mediaPerSlide[currentModalSlide];
+      if (!list || list.length <= 1) return;
+      currentModalMedia = (currentModalMedia - 1 + list.length) % list.length;
+      renderModal();
     }
 
+    // -------------------- Attach listeners (após DOM build) --------------------
     function attachEventListeners() {
-      prevBtn.addEventListener('click', () => { showSlide(currentIndex - 1); startAutoplay(); });
-      nextBtn.addEventListener('click', () => { showSlide(currentIndex + 1); startAutoplay(); });
-      closeModalBtn.addEventListener('click', closeModal);
-      nextMediaBtn.addEventListener('click', nextModalMedia);
-      prevMediaBtn.addEventListener('click', prevModalMedia);
-      modal.addEventListener('click', (e) => e.target === modal && closeModal());
-      
+      nextBtn.addEventListener('click', () => { nextSlide(); startAutoplay(); });
+      prevBtn.addEventListener('click', () => { prevSlide(); startAutoplay(); });
+
+      carousel.addEventListener('mouseenter', stopAutoplay);
+      carousel.addEventListener('mouseleave', startAutoplay);
+
       document.querySelectorAll('.media-thumbnail').forEach(thumb => {
-        thumb.addEventListener('click', (e) => openModalFor(parseInt(e.currentTarget.dataset.slide), parseInt(e.currentTarget.dataset.media)));
+        thumb.addEventListener('click', (ev) => {
+          const slideIdx = parseInt(thumb.getAttribute('data-slide'), 10);
+          const mediaIdx = parseInt(thumb.getAttribute('data-media'), 10);
+          openModalFor(slideIdx, mediaIdx);
+        });
       });
       
       const votedItems = JSON.parse(localStorage.getItem('votedTestimonials')) || [];
-      votedItems.forEach(id => {
-          const btn = document.querySelector(`.like-btn[data-id="${id}"]`);
-          if (btn) btn.classList.add('voted');
+      votedItems.forEach(docId => {
+          const likeBtn = document.querySelector(`.like-btn[data-id="${docId}"]`);
+          if (likeBtn) {
+              likeBtn.classList.add('voted');
+          }
       });
 
-      carouselInner.addEventListener('click', async (e) => {
-        const likeBtn = e.target.closest('.like-btn');
-        if (!likeBtn || likeBtn.classList.contains('voted')) return;
+  carouselInner.addEventListener('click', async (e) => {
+  const likeBtn = e.target.closest('.like-btn');
+  if (!likeBtn) return;
 
-        const id = likeBtn.dataset.id;
-        likeBtn.classList.add('voted');
-        const countEl = document.getElementById(`vote-count-${id}`);
-        countEl.textContent = parseInt(countEl.textContent) + 1;
+  const docId = likeBtn.dataset.id;
+  if (!docId) {
+    console.warn('Like: docId ausente');
+    return;
+  }
 
-        const voted = JSON.parse(localStorage.getItem('votedTestimonials')) || [];
-        voted.push(id);
-        localStorage.setItem('votedTestimonials', JSON.stringify(voted));
+  // evita cliques rápidos duplicados no mesmo botão
+  if (likeBtn.dataset.processing === '1') return;
+  likeBtn.dataset.processing = '1';
 
-        try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'vote', id }),
-                mode: 'no-cors',
-            });
-        } catch (err) {
-            console.error('Erro ao registrar voto:', err);
-            likeBtn.classList.remove('voted');
-            countEl.textContent = parseInt(countEl.textContent) - 1;
-            const updatedVoted = voted.filter(vId => vId !== id);
-            localStorage.setItem('votedTestimonials', JSON.stringify(updatedVoted));
+  const storageKey = 'votedTestimonials';
+  let currentVotedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+  if (currentVotedItems.includes(docId)) {
+    likeBtn.dataset.processing = '0';
+    return;
+  }
+
+  // Marca como votado (prevenção contra re-clique)
+  currentVotedItems.push(docId);
+  localStorage.setItem(storageKey, JSON.stringify(currentVotedItems));
+  likeBtn.classList.add('voted');
+
+  // Atualiza contador na UI de forma otimista
+  const countElement = document.getElementById(`vote-count-${docId}`);
+  const previousCount = countElement ? (parseInt(countElement.textContent, 10) || 0) : 0;
+  if (countElement) countElement.textContent = previousCount + 1;
+
+  try {
+    const docRef = doc(db, 'depoimentos', docId);
+    // incremento atômico no Firestore
+    await updateDoc(docRef, { helpfulVotes: increment(1) });
+    // Sucesso — nada mais a fazer (UI já atualizada)
+  } catch (err) {
+    console.error('Erro ao atualizar o voto no Firestore:', err);
+    // Reverte UI e localStorage se der erro
+    if (countElement) countElement.textContent = previousCount;
+    likeBtn.classList.remove('voted');
+
+    // remove docId do localStorage
+    currentVotedItems = JSON.parse(localStorage.getItem(storageKey)) || [];
+    const idx = currentVotedItems.indexOf(docId);
+    if (idx > -1) {
+      currentVotedItems.splice(idx, 1);
+      localStorage.setItem(storageKey, JSON.stringify(currentVotedItems));
+    }
+
+    alert('Não foi possível registrar seu voto. Tente novamente.');
+  } finally {
+    likeBtn.dataset.processing = '0';
+  }
+});
+
+
+      closeModalBtn.addEventListener('click', closeModal);
+      nextMediaBtn.addEventListener('click', nextModalMedia);
+      prevMediaBtn.addEventListener('click', prevModalMedia);
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (modal.style.display === 'flex') {
+          if (e.key === 'Escape') closeModal();
+          if (e.key === 'ArrowRight') nextModalMedia();
+          if (e.key === 'ArrowLeft') prevModalMedia();
+        } else if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          if (e.key === 'ArrowRight') { nextSlide(); startAutoplay(); }
+          if (e.key === 'ArrowLeft') { prevSlide(); startAutoplay(); }
         }
       });
+
       startAutoplay();
     }
+
     loadTestimonials();
-</script>
+  </script>
+  
+
 </body>
 </html>
-
 
