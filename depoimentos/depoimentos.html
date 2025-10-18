@@ -48,7 +48,8 @@
     .modal-close:hover, .modal-prev:hover, .modal-next:hover { background: rgba(0,0,0,0.6); }
     .modal-close { top: -50px; right: 0; }
     .modal-prev { left: 0px; top: 30%; transform: translateY(-30%); }
-    .modal-next { right: 00px; top: 30%; transform: translateY(-30%); }
+	.modal-next { right: 0px; top: 30%; transform: translateY(-30%); }
+
     @media (max-width: 600px) { h1 { font-size: 1.5rem; } .modal-prev { left: 15px; } .modal-next { right: 15px; } #prevBtn { margin-left: 5px; } #nextBtn { margin-right: 5px; } }
   </style>
 </head>
@@ -70,7 +71,6 @@
     <span class="modal-next" id="nextMedia" title="Próximo">&#10095;</span>
   </div>
 <script>
-    // COLE A SUA NOVA URL GERADA NO PASSO 1 AQUI
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxcBhjuWSF0LjhnfisIffrrf2CBLX7glrgko-5bx0oYGhs_HyKmx57H_ULG6L8nkci/exec";
 
     const carouselInner = document.getElementById('carouselInner');
@@ -88,71 +88,109 @@
 
     function isVideoUrl(url) { return /\.(mp4|mov|webm|ogg)$/i.test(url); }
 
-    async function loadTestimonials() {
-      try {
-        const response = await fetch(SCRIPT_URL);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const testimonials = await response.json();
-        
-        const currentProduct = "Livrinho 32 Historinhas para Dormir";
-        const filteredTestimonials = testimonials.filter(t => t.productName === currentProduct);
 
-        if (filteredTestimonials.length === 0) {
-          carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Nenhum depoimento para este produto ainda.</p></div>';
-          return;
+async function urlExists(url) {
+  try {
+    const res = await fetch(url, { method: 'HEAD' });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+async function getAllGroupMedia(baseUrl) {
+  const trimmed = baseUrl.trim();
+  let media = [];
+  let i = 0;
+  while (true) {
+    const testUrl = `${trimmed}nth/${i}/`;
+    const exists = await urlExists(testUrl);
+    if (!exists) break;
+    media.push(testUrl);
+    i++;
+  }
+  return media;
+}
+
+
+
+
+
+  async function loadTestimonials() {
+  try {
+    const response = await fetch(SCRIPT_URL);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const testimonials = await response.json();
+    
+    const currentProduct = "Livrinho 32 Historinhas para Dormir";
+    const filteredTestimonials = testimonials.filter(t => t.productName === currentProduct);
+
+    if (filteredTestimonials.length === 0) {
+      carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Nenhum depoimento para este produto ainda.</p></div>';
+      return;
+    }
+    
+    carouselInner.innerHTML = '';
+
+    for (const [slideCount, data] of filteredTestimonials.entries()) {  // ✅ corrigido aqui
+      let mediaUrls = [];
+      const baseMedia = (data.media || '').trim();
+      if (baseMedia.length > 0) {
+        if (baseMedia.includes(',')) {
+          mediaUrls = baseMedia.split(',').map(s => s.trim()).filter(Boolean);
+        } else {
+          const found = await getAllGroupMedia(baseMedia);  // ✅ agora o await funciona
+          mediaUrls = found.length > 0 ? found : [baseMedia];
         }
-        
-        carouselInner.innerHTML = '';
+      }
 
-        filteredTestimonials.forEach((data, slideCount) => {
-          // O script agora recebe os links já prontos e separados por vírgula!
-          const mediaUrls = data.media ? data.media.split(',').filter(Boolean) : [];
-          mediaPerSlide.push(mediaUrls);
+      mediaPerSlide.push(mediaUrls);
 
-          const mediaThumbsHTML = mediaUrls.map((url, mIdx) => {
-            const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}"`;
-            return isVideoUrl(url) ? `<video ${dataAttrs} src="${url}" class="media-thumbnail" muted preload="metadata"></video>`
-                                  : `<img ${dataAttrs} src="${url}" class="media-thumbnail" alt="Mídia do depoimento">`;
-          }).join('');
+      const mediaThumbsHTML = mediaUrls.map((url, mIdx) => {
+        const dataAttrs = `data-slide="${slideCount}" data-media="${mIdx}"`;
+        return isVideoUrl(url)
+          ? `<video ${dataAttrs} src="${url}" class="media-thumbnail" muted preload="metadata"></video>`
+          : `<img ${dataAttrs} src="${url}" class="media-thumbnail" alt="Mídia do depoimento">`;
+      }).join('');
 
-          const stars = '★'.repeat(data.rating || 0);
-          const authorPhotoUrl = data.authorPhoto || `https://placehold.co/44x44/a2d2ff/ffffff?text=${(data.name || 'A').charAt(0).toUpperCase()}`;
+      const stars = '★'.repeat(data.rating || 0);
+      const authorPhotoUrl = data.authorPhoto || `https://placehold.co/44x44/a2d2ff/ffffff?text=${(data.name || 'A').charAt(0).toUpperCase()}`;
 
-          const slideHtml = `
-            <div class="carousel-item" data-slide-index="${slideCount}">
-              <div class="testimonial-card">
-                <div class="testimonial-content">
-                  <p class="testimonial">${data.testimonial || ''}</p>
-                  <p class="stars">${stars}</p>
-                  <div class="author">
-                    <div class="author-info">
-                      <img src="${authorPhotoUrl}" alt="Foto de ${data.name}" class="author-photo">
-                      <div class="author-details">
-                        <div class="author-name">${data.name || 'Anônimo'} ${data.role || ''}${data.childName ? ' da' : ''}</div>
-                        <div class="author-role">${data.childName || ''}</div>
-                      </div>
-                    </div>
+      const slideHtml = `
+        <div class="carousel-item" data-slide-index="${slideCount}">
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p class="testimonial">${data.testimonial || ''}</p>
+              <p class="stars">${stars}</p>
+              <div class="author">
+                <div class="author-info">
+                  <img src="${authorPhotoUrl}" alt="Foto de ${data.name}" class="author-photo">
+                  <div class="author-details">
+                    <div class="author-name">${data.name || 'Anônimo'} ${data.role || ''}${data.childName ? ' da' : ''}</div>
+                    <div class="author-role">${data.childName || ''}</div>
                   </div>
-                  ${mediaUrls.length > 0 ? `<div class="media-thumbs">${mediaThumbsHTML}</div>` : ''}
-                   <div class="helpful-vote">
-                      <span class="like-btn" data-id="${data.id}">👍</span>
-                      <span class="vote-count" id="vote-count-${data.id}">${data.helpfulVotes ?? 0}</span>
-					  <span class="helpful-text">pessoas acharam útil</span>
-                   </div>
                 </div>
               </div>
-            </div>`;
-          carouselInner.insertAdjacentHTML('beforeend', slideHtml);
-        });
-
-        totalItems = filteredTestimonials.length;
-        attachEventListeners();
-        showSlide(0);
-      } catch (err) {
-        console.error('Erro ao carregar depoimentos:', err);
-        carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Não foi possível carregar os depoimentos.</p></div>';
-      }
+              ${mediaUrls.length > 0 ? `<div class="media-thumbs">${mediaThumbsHTML}</div>` : ''}
+              <div class="helpful-vote">
+                <span class="like-btn" data-id="${data.id}">👍</span>
+                <span class="vote-count" id="vote-count-${data.id}">${data.helpfulVotes ?? 0}</span>
+                <span class="helpful-text">pessoas acharam útil</span>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      carouselInner.insertAdjacentHTML('beforeend', slideHtml);
     }
+
+    totalItems = filteredTestimonials.length;
+    attachEventListeners();
+    showSlide(0);
+  } catch (err) {
+    console.error('Erro ao carregar depoimentos:', err);
+    carouselInner.innerHTML = '<div class="carousel-item"><p style="text-align:center">Não foi possível carregar os depoimentos.</p></div>';
+  }
+}
 
     function showSlide(index) {
       if (totalItems <= 0) return;
@@ -253,5 +291,4 @@
 </script>
 </body>
 </html>
-
 
