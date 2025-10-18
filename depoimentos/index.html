@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -8,80 +8,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --cor-primaria: #a2d2ff;
-            --cor-secundaria: #ffafcc;
-            --cor-texto: #555;
-            --fonte-principal: 'Nunito', sans-serif;
-        }
-        body {
-            font-family: var(--fonte-principal);
-            background-color: #fdf4f5;
-            background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png');
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        .form-container {
-            background-color: white;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            padding: 30px 40px;
-            max-width: 500px;
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        h1, h2 {
-            color: var(--cor-primaria);
-            text-align: center;
-            font-weight: 800;
-        }
+        :root { --cor-primaria: #a2d2ff; --cor-secundaria: #ffafcc; --cor-texto: #555; --fonte-principal: 'Nunito', sans-serif; }
+        body { font-family: var(--fonte-principal); background-color: #fdf4f5; background-image: url('https://www.transparenttextures.com/patterns/light-paper-fibers.png'); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        .form-container { background-color: white; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 30px 40px; max-width: 500px; width: 100%; position: relative; overflow: hidden; }
+        h1, h2 { color: var(--cor-primaria); text-align: center; font-weight: 800; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--cor-texto); }
-        input, select, textarea {
-            width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px;
-            font-family: var(--fonte-principal); font-size: 1rem; transition: border-color 0.3s;
-            box-sizing: border-box;
-        }
+        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 10px; font-family: var(--fonte-principal); font-size: 1rem; transition: border-color 0.3s; box-sizing: border-box; }
         input:focus, select:focus, textarea:focus { outline: none; border-color: var(--cor-primaria); }
         textarea { resize: vertical; height: 100px; }
         .star-rating { display: flex; justify-content: center; gap: 10px; margin: 10px 0; }
         .star { font-size: 2.5rem; color: #ddd; cursor: pointer; transition: color 0.2s, transform 0.2s; }
         .star:hover, .star.selected { color: #ffdd57; transform: scale(1.2); }
-        .submit-btn, .view-testimonials-btn, .retry-btn {
-            width: 100%; padding: 15px; border: none; border-radius: 10px;
-            background-image: linear-gradient(45deg, var(--cor-primaria), var(--cor-secundaria));
-            color: white; font-size: 1.2rem; font-weight: 800; cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; display: inline-block;
-        }
-        .submit-btn:hover, .view-testimonials-btn:hover, .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(162, 210, 255, 0.5);
-        }
+        .submit-btn, .view-testimonials-btn, .retry-btn { width: 100%; padding: 15px; border: none; border-radius: 10px; background-image: linear-gradient(45deg, var(--cor-primaria), var(--cor-secundaria)); color: white; font-size: 1.2rem; font-weight: 800; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; display: inline-block; text-align: center; }
+        .submit-btn:hover, .view-testimonials-btn:hover, .retry-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(162, 210, 255, 0.5); }
         .submit-btn:disabled { background-image: none; background-color: #ccc; cursor: not-allowed; }
-        
         #success-message { text-align: center; display: none; }
         #success-message p { color: var(--cor-texto); font-size: 1.1rem; }
         .view-testimonials-btn { margin-top: 20px; font-size: 1rem; }
-        
-        #preloader {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px);
-            z-index: 10; display: flex; flex-direction: column; justify-content: center;
-            align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
+        #preloader { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255, 255, 255, 0.95); backdrop-filter: blur(5px); z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; }
         #preloader.visible { opacity: 1; visibility: visible; }
-        .moon {
-            width: 80px; height: 80px; border-radius: 50%; background-color: #ffdd57;
-            box-shadow: 0 0 40px #ffdd57; animation: pulse 2s infinite ease-in-out;
-        }
+        .moon { width: 80px; height: 80px; border-radius: 50%; background-color: #ffdd57; box-shadow: 0 0 40px #ffdd57; animation: pulse 2s infinite ease-in-out; }
         #preloader-text { margin-top: 20px; font-weight: 700; color: var(--cor-texto); font-size: 1.1rem; }
         @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.1); opacity: 1; } }
-        
         #error-feedback { display: none; text-align: center; }
         #error-feedback p { color: #d9534f; font-weight: 700; }
         .retry-btn { margin-top: 15px; font-size: 1rem; background-image: linear-gradient(45deg, #ffc75f, #ff9671); }
@@ -98,7 +47,6 @@
                 <button id="retry-btn" class="retry-btn">Tentar Novamente</button>
             </div>
         </div>
-
         <form id="testimonialForm">
             <h1>Conte sua História! ✨</h1>
             <div class="form-group">
@@ -111,7 +59,9 @@
             </div>
             <div class="form-group">
                 <label for="role">Você é o pai ou a mãe?</label>
-                <select id="role" required> <option value="Pai">Pai</option> <option value="Mãe">Mãe</option> <option value="Tio/Tia">Tio / Tia</option> <option value="Avô/Avó">Avô / Avó </option></select>
+                <select id="role" required>
+                    <option value="Pai">Pai</option> <option value="Mãe">Mãe</option> <option value="Tio/Tia">Tio / Tia</option> <option value="Avô/Avó">Avô / Avó</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="childName">Nome do(a) seu(sua) filho(a):</label>
@@ -141,162 +91,111 @@
             </div>
             <div class="form-group">
                 <label>Envie uma foto ou vídeo (opcional):</label>
-                <input type="hidden" id="mediaUploader" role="uploadcare-uploader" data-multiple="true" data-multiple-max="5" data-image-shrink="1920x1920 80%" /><input type="hidden" id="helpfulVotes" value="0">
+                <input type="hidden" id="mediaUploader" role="uploadcare-uploader" data-multiple="true" data-multiple-max="5" data-image-shrink="1920x1920 80%" />
             </div>
             <button type="submit" class="submit-btn">Enviar Depoimento</button>
         </form>
         <div id="success-message">
             <h2>Obrigado! ✨</h2>
             <p>Seu depoimento foi enviado com sucesso e logo aparecerá na nossa página!</p>
-            <a href="#" class="view-testimonials-btn">Ver todos os depoimentos</a>
+            <a href="#" id="view-testimonials-link" class="view-testimonials-btn">Ver todos os depoimentos</a>
         </div>
     </div>
-<script>
-        UPLOADCARE_PUBLIC_KEY = 'a45c2febeabd4d38ab78';
-</script>
-<script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <script> UPLOADCARE_PUBLIC_KEY = 'a45c2febeabd4d38ab78'; </script>
+    <script charset="utf-8" src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+    <script>
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJIYlZetHftO3sb41tA6cBpGQEB3bhnbl2bgBxRZ2B-bneR-T_ZGWo5BxPdIqhOAvE/exec";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyAOcyN-syf8c4SehWK83ZX_OhBHZ5DNGoE",
-        authDomain: "meus-depoimentos.firebaseapp.com",
-        projectId: "meus-depoimentos",
-        storageBucket: "meus-depoimentos.appspot.com",
-        messagingSenderId: "781528550069",
-        appId: "1:781528550069:web:7ce3ac3253a2d7c3ac4cfc",
-        measurementId: "G-90MR5JQT0Z"
-    };
+        const form = document.getElementById('testimonialForm');
+        const successMessage = document.getElementById('success-message');
+        const submitBtn = form.querySelector('.submit-btn');
+        const preloader = document.getElementById('preloader');
+        const preloaderText = document.getElementById('preloader-text');
+        const errorFeedback = document.getElementById('error-feedback');
+        const retryBtn = document.getElementById('retry-btn');
+        const stars = document.querySelectorAll('.star');
+        const ratingInput = document.getElementById('rating');
+        const widget = uploadcare.Widget('#mediaUploader');
+        const authorPhotoWidget = uploadcare.Widget('#authorPhotoUploader');
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-
-    const stars = document.querySelectorAll('.star');
-    const ratingInput = document.getElementById('rating');
-    stars.forEach(star => {
-        star.addEventListener('click', () => {
-            ratingInput.value = star.dataset.value;
-            stars.forEach(s => s.classList.toggle('selected', s.dataset.value <= ratingInput.value));
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                ratingInput.value = star.dataset.value;
+                stars.forEach(s => s.classList.toggle('selected', s.dataset.value <= ratingInput.value));
+            });
         });
-    });
 
-    const form = document.getElementById('testimonialForm');
-    const successMessage = document.getElementById('success-message');
-    const widget = uploadcare.Widget('#mediaUploader');
-    const authorPhotoWidget = uploadcare.Widget('#authorPhotoUploader');
-    const submitBtn = form.querySelector('.submit-btn');
-    const preloader = document.getElementById('preloader');
-    const preloaderText = document.getElementById('preloader-text');
-    const errorFeedback = document.getElementById('error-feedback');
-    const retryBtn = document.getElementById('retry-btn');
-    const moonAnimation = preloader.querySelector('.moon');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            if (!document.getElementById('product').value || !ratingInput.value) {
+                alert('Por favor, selecione o produto e dê uma nota clicando nas estrelas.');
+                return;
+            }
 
-    widget.onChange(group => {
-        if (group) {
-            group.progress(info => {
-                preloaderText.textContent = `Enviando Mídia... (${Math.round(info.progress * 100)}%)`;
-            });
-        }
-    });
+            submitBtn.disabled = true;
+            preloader.classList.add('visible');
+            preloaderText.textContent = 'Iniciando envio...';
 
-    authorPhotoWidget.onChange(file => {
-        if (file) {
-            file.progress(info => {
-                preloaderText.textContent = `Enviando Foto do Autor... (${Math.round(info.progress * 100)}%)`;
-            });
-        }
-    });
-    
-    // Mapeamento de produtos para os links correspondentes
-    const productLinks = {
-        "Livrinho 32 Historinhas para Dormir": "https://historinhasparadormir.github.io/catalogo/historinhasparadormir/index.html#depoimentos",
-        "32 Contos de Fadas Infantil": "https://historinhasparadormir.github.io/catalogo/contosinfantis/index.html#depoimentos",
-        "Livrinho para Colorir Mundo Fofinho": "https://historinhasparadormir.github.io/catalogo/desenhosparacolorir/index.html#depoimentos"
-    };
-
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        if (!document.getElementById('product').value || !ratingInput.value) {
-            alert('Por favor, selecione o produto e dê uma nota clicando nas estrelas.');
-            return;
-        }
-
-        submitBtn.disabled = true;
-        preloader.classList.add('visible');
-        moonAnimation.style.display = 'block';
-        errorFeedback.style.display = 'none';
-        preloaderText.textContent = widget.value() ? 'Enviando Mídia...' : 'Salvando depoimento...';
-
-        try {
-            let mediaUrlsString = '';
-            const upload = widget.value();
-            if (upload) {
-                const fileInfo = await upload.promise();
-                if (fileInfo.files) {
-                    const files = await fileInfo.files();
-                    mediaUrlsString = files.map(file => file.cdnUrl).join(',');
-                } else {
-                    mediaUrlsString = fileInfo.cdnUrl;
+            try {
+                const mediaUpload = widget.value();
+                const authorUpload = authorPhotoWidget.value();
+                let mediaUrlsString = '';
+                let authorPhotoUrl = '';
+                
+                if (mediaUpload) {
+                    preloaderText.textContent = 'Enviando mídias...';
+                    const groupInfo = await mediaUpload;
+                    mediaUrlsString = groupInfo.files().map(file => file.cdnUrl).join(',');
                 }
-            }
-
-            let authorPhoto = '';
-            const authorUpload = authorPhotoWidget.value();
-            if (authorUpload) {
-                const authorInfo = await authorUpload.promise();
-                if (authorInfo.files) {
-                    const files = await authorInfo.files();
-                    authorPhoto = files[0].cdnUrl;
-                } else {
-                    authorPhoto = authorInfo.cdnUrl;
+                if (authorUpload) {
+                    preloaderText.textContent = 'Enviando sua foto...';
+                    const fileInfo = await authorUpload;
+                    authorPhotoUrl = fileInfo.cdnUrl;
                 }
+
+                const productName = document.getElementById('product').value;
+                const testimonialData = {
+                    name: document.getElementById('name').value,
+                    role: document.getElementById('role').value,
+                    childName: document.getElementById('childName').value,
+                    productName: productName,
+                    testimonial: document.getElementById('testimonial').value,
+                    rating: parseInt(ratingInput.value),
+                    media: mediaUrlsString,
+                    authorPhoto: authorPhotoUrl,
+                    action: 'submit'
+                };
+
+                preloaderText.textContent = 'Salvando depoimento...';
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(testimonialData),
+                    mode: 'no-cors'
+                });
+
+                const productLinks = {
+                    "Livrinho 32 Historinhas para Dormir": "https://historinhasparadormir.github.io/catalogo/historinhasparadormir/index.html#depoimentos",
+                    "32 Contos de Fadas Infantil": "https://historinhasparadormir.github.io/catalogo/contosinfantis/index.html#depoimentos",
+                    "Livrinho para Colorir Mundo Fofinho": "https://historinhasparadormir.github.io/catalogo/desenhosparacolorir/index.html#depoimentos"
+                };
+                document.getElementById('view-testimonials-link').href = productLinks[productName] || '#';
+
+                preloader.classList.remove('visible');
+                form.style.display = 'none';
+                successMessage.style.display = 'block';
+
+            } catch (error) {
+                console.error("Erro ao enviar depoimento: ", error);
+                preloaderText.textContent = '';
+                errorFeedback.style.display = 'block';
             }
+        });
 
-            preloaderText.textContent = 'Salvando depoimento...';
-            const productName = document.getElementById('product').value;
-            const newTestimonial = {
-                name: document.getElementById('name').value,
-                role: document.getElementById('role').value,
-                childName: document.getElementById('childName').value,
-                productName: productName,
-                testimonial: document.getElementById('testimonial').value,
-                rating: parseInt(ratingInput.value),
-                media: mediaUrlsString || "",
-                authorPhoto: authorPhoto || "",
-                createdAt: serverTimestamp(),
-                helpfulVotes: 0
-            };
-
-            await addDoc(collection(db, "depoimentos"), newTestimonial);
-
-            // ATUALIZA O LINK DO BOTÃO ANTES DE MOSTRAR A MENSAGEM
-            const viewButton = document.querySelector('#success-message .view-testimonials-btn');
-            const targetUrl = productLinks[productName];
-            if (targetUrl) {
-                viewButton.href = targetUrl;
-            } else {
-                // Link padrão caso algo dê errado
-                viewButton.href = "https://historinhasparadormir.github.io/catalogo/historinhasparadormir/index.html#depoimentos";
-            }
-
+        retryBtn.addEventListener('click', () => {
             preloader.classList.remove('visible');
-            form.style.display = 'none';
-            successMessage.style.display = 'block';
-
-        } catch (error) {
-            console.error("🔥 Erro ao enviar depoimento: ", error);
-            moonAnimation.style.display = 'none';
-            preloaderText.textContent = '';
-            errorFeedback.style.display = 'block';
-        }
-    });
-
-    retryBtn.addEventListener('click', () => {
-        preloader.classList.remove('visible');
-        submitBtn.disabled = false;
-    });
-</script>
+            submitBtn.disabled = false;
+        });
+    </script>
 </body>
 </html>
 
