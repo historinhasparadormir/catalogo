@@ -9,8 +9,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,700;0,800;1,400&display=swap" rel="stylesheet">
   <style>
     :root { --cor-primaria: #a2d2ff; --cor-secundaria: #ffafcc; --cor-texto: #5c5c7b; --cor-estrelas: #ffdd57; --fonte-principal: 'Nunito', sans-serif; }
-    body { font-family: var(--fonte-principal); background-color: #f8f9fe; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); margin: 0; padding: 5px 15px; color: var(--cor-texto); }
-    h1 { text-align: center; margin-bottom: 3px; font-size: 1.3rem; font-weight: 600; color: var(--cor-primaria); text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
+    body { font-family: var(--fonte-principal); background-color: #f8f9fe; background-image: url('https://www.transparenttextures.com/patterns/stardust.png'); margin: 0; padding: -5px 15px; color: var(--cor-texto); }
+    h1 { text-align: center; margin-bottom: 3px; font-size: 1.2rem; font-weight: 500; color: var(--cor-primaria); text-shadow: 1px 1px 2px rgba(0,0,0,0.05); }
     .carousel { position: relative; max-width: 550px; margin: 0 auto; overflow: hidden; }
     .carousel-inner { display: flex; transition: transform 0.5s ease-in-out; }
     .carousel-item { min-width: 100%; box-sizing: border-box; padding: 20px; }
@@ -47,9 +47,9 @@
     .modal-close, .modal-prev, .modal-next { position: absolute; color: white; font-size: 2rem; background: rgba(0,0,0,0.3); border-radius: 50%; width: 45px; height: 45px; cursor: pointer; user-select: none; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s; }
     .modal-close:hover, .modal-prev:hover, .modal-next:hover { background: rgba(0,0,0,0.6); }
     .modal-close { top: -50px; right: 0; }
-    .modal-prev { left: -40px; top: 50%; transform: translateY(-50%); }
-    .modal-next { right: -40px; top: 50%; transform: translateY(-50%); }
-    @media (max-width: 600px) { h1 { font-size: 2rem; } .modal-prev { left: 10px; } .modal-next { right: 10px; } #prevBtn { margin-left: -10px; } #nextBtn { margin-right: -10px; } }
+    .modal-prev { left: -20px; top: 50%; transform: translateY(-50%); }
+    .modal-next { right: -20px; top: 50%; transform: translateY(-50%); }
+    @media (max-width: 600px) { h1 { font-size: 2rem; } .modal-prev { left: 10px; } .modal-next { right: 10px; } #prevBtn { margin-left: -5px; } #nextBtn { margin-right: -5px; } }
   </style>
 </head>
 <body>
@@ -251,4 +251,5 @@
 </script>
 </body>
 </html>
+
 
